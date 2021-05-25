@@ -16,25 +16,26 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signupbutton"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:backgroundTint="@color/red"
-            android:fontFamily="@font/advent_pro_semibold"
+            android:fontFamily="@font/happy_monkey"
             android:onClick="signUpButton"
+            android:textStyle="bold"
             android:text="Sign Up"
             app:cornerRadius="18dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/checkOtp"
-            android:fontFamily="@font/advent_pro_semibold"
-            android:layout_width="200dp"
+            android:fontFamily="@font/happy_monkey"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:onClick="loginbtn"
             android:text="Login"
             app:cornerRadius="18dp"
-
+            android:textStyle="bold"
             />
     </LinearLayout>
 </RelativeLayout>

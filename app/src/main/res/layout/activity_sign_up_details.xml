@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/happy_monkey"
                     android:hint="Full Name"
-                    android:inputType="textPassword"
+                    android:inputType="textPersonName"
                     android:textColor="@color/dark_skyblue"
                     android:textColorHint="@color/dark_skyblue" />
 
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/happy_monkey"
                     android:hint="Email Id"
-                    android:inputType="textPassword"
+                    android:inputType="textEmailAddress"
                     android:textColor="@color/dark_skyblue"
                     android:textColorHint="@color/dark_skyblue" />
 
@@ -96,6 +96,7 @@
                     android:textColor="@color/dark_skyblue"
                     android:textColorHint="@color/dark_skyblue" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ll_password"
                 style="@style/Widget.RewardsApp.TextInputLayout."
@@ -120,17 +121,17 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Next"
-        android:onClick="registerMe"
-        android:fontFamily="@font/happy_monkey"
-        android:textStyle="bold"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        app:cornerRadius="25dp"
-         />
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/happy_monkey"
+        android:onClick="registerMe"
+        android:text="Next"
+        android:textStyle="bold"
+        app:cornerRadius="25dp" />
 </RelativeLayout>
