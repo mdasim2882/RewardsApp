@@ -17,24 +17,24 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signupbutton"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginTop="5dp"
             android:backgroundTint="@color/red"
             android:fontFamily="@font/happy_monkey"
             android:onClick="signUpButton"
             android:textStyle="bold"
             android:text="Sign Up"
-            app:cornerRadius="18dp" />
+            app:cornerRadius="22dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/checkOtp"
             android:fontFamily="@font/happy_monkey"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginTop="5dp"
             android:onClick="loginbtn"
             android:text="Login"
-            app:cornerRadius="18dp"
+            app:cornerRadius="22dp"
             android:textStyle="bold"
             />
     </LinearLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -35,86 +36,107 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+
                 android:id="@+id/ll_fullname"
-                style="@style/Widget.RewardsApp.TextInputLayout."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:textColor="@color/dark_skyblue"
-                app:hintAnimationEnabled="true">
+                android:layout_centerInParent="true"
+                android:hint="Username"
+                app:boxStrokeColor="@color/dark_skyblue"
+                app:endIconMode="clear_text"
+                app:hintTextColor="@color/dark_skyblue"
+                app:startIconDrawable="@drawable/ic_round_person_24">
+
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fullname"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/happy_monkey"
-                    android:hint="Full Name"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/dark_skyblue"
-                    android:textColorHint="@color/dark_skyblue" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ll_email_id"
-                style="@style/Widget.RewardsApp.TextInputLayout."
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:textColor="@color/dark_skyblue"
-                app:hintAnimationEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailid"
-                    android:layout_width="280dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/happy_monkey"
-                    android:hint="Email Id"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/dark_skyblue"
-                    android:textColorHint="@color/dark_skyblue" />
+                    android:textColor="@color/skyblue" />
+
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+
                 android:id="@+id/ll_mobno"
-                style="@style/Widget.RewardsApp.TextInputLayout."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:textColor="@color/dark_skyblue"
-                app:hintAnimationEnabled="true">
+                android:layout_centerInParent="true"
+                android:hint="Contact no."
+                app:boxStrokeColor="@color/dark_skyblue"
+                app:endIconMode="clear_text"
+                 android:layout_marginTop="5dp"
+                app:hintTextColor="@color/dark_skyblue"
+                app:prefixText="+91"
+                app:prefixTextColor="@color/black"
+                app:startIconDrawable="@drawable/ic_round_phone_24">
+
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contactno"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/happy_monkey"
-                    android:hint="Mobile no."
-                    android:inputType="phone"
-                    android:text="+91"
-                    android:textColor="@color/dark_skyblue"
-                    android:textColorHint="@color/dark_skyblue" />
+                    android:inputType="number"
+                    android:textColor="@color/skyblue" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/ll_email_id"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:hint="Email"
+                android:layout_marginTop="5dp"
+
+                app:boxStrokeColor="@color/dark_skyblue"
+                app:endIconMode="clear_text"
+                app:hintTextColor="@color/dark_skyblue"
+                app:startIconDrawable="@drawable/ic_round_email_24">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/happy_monkey"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/skyblue" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ll_password"
-                style="@style/Widget.RewardsApp.TextInputLayout."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:textColor="@color/dark_skyblue"
-                app:hintAnimationEnabled="true">
+                android:layout_centerInParent="true"
+                android:hint="Password"
+                app:boxStrokeColor="@color/dark_skyblue"
+                app:counterEnabled="true"
+                app:counterMaxLength="10"
+                android:layout_marginTop="5dp"
+                app:endIconMode="password_toggle"
+                app:hintTextColor="@color/dark_skyblue"
+                app:startIconDrawable="@drawable/ic_round_lock_24">
+
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/happy_monkey"
-                    android:hint="Confirm Password"
                     android:inputType="textPassword"
-                    android:textColor="@color/dark_skyblue"
-                    android:textColorHint="@color/dark_skyblue" />
+                    android:textColor="@color/skyblue" />
+
 
             </com.google.android.material.textfield.TextInputLayout>
 
