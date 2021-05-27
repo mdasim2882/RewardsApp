@@ -81,13 +81,7 @@ public class NearbyRewardEvents extends Fragment {
         View root = inflater.inflate(R.layout.nearby_reward_events, container, false);
         setRecyclerView(root);
         floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
-        floatingActionButton.show(new FloatingActionButton.OnVisibilityChangedListener() {
-            @Override
-            public void onHidden(FloatingActionButton fab) {
-                fab.show();
-                super.onHidden(fab);
-            }
-        });
+
         if (floatingActionButton != null) {
             floatingActionButton.setOnClickListener(v -> {
                 //Manually set click on menu item
