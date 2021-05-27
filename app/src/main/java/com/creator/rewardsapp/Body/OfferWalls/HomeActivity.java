@@ -25,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
-    private final String TAG=getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth fAuth;
 
@@ -69,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
+
     public FloatingActionButton getFloatingActionButton() {
         return fabtn;
     }
@@ -79,6 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.home, menu);
         return false;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.act_logout) {
@@ -90,9 +92,9 @@ public class HomeActivity extends AppCompatActivity {
 //            editor.commit();
 
             fAuth.signOut();
-          Intent intent=new Intent(this, AuthTypeActivity.class);
-           intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-          startActivity(intent);
+            Intent intent = new Intent(this, AuthTypeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

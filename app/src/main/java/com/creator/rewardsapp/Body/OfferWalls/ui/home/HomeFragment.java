@@ -26,6 +26,8 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
+
+
     @Override
     public void onViewCreated(@NonNull View root, @Nullable Bundle savedInstanceState) {
 
@@ -33,12 +35,15 @@ public class HomeFragment extends Fragment {
         adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
 
-        String [] tabTtiles={"Nearby Reward Events","Participation History"};
+        String [] tabTtiles={"Reward Events","Participation History"};
         new TabLayoutMediator(tabLayout, viewPager2,
                 (tab, position) -> tab.setText("OBJECT " + (position + 1))
         ).attach();
         tabLayout.getTabAt(0).setText(tabTtiles[0]);
         tabLayout.getTabAt(1).setText(tabTtiles[1]);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_round_emoji_events_24);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_round_history_24);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -46,13 +51,6 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         tabLayout = root.findViewById(R.id.tab_bar);
-
-
-//        viewPager2.setAdapter(adapter);
-
-//        new TabLayoutMediator(tabLayout, viewPager2,
-//                (tab, position) -> tab.setText("Tab " + (position + 1))).attach();
-
 
         return root;
     }
