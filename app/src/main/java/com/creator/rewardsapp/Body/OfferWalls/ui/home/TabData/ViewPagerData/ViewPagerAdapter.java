@@ -27,18 +27,10 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         switch (position) {
             case 0:
                 Fragment fragment1 = new NearbyRewardEvents();
-//                Bundle args1 = new Bundle();
-//                // Our object is just an integer :-P
-//                args1.putInt(NearbyRewardEvents.ARG_OBJECT, position + 1);
-//                fragment1.setArguments(args1);
                 return fragment1;
 
             case 1:
                 Fragment fragment2 = new ParticipationHistory();
-//                Bundle args2 = new Bundle();
-//                // Our object is just an integer :-P
-//                args2.putInt(ParticipationHistory.ARG_OBJECT, position + 1);
-//                fragment2.setArguments(args2);
                 return fragment2;
 
         }

@@ -14,6 +14,7 @@
             app:tabIndicatorColor="@color/purple_500"
             app:tabSelectedTextColor="@color/purple_500"
             app:tabIndicatorHeight="4dp"
+            android:layout_gravity="center"
             app:tabTextAppearance="@style/tabSizeTextViewStyle"
             app:tabTextColor="@color/black"
             android:layout_width="match_parent"

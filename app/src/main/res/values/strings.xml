@@ -11,4 +11,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="get_free_watch_on_purchases_above_1000_rs_try_your_luck_to_get_rewarded">Get a
+        free <b>watch</b> on purchases of <b>Rs 1000 </b>or above. Try your luck to get rewarded.</string>
+    <string name="get_free_water_bottle_on_purchases_of_rs_500_or_above_try_your_luck_to_get_rewarded">Get <b>free water</b> bottle on purchases of <b>Rs 500</b> or above. Try your luck to get rewarded.</string>
 </resources>

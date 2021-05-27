@@ -31,11 +31,15 @@
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/happy_monkey</item>
     </style>
+<!--    shop name card style-->
+    <style name="shopnameStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/advent_pro_medium</item>
+    </style>
     <style name="tabSizeTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/happy_monkey</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">2</item>
     </style>
-
 
     <style name="Widget.RewardsApp.TextInputLayout." parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextAppearance">@style/TextAppearance.RewardsApp.TextInputLayout.HintText
