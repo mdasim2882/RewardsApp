@@ -10,13 +10,17 @@
             android:id="@+id/tab_bar"
             app:tabMode="fixed"
             app:tabGravity="fill"
-            android:background="?attr/colorPrimary"
-            app:tabIndicator="@color/yellow"
+            android:background="@color/white"
+            app:tabIndicatorColor="@color/purple_500"
+            app:tabSelectedTextColor="@color/purple_500"
+            app:tabIndicatorHeight="4dp"
+            app:tabTextAppearance="@style/tabSizeTextViewStyle"
+            app:tabTextColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/tabview_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>
