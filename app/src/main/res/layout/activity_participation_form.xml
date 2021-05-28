@@ -126,7 +126,7 @@
                         android:hint="Bill Value in Rs"
                         app:boxStrokeColor="@color/dark_skyblue"
                         app:endIconMode="clear_text"
-                        app:helperText="@string/bill_date_must_belong_from_19_may_21_to_4_aug_2021"
+                        app:helperText="@string/time_duration_for_receipt"
                         app:hintTextColor="@color/dark_skyblue"
                         app:startIconDrawable="@drawable/ic_round_account_balance_wallet_24">
 

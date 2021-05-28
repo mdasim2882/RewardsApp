@@ -1,5 +1,7 @@
 package com.creator.rewardsapp.Body.OfferWalls;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,13 +26,14 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity  {
     private final String TAG = getClass().getSimpleName();
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth fAuth;
 
     FloatingActionButton fabtn;
-
+    private AlertDialog.Builder builder;
+    private DialogInterface.OnClickListener dialogClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         fabtn.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action",
                 Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
-
+        setAlertDialog();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -62,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.create_rewards_events_history, R.id.nav_event_created_history, R.id.nav_logoutbutton)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_home);
@@ -79,6 +82,30 @@ public class HomeActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return false;
+    }
+
+    private void setAlertDialog() {
+        dialogClickListener = (dialog, which) -> {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    fAuth.signOut();
+                    Intent intent = new Intent(this, AuthTypeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    dialog.dismiss();
+                    break;
+
+            }
+        };
+
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm");
+        builder.setMessage("You won't be able to revert back, once receipt starts uploading.  Are you sure want to upload ?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener);
+
     }
 
     @Override

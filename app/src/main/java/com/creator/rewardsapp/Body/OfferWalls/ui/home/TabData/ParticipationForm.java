@@ -6,16 +6,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.creator.rewardsapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ParticipationForm extends AppCompatActivity {
    private TextView pFormShopname;
     private ProgressDialog progressDialog;
+    EditText fullname;
+    FirebaseAuth mAuth;
     private AlertDialog.Builder builder;
     private DialogInterface.OnClickListener dialogClickListener;
 
@@ -24,6 +28,9 @@ public class ParticipationForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participation_form);
         pFormShopname = findViewById(R.id.pFormShopname);
+        fullname=findViewById(R.id.pfullname);
+        mAuth=FirebaseAuth.getInstance();
+        fullname.setText(mAuth.getCurrentUser().getDisplayName());
         Intent passed = getIntent();
         initializeViews(passed);
     }

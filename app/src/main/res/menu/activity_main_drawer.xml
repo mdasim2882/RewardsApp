@@ -9,12 +9,19 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/create_rewards_events_history"
+            android:icon="@drawable/ic_baseline_event_seat_24"
+
+            android:contentDescription="@string/time_duration_for_receipt"
+            android:title="@string/menu_customer_events" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_event_created_history"
+            android:icon="@drawable/ic_round_history_24"
+            android:iconTint="@color/black"
+            android:title="@string/created_event_string" />
+        <item
+            android:id="@+id/nav_logoutbutton"
+            android:title="Logout" />
     </group>
+
 </menu>

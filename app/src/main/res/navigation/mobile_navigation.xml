@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.creator.rewardsapp.Body.OfferWalls.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:id="@+id/create_rewards_events_history"
+        android:name="com.creator.rewardsapp.Body.OfferWalls.ui.gallery.CreateRewardEventForCustomers"
+        android:label="@string/menu_customer_events"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_event_created_history"
         android:name="com.creator.rewardsapp.Body.OfferWalls.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/created_event_string"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

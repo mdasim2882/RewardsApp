@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.creator.rewardsapp.R;
 
 
-public class GalleryFragment extends Fragment {
+public class CreateRewardEventForCustomers extends Fragment {
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
