@@ -47,7 +47,7 @@ public class ParticipationHistory extends Fragment {
         shopsHistory = new ArrayList<>();
 
         shopsHistory.add(new OffersHistory("Manish General Store"));
-        shopsHistory.add(new OffersHistory("Domino's"));
+        shopsHistory.add(new OffersHistory("Domino's Pizza"));
         shopsHistory.add(new OffersHistory("Burma & Sons."));
     }
     @Nullable
