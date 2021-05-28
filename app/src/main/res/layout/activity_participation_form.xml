@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Body.OfferWalls.ui.home.TabData.ParticipationForm">
+
+    <LinearLayout
+        android:id="@+id/ll_registration"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="match_parent"
+        android:layout_above="@id/uploadBillReceiptbtn"
+        android:elevation="6dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_above="@id/llayout"
+
+                    android:background="@drawable/side_nav_bar"
+                    android:fontFamily="@font/happy_monkey"
+                    android:gravity="center"
+                    android:text="Participation Form"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/pFormShopname"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_above="@id/llayout"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/grey"
+                    android:fontFamily="@font/happy_monkey"
+                    android:gravity="center"
+                    android:text="Baldeo Medical Store"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/ll_fullname"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:hint="Full Name"
+                        app:boxStrokeColor="@color/dark_skyblue"
+                        app:endIconMode="clear_text"
+                        app:hintTextColor="@color/dark_skyblue"
+                        app:startIconDrawable="@drawable/ic_round_person_24">
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pfullname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:fontFamily="@font/happy_monkey"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/skyblue" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/ll_mobno"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="5dp"
+                        android:hint="Contact no."
+                        app:boxStrokeColor="@color/dark_skyblue"
+                        app:endIconMode="clear_text"
+                        app:hintTextColor="@color/dark_skyblue"
+                        app:prefixText="+91"
+                        app:prefixTextColor="@color/black"
+                        app:startIconDrawable="@drawable/ic_round_phone_24">
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/contactno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:fontFamily="@font/happy_monkey"
+                            android:inputType="number"
+                            android:textColor="@color/skyblue" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/ll_email_id"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="5dp"
+                        android:hint="Bill Value in Rs"
+                        app:boxStrokeColor="@color/dark_skyblue"
+                        app:endIconMode="clear_text"
+                        app:helperText="@string/bill_date_must_belong_from_19_may_21_to_4_aug_2021"
+                        app:hintTextColor="@color/dark_skyblue"
+                        app:startIconDrawable="@drawable/ic_round_account_balance_wallet_24">
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/p_bill_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/happy_monkey"
+                            android:inputType="number"
+                            android:textColor="@color/skyblue" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/offer_validity"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="50dp"-->
+                    <!--                        android:maxLines="2"-->
+                    <!--                        android:text="@string/bill_date_must_belong_from_19_may_21_to_4_aug_2021"-->
+                    <!--                        android:textColor="@color/dark_skyblue"-->
+                    <!--                        android:textSize="12sp" />-->
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:gravity="top"
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <TextView
+                        android:id="@+id/offer_validity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:padding="10dp"
+                        android:text="NOTE:"
+                        android:textColor="@color/dark_skyblue"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/desc_note"
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.6"
+                        android:padding="10dp"
+                        android:text="@string/to_avail_this_offer_you_must_have_to_upload_this"
+                        android:textColor="@color/dark_skyblue"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:textColor="#FF1200"
+                        android:textSize="13sp"
+                        android:textAlignment="textStart"
+                        android:layout_centerInParent="true"
+                        android:text="@string/win_details"
+                        />
+
+            </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/uploadBillReceiptbtn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="25dp"
+        android:onClick="uploadReceiptbtn"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/happy_monkey"
+        android:text="Upload Bill Receipt"
+        android:textStyle="bold"
+        app:cornerRadius="25dp" />
+</RelativeLayout>

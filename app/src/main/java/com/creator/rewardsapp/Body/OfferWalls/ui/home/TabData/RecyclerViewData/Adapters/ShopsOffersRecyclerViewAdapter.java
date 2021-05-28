@@ -2,17 +2,18 @@ package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
+import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.ParticipationForm;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.ShopsCardItemsViewHolder;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,8 +47,8 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
                     }
                 }
             }
-            FilterResults filterResults=new FilterResults();
-            filterResults.values=filteredList;
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
             return filterResults;
         }
 
@@ -83,8 +84,11 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         String offerShopName = productList.get(position).getOfferShopName();
         holder.shopName.setText(offerShopName);
         holder.participateButton.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Fetching Participation Form for "
-                    + productList.get(position).getOfferShopName(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(v.getContext(), "Fetching Participation Form for "
+//                    + offerShopName, Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(v.getContext(), ParticipationForm.class);
+            i.putExtra("ShopName", offerShopName);
+            context.startActivity(i);
         });
     }
 

@@ -14,4 +14,7 @@
     <string name="get_free_watch_on_purchases_above_1000_rs_try_your_luck_to_get_rewarded">Get a
         <b>free watch</b> on purchases of <b>Rs 1000 </b>or above. Try your luck to get rewarded.</string>
     <string name="get_free_water_bottle_on_purchases_of_rs_500_or_above_try_your_luck_to_get_rewarded">Get <b>free water</b> bottle on purchases of <b>Rs 500</b> or above. Try your luck to get rewarded.</string>
+    <string name="bill_date_must_belong_from_19_may_21_to_4_aug_2021">Bill date must belong from 19 May,21 to <br/> 4 Aug,2021</string>
+    <string name="to_avail_this_offer_you_must_have_to_upload_this">To avail this offer, you must have to upload your valid bill receipt.</string>
+    <string name="win_details">If you won, you will get app notification on <b>10 pm</b> of offer end date.</string>
 </resources>
