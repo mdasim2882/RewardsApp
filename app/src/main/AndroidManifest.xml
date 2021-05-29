@@ -18,6 +18,7 @@
         <activity
             android:name=".Body.OfferWalls.HomeActivity"
             android:label="@string/title_activity_home"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.RewardsApp.NoActionBar" />
         <activity android:name=".Body.Authentication.SignUpActivity" />
         <activity android:name=".Body.Authentication.AuthTypeActivity" />

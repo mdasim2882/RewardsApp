@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity  {
         fabtn = findViewById(R.id.fab);
         fAuth = FirebaseAuth.getInstance();
 
-//        setSupportActionBar(binding.appBarHome.toolbar);
+
         fabtn.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action",
                 Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity  {
             }
         }
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.create_rewards_events_history, R.id.nav_event_created_history, R.id.nav_logoutbutton)
+                R.id.nav_home, R.id.create_rewards_events_for_cust, R.id.nav_event_created_history, R.id.nav_logoutbutton)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_home);

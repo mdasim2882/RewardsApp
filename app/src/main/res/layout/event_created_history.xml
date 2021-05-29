@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Body.OfferWalls.ui.gallery.CreateRewardEventForCustomers">
+    tools:context=".Body.OfferWalls.ui.historyEvents.EventCreatedHistory">
 
     <TextView
-        android:id="@+id/text_gallery"
-        android:text="GalleryFragment"
+        android:id="@+id/text_slideshow"
+        android:text="SlideshowFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

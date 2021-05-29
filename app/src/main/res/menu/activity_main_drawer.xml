@@ -9,7 +9,7 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/create_rewards_events_history"
+            android:id="@+id/create_rewards_events_for_cust"
             android:icon="@drawable/ic_baseline_event_seat_24"
 
             android:contentDescription="@string/time_duration_for_receipt"

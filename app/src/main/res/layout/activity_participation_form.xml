@@ -67,7 +67,6 @@
                         android:layout_centerInParent="true"
                         android:hint="Full Name"
                         app:boxStrokeColor="@color/dark_skyblue"
-                        app:endIconMode="clear_text"
                         app:hintTextColor="@color/dark_skyblue"
                         app:startIconDrawable="@drawable/ic_round_person_24">
 
