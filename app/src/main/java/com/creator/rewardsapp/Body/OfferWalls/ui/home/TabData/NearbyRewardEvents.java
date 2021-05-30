@@ -30,11 +30,11 @@ import java.util.List;
 public class NearbyRewardEvents extends Fragment {
     static NearbyRewardEvents instance;
     private RecyclerView recyclerView;
+    ShopsOffersRecyclerViewAdapter adapter;
     LoadAllProfiles loadMyConcepts;
     List<OffersEntry> shops;
     Menu fBtnSearch;
     FloatingActionButton floatingActionButton;
-    ShopsOffersRecyclerViewAdapter adapter;
 
     public NearbyRewardEvents() {
     }
