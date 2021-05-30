@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:id="@+id/myShopWinnerListCards"
+    android:elevation="3dp"
+    android:layout_margin="4dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    app:cardCornerRadius="3dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/winnerName"
+                android:background="#DADADA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vaibhav Agarwal"
+                android:padding="10dp"
+                android:textAppearance="@style/shopnameStyle"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
+                    android:text="Contact no. :"
+                    android:textColor="@color/white"
+                    android:padding="10dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/skyblue"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/winnerContactno"
+                    android:layout_width="0dp"
+                    android:background="#F1F1F1"
+                    android:layout_weight="1.2"
+                    android:layout_height="wrap_content"
+                    android:text="+91 77376 82767"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
+                    android:text="Bill Value :"
+                    android:textColor="@color/white"
+                    android:padding="10dp"
+                    android:background="@color/skyblue"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/winnerAmount"
+                    android:layout_width="0dp"
+                    android:background="#F1F1F1"
+                    android:layout_weight="1.2"
+                    android:layout_height="wrap_content"
+                    android:text="₹ 6600"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dlReceiptBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#3E0E0E"
+            android:layout_marginTop="-4dp"
+            android:layout_marginBottom="-8dp"
+            app:cornerRadius="0dp"
+            android:layout_gravity="center"
+            android:text="View Receipt" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

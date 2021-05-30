@@ -13,13 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RewardsApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Body.OfferWalls.ui.home.TabData.ParticipationForm"></activity>
+        <activity android:name=".Body.OfferWalls.ui.historyEvents.WinnerListActivity"></activity>
+        <activity android:name=".Body.OfferWalls.ui.home.TabData.ParticipationForm" />
         <activity android:name=".Body.Authentication.LoginActivity" />
         <activity
             android:name=".Body.OfferWalls.HomeActivity"
             android:label="@string/title_activity_home"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.RewardsApp.NoActionBar" />
+            android:theme="@style/Theme.RewardsApp.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Body.Authentication.SignUpActivity" />
         <activity android:name=".Body.Authentication.AuthTypeActivity" />
         <activity android:name=".MainActivity">

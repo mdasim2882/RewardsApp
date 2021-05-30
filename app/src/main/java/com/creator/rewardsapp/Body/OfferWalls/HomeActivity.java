@@ -54,6 +54,17 @@ public class HomeActivity extends AppCompatActivity  {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
+        navigationView.getMenu().findItem(R.id.nav_logoutbutton).setOnMenuItemClickListener(menuItem -> {
+            fAuth.signOut();
+            Intent intent = new Intent(this, AuthTypeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            return true;
+        });
+
+
+
+
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = headerView.findViewById(R.id.nameHeaderView);
         if (fAuth.getCurrentUser() != null) {
