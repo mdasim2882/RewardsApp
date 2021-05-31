@@ -3,16 +3,17 @@ package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.creator.rewardsapp.Body.OfferWalls.ui.historyEvents.EventCreatedHistory;
 import com.creator.rewardsapp.Body.OfferWalls.ui.historyEvents.WinnerListActivity;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.EventCreatedHistoryCardItemsViewHolder;
@@ -85,8 +86,8 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
         String offerShopName = productList.get(position).getOfferShopName();
         holder.shopName.setText(offerShopName);
         holder.deleteBtn.setOnClickListener(v->{
-            Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
-//            deleteitemfrom(position);
+
+            deleteitemAt(position);
         });
         holder.winnerListbtn.setOnClickListener(v -> {
 
@@ -94,6 +95,14 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
             i.putExtra("ShopName", offerShopName);
             context.startActivity(i);
         });
+        Log.d(TAG, "onBindViewHolder: Change with product list size= "+productList.size());
+
+    }
+
+    private void deleteitemAt(int position) {
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, productList.size());
+        productList.remove(position);
     }
 
 

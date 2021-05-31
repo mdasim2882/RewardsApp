@@ -1,14 +1,17 @@
 package com.creator.rewardsapp.Body.OfferWalls;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,15 +57,8 @@ public class HomeActivity extends AppCompatActivity  {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        navigationView.getMenu().findItem(R.id.nav_logoutbutton).setOnMenuItemClickListener(menuItem -> {
-            fAuth.signOut();
-            Intent intent = new Intent(this, AuthTypeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            return true;
-        });
-
-
+        // Here, it is used to perform simple menu item operations like logout,Contact us, etc.
+        performSimpleMenuOperations(navigationView);
 
 
         View headerView = navigationView.getHeaderView(0);
@@ -82,6 +78,43 @@ public class HomeActivity extends AppCompatActivity  {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+    public void watchYoutubeVideo(String id) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            startActivity(webIntent);
+        }
+    }
+    private void performSimpleMenuOperations(NavigationView navigationView) {
+        navigationView.getMenu().findItem(R.id.nav_logoutbutton).setOnMenuItemClickListener(menuItem -> {
+            fAuth.signOut();
+            Intent intent = new Intent(this, AuthTypeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            return true;
+        });
+        navigationView.getMenu().findItem(R.id.nav_use_for_customer).setOnMenuItemClickListener(menuItem -> {
+            watchYoutubeVideo("2KL3pVkLUXs");
+            return true;
+        });
+        navigationView.getMenu().findItem(R.id.nav_use_for_seller).setOnMenuItemClickListener(menuItem -> {
+            watchYoutubeVideo("2KL3pVkLUXs");
+            return true;
+        });
+         navigationView.getMenu().findItem(R.id.nav_insta).setOnMenuItemClickListener(menuItem -> {
+             Toast.makeText(this, "Follow on instagram", Toast.LENGTH_SHORT).show();
+        return true;
+        });
+         navigationView.getMenu().findItem(R.id.nav_gmail).setOnMenuItemClickListener(menuItem -> {
+             Toast.makeText(this, "Email us", Toast.LENGTH_SHORT).show();
+             return  true;
+        });
+
+
     }
 
     public FloatingActionButton getFloatingActionButton() {

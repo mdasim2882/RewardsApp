@@ -12,16 +12,38 @@
             android:id="@+id/create_rewards_events_for_cust"
             android:icon="@drawable/ic_baseline_event_seat_24"
 
-            android:contentDescription="@string/time_duration_for_receipt"
             android:title="@string/menu_customer_events" />
         <item
             android:id="@+id/nav_event_created_history"
             android:icon="@drawable/ic_round_history_24"
             android:iconTint="@color/black"
             android:title="@string/created_event_string" />
-        <item
-            android:id="@+id/nav_logoutbutton"
-            android:title="Logout" />
-    </group>
+        <item android:title="How to Use">
+            <menu>
+                <item
+                    android:id="@+id/nav_use_for_seller"
+                    android:title="For Sellers" />
+                <item
+                    android:id="@+id/nav_use_for_customer"
+                    android:title="For Customers" />
 
+            </menu>
+        </item>
+        <item android:title="Contact Us:">
+            <menu>
+                <item
+                    android:id="@+id/nav_gmail"
+                    android:icon="@drawable/ic_round_email_24"
+                    android:title="Email" />
+                <item
+                    android:id="@+id/nav_insta"
+                    android:icon="@drawable/ic_insta"
+                    android:title="Instagram" />
+
+                <item
+                    android:id="@+id/nav_logoutbutton"
+                    android:title="Logout" />
+            </menu>
+        </item>
+    </group>
 </menu>

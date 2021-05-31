@@ -18,4 +18,5 @@
     <string name="to_avail_this_offer_you_must_have_to_upload_this">To avail this offer, you must have to upload your valid bill receipt.</string>
     <string name="win_details">If you won, you will get app notification on <b>10 pm</b> of offer end date.</string>
     <string name="hindi_content">से अधिक की खरीद पर, हर</string>
+    <string name="no_data_available">No events added yet.</string>
 </resources>

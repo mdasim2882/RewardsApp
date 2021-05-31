@@ -1,9 +1,11 @@
 package com.creator.rewardsapp.Body.OfferWalls.ui.historyEvents;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,28 +24,49 @@ import java.util.List;
 
 
 public class EventCreatedHistory extends Fragment {
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
     EventCreatedHistoryRecyclerViewAdapter adapter;
+    TextView emptyText;
     List<OffersEntry> shops;
+
+    public EventCreatedHistory() {
+    }
+
+    public RecyclerView getRecView() {
+        return recyclerView;
+    }
+
+    public TextView getEmptyTextView() {
+        return emptyText;
+    }
+
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(false);
         super.onCreate(savedInstanceState);
+        Log.i("maggi", "onCreate: ");
         shops = new ArrayList<>();
         shops.add(new OffersEntry("Confectionary Shop"));
         shops.add(new OffersEntry("Baba Lassi"));
         shops.add(new OffersEntry("Pakeezah Juice Corner"));
         shops.add(new OffersEntry("Sumit General Store"));
+
+
+//        if(shops.isEmpty()){
+//
+//            recyclerView.setVisibility(View.GONE);
+//            emptyText.setVisibility(View.VISIBLE);
+//        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.event_created_history, container, false);
         setRecyclerView(root);
-       FloatingActionButton floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
-
+        FloatingActionButton floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
+        emptyText = root.findViewById(R.id.empty_view);
         if (floatingActionButton != null) {
-           floatingActionButton.hide();
+            floatingActionButton.hide();
         }
         return root;
     }
