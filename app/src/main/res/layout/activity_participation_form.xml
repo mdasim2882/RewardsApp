@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#95FAD51C"
     tools:context=".Body.OfferWalls.ui.home.TabData.ParticipationForm">
 
     <LinearLayout
@@ -43,7 +44,7 @@
                     android:layout_height="50dp"
                     android:layout_above="@id/llayout"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/grey"
+                    android:background="@color/brown_1200"
                     android:fontFamily="@font/happy_monkey"
                     android:gravity="center"
                     android:text="Baldeo Medical Store"
