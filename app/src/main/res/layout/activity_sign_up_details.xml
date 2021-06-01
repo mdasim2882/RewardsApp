@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
+    android:background="#95FAD51C"
+
+
 
     tools:context=".Body.Authentication.SignUpActivity">
 
@@ -14,7 +16,7 @@
         android:layout_height="50dp"
         android:layout_above="@id/llayout"
         android:layout_marginBottom="10dp"
-        android:background="@color/purple_200"
+        android:background="@color/brown_1200"
         android:fontFamily="@font/happy_monkey"
         android:gravity="center"
         android:text="Register"
@@ -45,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:hint="Username"
-                app:boxStrokeColor="@color/dark_skyblue"
+                app:boxStrokeColor="@color/brown_1200"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/dark_skyblue"
                 app:startIconDrawable="@drawable/ic_round_person_24">
@@ -69,10 +71,10 @@
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
                 android:hint="Contact no."
-                app:boxStrokeColor="@color/dark_skyblue"
+                app:boxStrokeColor="@color/brown_1200"
                 app:endIconMode="clear_text"
-                 android:layout_marginTop="5dp"
                 app:hintTextColor="@color/dark_skyblue"
                 app:prefixText="+91"
                 app:prefixTextColor="@color/black"
@@ -98,10 +100,10 @@
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:hint="Email"
                 android:layout_marginTop="5dp"
+                android:hint="Email"
 
-                app:boxStrokeColor="@color/dark_skyblue"
+                app:boxStrokeColor="@color/brown_1200"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/dark_skyblue"
                 app:startIconDrawable="@drawable/ic_round_email_24">
@@ -127,7 +129,7 @@
 
                 app:counterEnabled="true"
                 app:counterMaxLength="10"
-
+                app:boxStrokeColor="@color/brown_1200"
                 android:layout_marginTop="5dp"
                 app:boxCornerRadiusBottomEnd="5dp"
                 app:endIconMode="password_toggle"

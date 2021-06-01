@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.RewardsApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/brown_1200</item>
+        <item name="colorPrimaryVariant">@color/brown_1200</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -83,4 +83,6 @@
     <color name="dark_skyblue">#007AB1</color>
     <color name="textInputOutlineColor">#F51100</color>
     <color name="pink">#FF7892</color>
+    <color name="brown_500">#A38E8E</color>
+    <color name="brown_1200">#6B5858</color>
 </resources>

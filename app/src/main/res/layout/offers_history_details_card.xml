@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Shop Name"
+                android:textStyle="bold"
                 android:padding="10dp"
                 android:textAppearance="@style/shopnameStyle"
                 android:textColor="@color/black"

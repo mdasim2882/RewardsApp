@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +26,10 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth fAuth;
     TextInputEditText loginEmail, loginPassword;
     TextInputLayout lLoginEmail, lLoginPassword;
+    LinearLayout loginFieldsLayout;
+    private TextInputEditText forgotEmail;
+    private TextView resLinkSet;
+    private Button loginbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +40,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
+
+        loginbtn = findViewById(R.id.loginbtn);
         loginEmail = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
         lLoginEmail = findViewById(R.id.ll_login_emailid);
         lLoginPassword = findViewById(R.id.ll_login_password);
+        loginFieldsLayout = findViewById(R.id.ll_login_fields);
     }
 
     private boolean isEmailIdValid() {
@@ -88,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             showToaster("All fields are mandatory!");
         }
     }
+
     private void retrieveInputs() {
         showToaster("Logging in...");
         extractInputs();
@@ -98,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         String getPassword = loginPassword.getText().toString();
         signInwithEmailPassword(getEmail, getPassword);
     }
+
     private void signInwithEmailPassword(String email, String password) {
         fAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
@@ -129,6 +141,31 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    // FORGOT PASSWORD
+    public void forgotTextPass(View view) {
+//        createAccount(ADMIN_EMAIL, "jodimilan4321");
+        loginFieldsLayout.setVisibility(View.GONE);
+        loginbtn.setVisibility(View.GONE);
+        LinearLayout forllout = findViewById(R.id.relFogot);
+        forllout.setVisibility(View.VISIBLE);
+        forgotEmail = findViewById(R.id.rel_forgot_email_edt);
+        resLinkSet = findViewById(R.id.linksenttoEmailtxt);
+    }
+
+    public void sentResetLink(View view) {
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String emailAddress = forgotEmail.getText().toString();
+        if (emailAddress != null && !emailAddress.equals("")) {
+            auth.sendPasswordResetEmail(emailAddress)
+                    .addOnCompleteListener(task -> {
+                        Log.d(TAG, "Email sent.");
+                        resLinkSet.setText("Reset link sent to above E-mail address.");
+                    });
+
+        }
     }
 
     private void showToaster(String message) {
