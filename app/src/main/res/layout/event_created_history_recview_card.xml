@@ -1,135 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp"
     android:id="@+id/myOfferCard"
-    android:elevation="3dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
-    app:cardCornerRadius="3dp"
-    android:layout_height="wrap_content">
+    android:elevation="3dp"
+    android:padding="10dp"
+    app:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/myShopName"
-                android:background="#DADADA"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Shop Name"
+                android:background="#DADADA"
                 android:padding="10dp"
+                android:text="Shop Name"
+                android:textStyle="bold"
                 android:textAppearance="@style/shopnameStyle"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="4">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="3.4"
                     android:layout_height="wrap_content"
+                    android:layout_weight="3.4"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="2"
-                        android:layout_height="wrap_content">
+                        android:weightSum="2">
 
                         <TextView
 
                             android:layout_width="0dp"
-                            android:layout_weight="0.7"
                             android:layout_height="wrap_content"
-                            android:text="Starts from:"
+                            android:layout_weight="0.7"
                             android:padding="10dp"
+                            android:text="Starts from:"
                             android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/myOfferstart_date"
                             android:layout_width="0dp"
-                            android:layout_weight="1.3"
                             android:layout_height="wrap_content"
-                            android:text="25 May, 21"
+                            android:layout_weight="1.3"
                             android:padding="10dp"
+                            android:text="25 May, 21"
                             android:textSize="13sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="2"
-                        android:layout_height="wrap_content">
+                        android:weightSum="2">
 
                         <TextView
 
                             android:layout_width="0dp"
-                            android:layout_weight="0.7"
                             android:layout_height="wrap_content"
-                            android:text="Ends on:"
+                            android:layout_weight="0.7"
                             android:padding="10dp"
+                            android:text="Ends on:"
                             android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/myOfferend_date"
                             android:layout_width="0dp"
-                            android:layout_weight="1.3"
                             android:layout_height="wrap_content"
-                            android:text="10 June, 21"
+                            android:layout_weight="1.3"
                             android:padding="10dp"
+                            android:text="10 June, 21"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/deletebutton"
                     android:layout_width="0dp"
-                    android:layout_weight=".6"
-                    app:fab_size="mini"
-                    app:fab_colorNormal="@color/white"
-                    app:fab_shadowRadius="1dp"
-                    android:elevation="3dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight=".6"
+                    android:elevation="3dp"
                     android:src="@drawable/ic_round_delete_24"
-                    />
+                    app:fab_colorNormal="@color/white"
+                    app:fab_shadowRadius="1dp"
+                    app:fab_size="mini" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="2"
-                android:layout_height="wrap_content">
+                android:weightSum="2">
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/skyblue"
+                    android:padding="10dp"
                     android:text="Total Participants"
                     android:textColor="@color/white"
-                    android:padding="10dp"
-                    android:background="@color/skyblue"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/total_participants"
                     android:layout_width="0dp"
-                    android:background="#F1F1F1"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="78"
-                    android:textColor="@color/black"
-                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:background="#F1F1F1"
                     android:padding="10dp"
+                    android:text="78"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -137,11 +142,10 @@
                 android:id="@+id/offers_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="Offers:"
                 android:textColor="@color/black"
-                android:padding="10dp"
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -150,24 +154,26 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="2">
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:padding="5dp"
                     android:layout_weight="0.3"
-                    android:src="@drawable/giftbox"
-                    />
+                    android:padding="5dp"
+                    android:src="@drawable/giftbox" />
+
                 <TextView
                     android:id="@+id/myOfferfirst_offer"
                     android:layout_width="0dp"
-                    android:layout_weight="1.7"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1.7"
                     android:maxLines="2"
+                    android:padding="10dp"
                     android:text="@string/get_free_water_bottle_on_purchases_of_rs_500_or_above_try_your_luck_to_get_rewarded"
                     android:textColor="@color/dark_skyblue"
-                    android:padding="10dp"
                     android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,34 +181,36 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="2">
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:padding="5dp"
                     android:layout_weight="0.3"
-                    android:src="@drawable/giftbox"
-                    />
+                    android:padding="5dp"
+                    android:src="@drawable/giftbox" />
+
                 <TextView
                     android:id="@+id/myOffersecond_offer"
                     android:layout_width="0dp"
 
-                    android:layout_weight="1.7"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1.7"
                     android:maxLines="2"
+                    android:padding="10dp"
                     android:text="@string/get_free_watch_on_purchases_above_1000_rs_try_your_luck_to_get_rewarded"
                     android:textColor="@color/dark_skyblue"
-                    android:padding="10dp"
                     android:textSize="12sp" />
             </LinearLayout>
 
 
         </LinearLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/winnerListBtn"
-            android:text="Winner's List"
-            app:cornerRadius="25dp"
             android:layout_width="300dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="wrap_content" />
+            android:text="Winner's List"
+            app:cornerRadius="25dp" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

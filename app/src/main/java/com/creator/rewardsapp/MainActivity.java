@@ -12,7 +12,7 @@ import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
-    public static final long SPLASH_SCREEN_TIME_OUT = 500;
+    public static final long SPLASH_SCREEN_TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
