@@ -12,9 +12,9 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.ParticipationForm;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.ShopsCardItemsViewHolder;
+import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -26,8 +26,8 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
 
     public final String TAG = getClass().getSimpleName();
     Context context;
-    private List<OffersEntry> productList;
-    private List<OffersEntry> productListall;
+    private List<CreateOfferObject> productList;
+    private List<CreateOfferObject> productListall;
     Activity activity;
     FirebaseAuth fAuth;
 
@@ -36,12 +36,12 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         // Runs on background thread
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<OffersEntry> filteredList = new ArrayList<>();
+            List<CreateOfferObject> filteredList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filteredList.addAll(productListall);
             } else {
-                for (OffersEntry searchProduct : productListall) {
-                    String prod = searchProduct.getOfferShopName().toLowerCase();
+                for (CreateOfferObject searchProduct : productListall) {
+                    String prod = searchProduct.getShopname().toLowerCase();
                     if (prod.contains(constraint.toString().toLowerCase())) {
                         filteredList.add(searchProduct);
                     }
@@ -56,13 +56,13 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         @Override
         protected void publishResults(CharSequence constraint, FilterResults filterResults) {
             productList.clear();
-            productList.addAll((Collection<? extends OffersEntry>) filterResults.values);
+            productList.addAll((Collection<? extends CreateOfferObject>) filterResults.values);
             notifyDataSetChanged();
         }
     };
 
 
-    public ShopsOffersRecyclerViewAdapter(Context context, List<OffersEntry> actualCards) {
+    public ShopsOffersRecyclerViewAdapter(Context context, List<CreateOfferObject> actualCards) {
         this.productList = actualCards;
         this.productListall = new ArrayList<>(actualCards);
         this.context = context;
@@ -81,11 +81,20 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
 
     @Override
     public void onBindViewHolder(@NonNull ShopsCardItemsViewHolder holder, int position) {
-        String offerShopName = productList.get(position).getOfferShopName();
+        String offerShopName = productList.get(position).getShopname();
         holder.shopName.setText(offerShopName);
+        String startDate = productList.get(position).getStartDate();
+        String endDate = productList.get(position).getEndDate();
+        String firstOffer = productList.get(position).getFirstOffer();
+        String secondOffer = productList.get(position).getFirstOffer();
+
+
+        holder.sDate.setText(startDate);
+        holder.eDate.setText(endDate);
+        holder.secondOffer.setText(firstOffer);
+        holder.firstOffer.setText(firstOffer);
         holder.participateButton.setOnClickListener(v -> {
-//            Toast.makeText(v.getContext(), "Fetching Participation Form for "
-//                    + offerShopName, Toast.LENGTH_SHORT).show();
+
             Intent i = new Intent(v.getContext(), ParticipationForm.class);
             i.putExtra("ShopName", offerShopName);
             context.startActivity(i);

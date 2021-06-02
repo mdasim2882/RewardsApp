@@ -109,7 +109,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
 
-                    android:id="@+id/ll_mobno"
+                    android:id="@+id/ll_shopname"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
 
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/contactno"
+                        android:id="@+id/create_offer_edt_txt_shop_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/happy_monkey"
@@ -151,7 +151,7 @@
 
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/cShopContactno"
+                        android:id="@+id/create_offer_edt_txt_contact_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
@@ -208,7 +208,7 @@
 
 
                                 <TextView
-                                    android:id="@+id/offer_validity"
+                                    android:id="@+id/t1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:padding="10dp"
@@ -231,7 +231,7 @@
 
 
                                     <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/c_offer_amount"
+                                        android:id="@+id/create_offer_amount"
                                         android:layout_width="wrap_content"
                                         android:layout_height="50dp"
                                         android:fontFamily="@font/happy_monkey"
@@ -243,7 +243,7 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <TextView
-                                    android:id="@+id/desc_note"
+                                    android:id="@+id/t2"
 
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -267,7 +267,7 @@
 
 
                                     <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/c_offer_peoples_limit"
+                                        android:id="@+id/create_offer_peoples_limit"
                                         android:layout_width="wrap_content"
                                         android:layout_height="50dp"
                                         android:fontFamily="@font/happy_monkey"
@@ -280,7 +280,7 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <TextView
-                                    android:id="@+id/desc_note_second"
+                                    android:id="@+id/t3"
 
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -302,6 +302,7 @@
 
 
                                 <TextView
+                                    android:id="@+id/t4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:padding="5dp"
@@ -323,7 +324,7 @@
 
 
                                     <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/c_offer_product"
+                                        android:id="@+id/create_offer_product"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/happy_monkey"
@@ -334,7 +335,7 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <TextView
-                                    android:id="@+id/desc_note_third"
+                                    android:id="@+id/t5"
 
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

@@ -1,6 +1,7 @@
 package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,25 +17,30 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
-import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadAllProfiles;
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
+import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.ShopsOffersRecyclerViewAdapter;
+import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
+import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NearbyRewardEvents extends Fragment {
+public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
     static NearbyRewardEvents instance;
     private RecyclerView recyclerView;
     ShopsOffersRecyclerViewAdapter adapter;
-    LoadAllProfiles loadMyConcepts;
-    List<OffersEntry> shops;
+    LoadNearbyEvents loadNearbyEvents;
+    List<CreateOfferObject> shops;
     Menu fBtnSearch;
     FloatingActionButton floatingActionButton;
+    FirebaseFirestore db;
 
     public NearbyRewardEvents() {
     }
@@ -50,11 +56,37 @@ public class NearbyRewardEvents extends Fragment {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         shops = new ArrayList<>();
-        shops.add(new OffersEntry("Dinesh General Store"));
-        shops.add(new OffersEntry("Ravi Cafe"));
-        shops.add(new OffersEntry("Baldeo Medical Store"));
-        shops.add(new OffersEntry("Vishal Mega Mart"));
-        shops.add(new OffersEntry("Johnson's Shoppee"));
+        db = FirebaseFirestore.getInstance();
+        loadNearbyEvents = this;
+//        shops.add(new OffersEntry("Dinesh General Store"));
+//        shops.add(new OffersEntry("Ravi Cafe"));
+//        shops.add(new OffersEntry("Baldeo Medical Store"));
+//        shops.add(new OffersEntry("Vishal Mega Mart"));
+//        shops.add(new OffersEntry("Johnson's Shoppee"));
+    }
+
+    private void loadTemplates() {
+        Log.e("checker", "loadTemplates: called");
+        db.collection("Offers")
+                .get()
+                .addOnCompleteListener(task -> {
+                    Log.e("checker", "onComplete: called");
+
+                    List<CreateOfferObject> products = new ArrayList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot bannerSnapshot : task.getResult()) {
+                            Log.e("checker", "loadTemplates: " + bannerSnapshot.getData());
+                            CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
+                            products.add(product);
+                        }
+                        loadNearbyEvents.onNearbyLoadSuccess(products);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loadNearbyEvents.onNearbyLoadFailed(e.getMessage());
+            }
+        });
     }
 
     private void setRecyclerView(View view) {
@@ -63,8 +95,7 @@ public class NearbyRewardEvents extends Fragment {
         recyclerView = view.findViewById(R.id.shops_card_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false));
-        adapter = new ShopsOffersRecyclerViewAdapter(getActivity(), shops);
-        recyclerView.setAdapter(adapter);
+
         /*
          * Pass parameter as list of type ProductEntry
          * Must be retrieved from database to here only
@@ -88,6 +119,7 @@ public class NearbyRewardEvents extends Fragment {
                 fBtnSearch.performIdentifierAction(R.id.action_search, 0);
             });
         }
+        loadTemplates();
         return root;
     }
 
@@ -125,5 +157,19 @@ public class NearbyRewardEvents extends Fragment {
         showSearchBarusingFloatingBtn(menu);
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onNearbyLoadSuccess(List<CreateOfferObject> templates) {
+        adapter = new ShopsOffersRecyclerViewAdapter(getActivity(), templates);
+        recyclerView.setAdapter(adapter);
+        int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
+        int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);
+        recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
+    }
+
+    @Override
+    public void onNearbyLoadFailed(String message) {
+        Log.e("checker", "onNearbyLoadFailed: " + message);
     }
 }

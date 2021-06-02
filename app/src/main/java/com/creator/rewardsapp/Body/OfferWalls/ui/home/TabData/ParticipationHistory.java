@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
-import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadAllProfiles;
+import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersHistory;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.OffersHistoryRecyclerViewAdapter;
 import com.creator.rewardsapp.R;
@@ -28,7 +28,7 @@ import java.util.List;
 public class ParticipationHistory extends Fragment {
     static ParticipationHistory instance;
     private RecyclerView historyRecyclerView;
-    LoadAllProfiles loadMyConcepts;
+    LoadNearbyEvents loadMyConcepts;
     List<OffersHistory> shopsHistory;
     OffersHistoryRecyclerViewAdapter historyAdapter;
     public ParticipationHistory() {
