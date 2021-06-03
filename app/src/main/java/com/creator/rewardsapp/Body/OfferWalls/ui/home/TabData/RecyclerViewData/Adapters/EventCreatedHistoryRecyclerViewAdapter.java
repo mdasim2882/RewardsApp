@@ -13,10 +13,9 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.creator.rewardsapp.Body.OfferWalls.ui.historyEvents.EventCreatedHistory;
 import com.creator.rewardsapp.Body.OfferWalls.ui.historyEvents.WinnerListActivity;
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.EventCreatedHistoryCardItemsViewHolder;
+import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,8 +27,8 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
 
     public final String TAG = getClass().getSimpleName();
     Context context;
-    private List<OffersEntry> productList;
-    private List<OffersEntry> productListall;
+    private List<CreateOfferObject> productList;
+    private List<CreateOfferObject> productListall;
     Activity activity;
     FirebaseAuth fAuth;
 
@@ -38,12 +37,12 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
         // Runs on background thread
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<OffersEntry> filteredList = new ArrayList<>();
+            List<CreateOfferObject> filteredList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filteredList.addAll(productListall);
             } else {
-                for (OffersEntry searchProduct : productListall) {
-                    String prod = searchProduct.getOfferShopName().toLowerCase();
+                for (CreateOfferObject searchProduct : productListall) {
+                    String prod = searchProduct.getShopname().toLowerCase();
                     if (prod.contains(constraint.toString().toLowerCase())) {
                         filteredList.add(searchProduct);
                     }
@@ -58,13 +57,13 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
         @Override
         protected void publishResults(CharSequence constraint, FilterResults filterResults) {
             productList.clear();
-            productList.addAll((Collection<? extends OffersEntry>) filterResults.values);
+            productList.addAll((Collection<? extends CreateOfferObject>) filterResults.values);
             notifyDataSetChanged();
         }
     };
 
 
-    public EventCreatedHistoryRecyclerViewAdapter(Context context, List<OffersEntry> actualCards) {
+    public EventCreatedHistoryRecyclerViewAdapter(Context context, List<CreateOfferObject> actualCards) {
         this.productList = actualCards;
         this.productListall = new ArrayList<>(actualCards);
         this.context = context;
@@ -83,7 +82,7 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(@NonNull EventCreatedHistoryCardItemsViewHolder holder, int position) {
-        String offerShopName = productList.get(position).getOfferShopName();
+        String offerShopName = productList.get(position).getShopname();
         holder.shopName.setText(offerShopName);
         holder.deleteBtn.setOnClickListener(v->{
 

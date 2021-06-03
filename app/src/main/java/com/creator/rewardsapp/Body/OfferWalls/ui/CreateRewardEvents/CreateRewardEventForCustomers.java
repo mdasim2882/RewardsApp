@@ -22,11 +22,15 @@ import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.creator.rewardsapp.Body.Authentication.SignUpActivity.MANDATORY;
 
@@ -128,12 +132,19 @@ public class CreateRewardEventForCustomers extends Fragment {
         createOffer.setOfferProduct(getOfferProduct);
         createOffer.setFirstOffer(offer);
 
+        String shopId= db.collection("Offers").document().getId().trim();
+        createOffer.setOfferid(shopId);
         db.collection("Offers")
-                .document()
+                .document(shopId)
                 .set(createOffer)
                 .addOnCompleteListener(task -> Log.d(TAG, "Success"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
 
+        Map<String, Object> userShops = new HashMap<>();
+        userShops.put("shopId", FieldValue.arrayUnion(shopId));
+        db.collection("Shops")
+                .document(mAuth.getCurrentUser().getUid())
+                .set(userShops, SetOptions.merge());
 
     }
 

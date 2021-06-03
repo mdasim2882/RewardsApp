@@ -14,20 +14,35 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
+import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadMyCreatedEvents;
+import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.EventCreatedHistoryRecyclerViewAdapter;
+import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
+import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class EventCreatedHistory extends Fragment {
+public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, LoadMyCreatedEvents {
     RecyclerView recyclerView;
     EventCreatedHistoryRecyclerViewAdapter adapter;
     TextView emptyText;
     List<OffersEntry> shops;
+
+    //Database
+    FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private String TAG = "dataview";
+    LoadNearbyEvents myEvents;
+    LoadMyCreatedEvents myCreatedEvents;
 
     public EventCreatedHistory() {
     }
@@ -45,11 +60,15 @@ public class EventCreatedHistory extends Fragment {
         setHasOptionsMenu(false);
         super.onCreate(savedInstanceState);
         Log.i("maggi", "onCreate: ");
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         shops = new ArrayList<>();
-        shops.add(new OffersEntry("Confectionary Shop"));
+        myEvents = this;
+        myCreatedEvents = this;
+       /* shops.add(new OffersEntry("Confectionary Shop"));
         shops.add(new OffersEntry("Baba Lassi"));
         shops.add(new OffersEntry("Pakeezah Juice Corner"));
-        shops.add(new OffersEntry("Sumit General Store"));
+        shops.add(new OffersEntry("Sumit General Store"));*/
 
 
 //        if(shops.isEmpty()){
@@ -68,7 +87,44 @@ public class EventCreatedHistory extends Fragment {
         if (floatingActionButton != null) {
             floatingActionButton.hide();
         }
+
+        mAuth = FirebaseAuth.getInstance();
+
+        db.collection("Shops")
+                .document(mAuth.getCurrentUser().getUid())
+                .get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                List<String> shopsId = (List<String>) document.get("shopId");
+                Log.e(TAG, "onCreateView: " + shopsId);
+                myCreatedEvents.onLoadMyCreatedEventsSuccess(shopsId);
+            }
+        });
+
+
         return root;
+    }
+
+    private void loadTemplates(List<String> shopsId) {
+        Log.e(TAG, "loadTemplates Filter List: called with=" + shopsId);
+        db.collection("Offers")
+                .whereIn("offerid", shopsId)
+                .get().addOnCompleteListener(task -> {
+            Log.e(TAG, "loadTemplates: shopsId[]= " + shopsId);
+            Log.e(TAG, "loadTemplates: QUERY " + task.getResult().getDocuments());
+            List<CreateOfferObject> userEvent = new ArrayList<>();
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot bannerSnapshot : task.getResult()) {
+                    Log.e("checker", "loadTemplates: " + bannerSnapshot.getData());
+                    CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
+                    userEvent.add(product);
+                }
+                myEvents.onNearbyLoadSuccess(userEvent);
+            }
+        }).addOnFailureListener(e -> Log.e(TAG, "onFailure: " + e.getMessage()))
+                .addOnSuccessListener(documentSnapshots -> Log.e(TAG, "onSuccess: Array Filtered"));
+
+
     }
 
     private void setRecyclerView(View view) {
@@ -77,16 +133,32 @@ public class EventCreatedHistory extends Fragment {
         recyclerView = view.findViewById(R.id.event_created_history_card_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false));
-        adapter = new EventCreatedHistoryRecyclerViewAdapter(getActivity(), shops);
-        recyclerView.setAdapter(adapter);
-        /*
-         * Pass parameter as list of type ProductEntry
-         * Must be retrieved from database to here only
-         * ProductEntry contains three fields:
-         * ImageView productImage
-         * TextView productName, productCost;
-         * */
+
     }
 
 
+    @Override
+    public void onNearbyLoadSuccess(List<CreateOfferObject> templates) {
+        adapter = new EventCreatedHistoryRecyclerViewAdapter(getActivity(), templates);
+        recyclerView.setAdapter(adapter);
+        int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
+        int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);
+        recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
+
+    }
+
+    @Override
+    public void onNearbyLoadFailed(String message) {
+
+    }
+
+    @Override
+    public void onLoadMyCreatedEventsSuccess(List<String> myevents) {
+        loadTemplates(myevents);
+    }
+
+    @Override
+    public void onLoadMyCreatedEventsFailed(String message) {
+
+    }
 }
