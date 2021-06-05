@@ -11,8 +11,8 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersHistory;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.OffersHistoryCardItemsViewHolder;
+import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -24,8 +24,8 @@ public class OffersHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Offer
 
     public final String TAG = getClass().getSimpleName();
     Context context;
-    private List<OffersHistory> productList;
-    private List<OffersHistory> productListall;
+    private List<CreateOfferObject> productList;
+    private List<CreateOfferObject> productListall;
     Activity activity;
     FirebaseAuth fAuth;
 
@@ -34,12 +34,12 @@ public class OffersHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Offer
         // Runs on background thread
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<OffersHistory> filteredList = new ArrayList<>();
+            List<CreateOfferObject> filteredList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filteredList.addAll(productListall);
             } else {
-                for (OffersHistory searchProduct : productListall) {
-                    String prod = searchProduct.getOfferShopName().toLowerCase();
+                for (CreateOfferObject searchProduct : productListall) {
+                    String prod = searchProduct.getShopname().toLowerCase();
                     if (prod.contains(constraint.toString().toLowerCase())) {
                         filteredList.add(searchProduct);
                     }
@@ -54,13 +54,13 @@ public class OffersHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Offer
         @Override
         protected void publishResults(CharSequence constraint, FilterResults filterResults) {
             productList.clear();
-            productList.addAll((Collection<? extends OffersHistory>) filterResults.values);
+            productList.addAll((Collection<? extends CreateOfferObject>) filterResults.values);
             notifyDataSetChanged();
         }
     };
 
 
-    public OffersHistoryRecyclerViewAdapter(Context context, List<OffersHistory> actualCards) {
+    public OffersHistoryRecyclerViewAdapter(Context context, List<CreateOfferObject> actualCards) {
         this.productList = actualCards;
         this.productListall = new ArrayList<>(actualCards);
         this.context = context;
@@ -79,8 +79,19 @@ public class OffersHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Offer
 
     @Override
     public void onBindViewHolder(@NonNull OffersHistoryCardItemsViewHolder holder, int position) {
-        String offerShopName = productList.get(position).getOfferShopName();
+        String offerShopName = productList.get(position).getShopname();
         holder.shopName.setText(offerShopName);
+        String startDate = productList.get(position).getStartDate();
+        String endDate = productList.get(position).getEndDate();
+        String firstOffer = productList.get(position).getFirstOffer();
+        String secondOffer = productList.get(position).getFirstOffer();
+        String offerId = productList.get(position).getOfferId();
+
+
+        holder.off_startDate.setText(startDate);
+        holder.off_endDate.setText(endDate);
+        holder.off_sencondOffer.setText(firstOffer);
+        holder.off_FirstOffer.setText(firstOffer);
     }
 
 

@@ -107,8 +107,10 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
 
     private void loadTemplates(List<String> shopsId) {
         Log.e(TAG, "loadTemplates Filter List: called with=" + shopsId);
+        if(shopsId==null)
+            return;
         db.collection("Offers")
-                .whereIn("offerid", shopsId) //Shows only current user shops
+                .whereIn("offerId", shopsId) //Shows only current user shops
                 .get().addOnCompleteListener(task -> {
             Log.e(TAG, "loadTemplates: shopsId[]= " + shopsId);
             Log.e(TAG, "loadTemplates: QUERY " + task.getResult().getDocuments());

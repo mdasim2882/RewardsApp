@@ -163,6 +163,7 @@
                 />
 
                 <TextView
+                    android:id="@+id/off_result"
                     android:layout_width="0dp"
                     android:layout_weight="1.3"
                     android:layout_height="wrap_content"

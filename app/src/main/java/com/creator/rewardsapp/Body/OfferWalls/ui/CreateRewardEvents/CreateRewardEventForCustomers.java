@@ -128,7 +128,7 @@ public class CreateRewardEventForCustomers extends Fragment {
         createOffer.setContactno(getContactno);
 
         createOffer.setOfferPrice(getOfferAmount);
-        createOffer.setMaxParticipants(getParticipantsCount);
+        createOffer.setMaxParticipants(Long.parseLong(getParticipantsCount));
         createOffer.setOfferProduct(getOfferProduct);
         createOffer.setFirstOffer(offer);
 

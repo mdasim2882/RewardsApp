@@ -90,6 +90,7 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
         String firstOffer = productList.get(position).getFirstOffer();
         String secondOffer = productList.get(position).getFirstOffer();
         String offerId = productList.get(position).getOfferId();
+        String totalParticipants = ""+(productList.get(position).getMaxParticipants());
 
 
         holder.sDate.setText(startDate);
@@ -97,6 +98,7 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
         holder.secondOffer.setText(firstOffer);
         holder.firstOffer.setText(firstOffer);
         holder.shopName.setText(offerShopName);
+        holder.totalParticipants.setText(totalParticipants);
 
         holder.deleteBtn.setOnClickListener(v->{
 

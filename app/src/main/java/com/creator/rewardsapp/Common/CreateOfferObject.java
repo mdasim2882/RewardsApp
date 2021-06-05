@@ -8,27 +8,27 @@ public class CreateOfferObject {
     private String endDate;
     private String shopname;
     private String contactno;
-    private String maxParticipants;
+    private Long maxParticipants;
     private String offerPrice;
     private String offerProduct;
     private  String firstOffer;
     private  String secondOffer;
 
-    @Override
-    public String toString() {
-        return "CreateOfferObject{" +
-                "offerId='" + offerId + '\'' +
-                ", creatorId='" + creatorId + '\'' +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
-                ", shopname='" + shopname + '\'' +
-                ", contactno='" + contactno + '\'' +
-                ", maxParticipants='" + maxParticipants + '\'' +
-                ", offerPrice='" + offerPrice + '\'' +
-                ", offerProduct='" + offerProduct + '\'' +
-                ", firstOffer='" + firstOffer + '\'' +
-                ", secondOffer='" + secondOffer + '\'' +
-                '}';
+    public CreateOfferObject() {
+    }
+
+    public CreateOfferObject(String offerId, String creatorId, String startDate, String endDate, String shopname, String contactno, Long maxParticipants, String offerPrice, String offerProduct, String firstOffer, String secondOffer) {
+        this.offerId = offerId;
+        this.creatorId = creatorId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.shopname = shopname;
+        this.contactno = contactno;
+        this.maxParticipants = maxParticipants;
+        this.offerPrice = offerPrice;
+        this.offerProduct = offerProduct;
+        this.firstOffer = firstOffer;
+        this.secondOffer = secondOffer;
     }
 
     public String getOfferId() {
@@ -79,11 +79,11 @@ public class CreateOfferObject {
         this.contactno = contactno;
     }
 
-    public String getMaxParticipants() {
+    public Long getMaxParticipants() {
         return maxParticipants;
     }
 
-    public void setMaxParticipants(String maxParticipants) {
+    public void setMaxParticipants(Long maxParticipants) {
         this.maxParticipants = maxParticipants;
     }
 
@@ -119,20 +119,20 @@ public class CreateOfferObject {
         this.secondOffer = secondOffer;
     }
 
-    public CreateOfferObject(String offerId, String creatorId, String startDate, String endDate, String shopname, String contactno, String maxParticipants, String offerPrice, String offerProduct, String firstOffer, String secondOffer) {
-        this.offerId = offerId;
-        this.creatorId = creatorId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.shopname = shopname;
-        this.contactno = contactno;
-        this.maxParticipants = maxParticipants;
-        this.offerPrice = offerPrice;
-        this.offerProduct = offerProduct;
-        this.firstOffer = firstOffer;
-        this.secondOffer = secondOffer;
-    }
-
-    public CreateOfferObject() {
+    @Override
+    public String toString() {
+        return "CreateOfferObject{" +
+                "offerId='" + offerId + '\'' +
+                ", creatorId='" + creatorId + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", shopname='" + shopname + '\'' +
+                ", contactno='" + contactno + '\'' +
+                ", maxParticipants=" + maxParticipants +
+                ", offerPrice='" + offerPrice + '\'' +
+                ", offerProduct='" + offerProduct + '\'' +
+                ", firstOffer='" + firstOffer + '\'' +
+                ", secondOffer='" + secondOffer + '\'' +
+                '}';
     }
 }

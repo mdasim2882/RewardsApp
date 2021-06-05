@@ -1,6 +1,7 @@
 package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,22 +16,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersHistory;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.OffersHistoryRecyclerViewAdapter;
+import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
+import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParticipationHistory extends Fragment {
+public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
     static ParticipationHistory instance;
     private RecyclerView historyRecyclerView;
     LoadNearbyEvents loadMyConcepts;
     List<OffersHistory> shopsHistory;
+    LoadNearbyEvents loadNearbyEvents;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
     OffersHistoryRecyclerViewAdapter historyAdapter;
+
     public ParticipationHistory() {
     }
 
@@ -45,27 +56,33 @@ public class ParticipationHistory extends Fragment {
         setHasOptionsMenu(false);
         super.onCreate(savedInstanceState);
         shopsHistory = new ArrayList<>();
-
+/*
         shopsHistory.add(new OffersHistory("Manish General Store"));
         shopsHistory.add(new OffersHistory("Domino's Pizza"));
-        shopsHistory.add(new OffersHistory("Burma & Sons."));
+        shopsHistory.add(new OffersHistory("Burma & Sons."));*/
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        loadNearbyEvents = this;
     }
+
     @Nullable
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.participation_history, container, false);
         setRecyclerView(root);
+        getParticipationHistory();
         return root;
     }
+
     private void setRecyclerView(View view) {
 
         // Set up the RecyclerView
         historyRecyclerView = view.findViewById(R.id.shops_history_recycler_view);
         historyRecyclerView.setHasFixedSize(true);
         historyRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false));
-        historyAdapter = new OffersHistoryRecyclerViewAdapter(getActivity(), shopsHistory);
-        historyRecyclerView.setAdapter(historyAdapter);
+
         /*
          * Pass parameter as list of type ProductEntry
          * Must be retrieved from database to here only
@@ -74,6 +91,7 @@ public class ParticipationHistory extends Fragment {
          * TextView productName, productCost;
          * */
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -86,5 +104,56 @@ public class ParticipationHistory extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(null, null);
+    }
+
+    private void getParticipationHistory() {
+        /*
+        * Retrieve the current participant shop id in list=[]
+        * Base on that id's, access the Offers collection shops
+        * updateUi()
+        * Done
+        * */
+
+        Log.e("checker", "loadParticipationHistory: called");
+        db.collection("Participants")
+                .document(mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult().get("shops")!=null) {
+                                Log.e("checker", "onComplete: called" + task.getResult().get("shops"));
+
+                                List<String> shops = (List<String>) task.getResult().get("shops");
+
+                                // Loading only participated offers id as per @shops returned
+                                db.collection("Offers")
+                                        .whereIn("offerId", shops)
+                                        .get().addOnCompleteListener(task1 -> {
+                                    List<CreateOfferObject> products = new ArrayList<>();
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot bannerSnapshot : task1.getResult()) {
+                                            Log.e("checker", "loadHistoryCards:\n " + bannerSnapshot.getData());
+                                            CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
+                                            products.add(product);
+                                        }
+                                        loadNearbyEvents.onNearbyLoadSuccess(products);
+                                    }
+                                });
+                            }
+                        }
+                ).addOnFailureListener(e -> loadNearbyEvents.onNearbyLoadFailed(e.getMessage()));
+    }
+
+    @Override
+    public void onNearbyLoadSuccess(List<CreateOfferObject> templates) {
+        historyAdapter = new OffersHistoryRecyclerViewAdapter(getActivity(), templates);
+        historyRecyclerView.setAdapter(historyAdapter);
+        int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
+        int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);
+        historyRecyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
+    }
+
+    @Override
+    public void onNearbyLoadFailed(String message) {
+        FixedVariable.showToaster(getActivity(),message);
     }
 }

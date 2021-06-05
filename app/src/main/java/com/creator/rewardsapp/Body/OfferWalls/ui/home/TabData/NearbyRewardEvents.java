@@ -18,11 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.ShopsOffersRecyclerViewAdapter;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -58,14 +58,15 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
         shops = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
         loadNearbyEvents = this;
-//        shops.add(new OffersEntry("Dinesh General Store"));
-//        shops.add(new OffersEntry("Ravi Cafe"));
-//        shops.add(new OffersEntry("Baldeo Medical Store"));
-//        shops.add(new OffersEntry("Vishal Mega Mart"));
-//        shops.add(new OffersEntry("Johnson's Shoppee"));
+
     }
 
-    private void loadTemplates() {
+    private void loadAllEvents() {
+        /*
+        * Load all the document of Offers collection one by one
+        * and update the UI
+        * Done
+        * */
         Log.e("checker", "loadTemplates: called");
         db.collection("Offers")
                 .get()
@@ -81,12 +82,8 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
                         }
                         loadNearbyEvents.onNearbyLoadSuccess(products);
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                loadNearbyEvents.onNearbyLoadFailed(e.getMessage());
-            }
-        });
+                })
+                .addOnFailureListener(e -> loadNearbyEvents.onNearbyLoadFailed(e.getMessage()));
     }
 
     private void setRecyclerView(View view) {
@@ -119,7 +116,7 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
                 fBtnSearch.performIdentifierAction(R.id.action_search, 0);
             });
         }
-        loadTemplates();
+        loadAllEvents();
         return root;
     }
 
@@ -155,7 +152,6 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
         inflater.inflate(R.menu.search_menu, menu);
         fBtnSearch = menu;
         showSearchBarusingFloatingBtn(menu);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -171,5 +167,6 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
     @Override
     public void onNearbyLoadFailed(String message) {
         Log.e("checker", "onNearbyLoadFailed: " + message);
+        FixedVariable.showToaster(getActivity(),message);
     }
 }

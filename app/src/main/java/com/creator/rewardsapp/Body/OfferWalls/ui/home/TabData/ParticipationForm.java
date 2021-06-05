@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
+import com.creator.rewardsapp.Common.ParticipateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,8 +37,8 @@ import static com.creator.rewardsapp.Body.Authentication.SignUpActivity.MANDATOR
 public class ParticipationForm extends AppCompatActivity {
     private TextView pFormShopname;
     private ProgressDialog progressDialog;
-    EditText fullname,contacno,billValue;
-    TextInputLayout llfullname,llcontacno,llbillValue;
+    EditText fullname, contacno, billValue;
+    TextInputLayout llfullname, llcontacno, llbillValue;
 
 
     private AlertDialog.Builder builder;
@@ -49,6 +50,9 @@ public class ParticipationForm extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private String shopname, shopId;
     private String customerName, customerContacNo, customerBillValue;
+    private String pbillValue;
+    private String pContactNo;
+    private String pFullName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +79,12 @@ public class ParticipationForm extends AppCompatActivity {
         progressDialog.setMessage("Uploading data...");
         setAlertDialog();
 
-        billValue=findViewById(R.id.p_bill_value);
-        fullname=findViewById(R.id.pfullname);
-        contacno=findViewById(R.id.pcontactno);
-        llbillValue=findViewById(R.id.ll_pbillvalue);
-        llfullname=findViewById(R.id.ll_pfullname);
-        llcontacno=findViewById(R.id.ll_pmobno);
+        billValue = findViewById(R.id.p_bill_value);
+        fullname = findViewById(R.id.pfullname);
+        contacno = findViewById(R.id.pcontactno);
+        llbillValue = findViewById(R.id.ll_pbillvalue);
+        llfullname = findViewById(R.id.ll_pfullname);
+        llcontacno = findViewById(R.id.ll_pmobno);
 
     }
 
@@ -127,12 +131,15 @@ public class ParticipationForm extends AppCompatActivity {
     public void uploadReceiptbtn(View view) {
         FixedVariable.showToaster(this, "Updating Info...");
         if (isUserNameValid() && isContactnoValid() && isBillValueValid()) {
+            pFullName = fullname.getText().toString();
+            pContactNo = llcontacno.getPrefixText().toString() + " " + contacno.getText().toString();
+            pbillValue = billValue.getText().toString();
             builder.show();
         }
 
 
-
     }
+
     private boolean isUserNameValid() {
         boolean contactStatus;
 
@@ -152,6 +159,7 @@ public class ParticipationForm extends AppCompatActivity {
         return false;
 
     }
+
     private boolean isBillValueValid() {
         boolean contactStatus;
 
@@ -171,6 +179,7 @@ public class ParticipationForm extends AppCompatActivity {
         return false;
 
     }
+
     private boolean isContactnoValid() {
         boolean contactStatus;
 
@@ -230,44 +239,70 @@ public class ParticipationForm extends AppCompatActivity {
     }
 
     private void updateToStorageDatabase(String image) {
+            /*
+            *Upload works in this way:
+            * First participate in the offer by filling details
+            * Save receipt to Firebase Storage
+            * Update the shop details like @participantsCount, @participantId in corresponding shops
+            * Update the Participant details to retrieve participation history in future
+            * Done
+            * */
         //For Shop
-        Log.d("maggi", "updateToStorageDatabase: shopId"+shopId);
-        if (shopId!=null) {
+        Log.d("maggi", "updateToStorageDatabase: shopId" + shopId);
+        if (shopId != null) {
+            // First, retrieve the creator of current offer, then add participant
+            // in separate list of corresponding offer
             database.collection("Offers")
                     .document(shopId).get().addOnCompleteListener(task -> {
                 String creatorId = task.getResult().getString("creatorId");
                 if (creatorId != null) {
                     Map<String, Object> userShops = new HashMap<>();
                     userShops.put("customerId", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+                    // Adding participants id of current offers's participants in each current Shop
                     database.collection("Shops")
                             .document(creatorId).collection(shopId)
-                            .document().set(userShops);
+                            .document(shopId).set(userShops);
                 }
             });
         }
 
 
-        //For Customer
-
+        //For Participants
         HashMap<String, Object> receiptData = new HashMap<>();
-//        receiptData.put("participateName",customerName);
-//        receiptData.put("customerContactNo",customerContacNo);
-//        receiptData.put("customerBillValue",customerBillValue);
-        receiptData.put("receiptUrl", FieldValue.arrayUnion(image));
         receiptData.put("shops", FieldValue.arrayUnion(shopId));
         if (receiptData.size() > 0) {
+            ParticipateOfferObject p = new ParticipateOfferObject();
+            p.setFullname(pFullName);
+            p.setContactno(pContactNo);
+            p.setBillvalue(pbillValue);
+            p.setReceiptUrl(image);
+
+
+            // Query to save current particpant data in particular shop,
+            database.collection("Participants")
+                    .document(mAuth.getCurrentUser().getUid())
+                    .collection(shopId)
+                    .document().set(p);
+
             // If not exists then create collection And then merge that data
+            // Here, add the shops as list  for individual user participation
             database.collection("Participants")
                     .document(mAuth.getCurrentUser().getUid())
                     .set(receiptData, SetOptions.merge())
                     .addOnCompleteListener(task -> {
+                        Map<String, Object> m = new HashMap<>();
+                        m.put("maxParticipants", FieldValue.increment(1));
+                        // Here, update the total participants count by 1
+                        database.collection("Offers")
+                                .document(shopId)
+                                .set(m, SetOptions.merge());
                         finish();
                         progressDialog.dismiss();
                     });
 
-
         }
 
     }
+
 
 }
