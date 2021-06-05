@@ -1,7 +1,9 @@
 package com.creator.rewardsapp.Common;
 
 public class CreateOfferObject {
-    private String offerid;
+    private String offerId;
+    private String creatorId;
+
     private String startDate;
     private String endDate;
     private String shopname;
@@ -12,28 +14,37 @@ public class CreateOfferObject {
     private  String firstOffer;
     private  String secondOffer;
 
-    public CreateOfferObject() {
+    @Override
+    public String toString() {
+        return "CreateOfferObject{" +
+                "offerId='" + offerId + '\'' +
+                ", creatorId='" + creatorId + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", shopname='" + shopname + '\'' +
+                ", contactno='" + contactno + '\'' +
+                ", maxParticipants='" + maxParticipants + '\'' +
+                ", offerPrice='" + offerPrice + '\'' +
+                ", offerProduct='" + offerProduct + '\'' +
+                ", firstOffer='" + firstOffer + '\'' +
+                ", secondOffer='" + secondOffer + '\'' +
+                '}';
     }
 
-    public CreateOfferObject(String offerid, String startDate, String endDate, String shopname, String contactno, String maxParticipants, String offerPrice, String offerProduct, String firstOffer, String secondOffer) {
-        this.offerid = offerid;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.shopname = shopname;
-        this.contactno = contactno;
-        this.maxParticipants = maxParticipants;
-        this.offerPrice = offerPrice;
-        this.offerProduct = offerProduct;
-        this.firstOffer = firstOffer;
-        this.secondOffer = secondOffer;
+    public String getOfferId() {
+        return offerId;
     }
 
-    public String getOfferid() {
-        return offerid;
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
     }
 
-    public void setOfferid(String offerid) {
-        this.offerid = offerid;
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
     }
 
     public String getStartDate() {
@@ -108,19 +119,20 @@ public class CreateOfferObject {
         this.secondOffer = secondOffer;
     }
 
-    @Override
-    public String toString() {
-        return "CreateOfferObject{" +
-                "offerid='" + offerid + '\'' +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
-                ", shopname='" + shopname + '\'' +
-                ", contactno='" + contactno + '\'' +
-                ", maxParticipants='" + maxParticipants + '\'' +
-                ", offerPrice='" + offerPrice + '\'' +
-                ", offerProduct='" + offerProduct + '\'' +
-                ", firstOffer='" + firstOffer + '\'' +
-                ", secondOffer='" + secondOffer + '\'' +
-                '}';
+    public CreateOfferObject(String offerId, String creatorId, String startDate, String endDate, String shopname, String contactno, String maxParticipants, String offerPrice, String offerProduct, String firstOffer, String secondOffer) {
+        this.offerId = offerId;
+        this.creatorId = creatorId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.shopname = shopname;
+        this.contactno = contactno;
+        this.maxParticipants = maxParticipants;
+        this.offerPrice = offerPrice;
+        this.offerProduct = offerProduct;
+        this.firstOffer = firstOffer;
+        this.secondOffer = secondOffer;
+    }
+
+    public CreateOfferObject() {
     }
 }

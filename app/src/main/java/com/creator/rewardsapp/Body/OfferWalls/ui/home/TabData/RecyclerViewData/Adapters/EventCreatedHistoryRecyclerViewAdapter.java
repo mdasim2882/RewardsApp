@@ -13,6 +13,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.Body.OfferWalls.ui.historyEvents.WinnerListActivity;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.EventCreatedHistoryCardItemsViewHolder;
 import com.creator.rewardsapp.Common.CreateOfferObject;
@@ -84,16 +85,33 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(@NonNull EventCreatedHistoryCardItemsViewHolder holder, int position) {
         String offerShopName = productList.get(position).getShopname();
         holder.shopName.setText(offerShopName);
+        String startDate = productList.get(position).getStartDate();
+        String endDate = productList.get(position).getEndDate();
+        String firstOffer = productList.get(position).getFirstOffer();
+        String secondOffer = productList.get(position).getFirstOffer();
+        String offerId = productList.get(position).getOfferId();
+
+
+        holder.sDate.setText(startDate);
+        holder.eDate.setText(endDate);
+        holder.secondOffer.setText(firstOffer);
+        holder.firstOffer.setText(firstOffer);
+        holder.shopName.setText(offerShopName);
+
         holder.deleteBtn.setOnClickListener(v->{
 
             deleteitemAt(position);
         });
+
         holder.winnerListbtn.setOnClickListener(v -> {
 
             Intent i = new Intent(v.getContext(), WinnerListActivity.class);
-            i.putExtra("ShopName", offerShopName);
+            i.putExtra(FixedVariable.SHOP_NAME, offerShopName);
             context.startActivity(i);
         });
+
+
+
         Log.d(TAG, "onBindViewHolder: Change with product list size= "+productList.size());
 
     }

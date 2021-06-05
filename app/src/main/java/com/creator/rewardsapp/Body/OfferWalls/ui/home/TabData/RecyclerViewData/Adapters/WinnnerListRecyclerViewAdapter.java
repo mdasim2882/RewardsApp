@@ -12,7 +12,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersEntry;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.ParticipationForm;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.WinnerListCardItemsViewHolder;
 import com.creator.rewardsapp.R;

@@ -133,7 +133,10 @@ public class CreateRewardEventForCustomers extends Fragment {
         createOffer.setFirstOffer(offer);
 
         String shopId= db.collection("Offers").document().getId().trim();
-        createOffer.setOfferid(shopId);
+        createOffer.setOfferId(shopId);
+        createOffer.setCreatorId(mAuth.getCurrentUser().getUid());
+
+
         db.collection("Offers")
                 .document(shopId)
                 .set(createOffer)

@@ -15,7 +15,11 @@ import com.github.clans.fab.FloatingActionButton;
 public class EventCreatedHistoryCardItemsViewHolder extends RecyclerView.ViewHolder{
     public CardView productCard;
     public ImageView imgCard;
-    public TextView shopName;
+    public TextView shopName,sDate,eDate;
+    public TextView secondOffer,firstOffer;
+
+
+
     public FloatingActionButton deleteBtn;
     public Button winnerListbtn;
     public TextView totalParticipants;
@@ -23,6 +27,12 @@ public class EventCreatedHistoryCardItemsViewHolder extends RecyclerView.ViewHol
     public EventCreatedHistoryCardItemsViewHolder(@NonNull View itemView) {
         super(itemView);
         shopName = itemView.findViewById(R.id.myShopName);
+
+        sDate = itemView.findViewById(R.id.myOfferstart_date);
+        eDate = itemView.findViewById(R.id.myOfferend_date);
+        firstOffer = itemView.findViewById(R.id.myOfferfirst_offer);
+        secondOffer = itemView.findViewById(R.id.myOffersecond_offer);
+
         winnerListbtn = itemView.findViewById(R.id.winnerListBtn);
         productCard = itemView.findViewById(R.id.myOfferCard);
        deleteBtn = itemView.findViewById(R.id.deletebutton);

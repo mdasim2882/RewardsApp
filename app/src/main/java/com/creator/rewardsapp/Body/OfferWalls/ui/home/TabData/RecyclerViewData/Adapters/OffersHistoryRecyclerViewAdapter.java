@@ -11,7 +11,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersHistory;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersHistory;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.OffersHistoryCardItemsViewHolder;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;

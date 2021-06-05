@@ -12,6 +12,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.ParticipationForm;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.ShopsCardItemsViewHolder;
 import com.creator.rewardsapp.Common.CreateOfferObject;
@@ -87,6 +88,7 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         String endDate = productList.get(position).getEndDate();
         String firstOffer = productList.get(position).getFirstOffer();
         String secondOffer = productList.get(position).getFirstOffer();
+        String offerId = productList.get(position).getOfferId();
 
 
         holder.sDate.setText(startDate);
@@ -96,7 +98,9 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         holder.participateButton.setOnClickListener(v -> {
 
             Intent i = new Intent(v.getContext(), ParticipationForm.class);
-            i.putExtra("ShopName", offerShopName);
+            i.putExtra(FixedVariable.SHOP_NAME, offerShopName);
+            i.putExtra(FixedVariable.SHOP_ID, offerId.trim());
+
             context.startActivity(i);
         });
     }

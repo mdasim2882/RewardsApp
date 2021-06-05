@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersHistory;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersHistory;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.OffersHistoryRecyclerViewAdapter;
 import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadMyCreatedEvents;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersEntry;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.EventCreatedHistoryRecyclerViewAdapter;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
 import com.creator.rewardsapp.Common.CreateOfferObject;
@@ -108,7 +108,7 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
     private void loadTemplates(List<String> shopsId) {
         Log.e(TAG, "loadTemplates Filter List: called with=" + shopsId);
         db.collection("Offers")
-                .whereIn("offerid", shopsId)
+                .whereIn("offerid", shopsId) //Shows only current user shops
                 .get().addOnCompleteListener(task -> {
             Log.e(TAG, "loadTemplates: shopsId[]= " + shopsId);
             Log.e(TAG, "loadTemplates: QUERY " + task.getResult().getDocuments());

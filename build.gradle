@@ -2,6 +2,7 @@
 buildscript {
     repositories {
         google()
+        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -16,7 +17,8 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
+        jcenter()
+         mavenCentral()
 //        mavenCentral() // Warning: this repository is going to shut down soon
     }
 }

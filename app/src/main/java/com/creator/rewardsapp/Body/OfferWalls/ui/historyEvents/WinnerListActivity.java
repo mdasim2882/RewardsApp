@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses.OffersEntry;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersEntry;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.WinnnerListRecyclerViewAdapter;
 import com.creator.rewardsapp.R;
 
@@ -29,7 +29,7 @@ public class WinnerListActivity extends AppCompatActivity {
         myShop.setText(shopName);
         shops = new ArrayList<>();
         shops.add(new OffersEntry("Vishal Chaurasia"));
-        shops.add(new OffersEntry("Vaibhav Agarwal"));
+        shops.add(new OffersEntry("Sumit"));
         shops.add(new OffersEntry("Pranjal Srivastava"));
         shops.add(new OffersEntry("Surya"));
         setRecyclerView();

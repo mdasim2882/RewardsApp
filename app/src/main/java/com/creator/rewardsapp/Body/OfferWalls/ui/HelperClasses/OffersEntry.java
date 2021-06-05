@@ -1,9 +1,13 @@
-package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.HelperClasses;
+package com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses;
 
-public class OffersHistory {
+public class OffersEntry {
     private  String offerShopName;
 
-    public OffersHistory() {
+    public OffersEntry() {
+    }
+
+    public OffersEntry(String offerShopName) {
+        this.offerShopName = offerShopName;
     }
 
     public String getOfferShopName() {
@@ -14,13 +18,9 @@ public class OffersHistory {
         this.offerShopName = offerShopName;
     }
 
-    public OffersHistory(String offerShopName) {
-        this.offerShopName = offerShopName;
-    }
-
     @Override
     public String toString() {
-        return "OffersHistory{" +
+        return "OffersEntry{" +
                 "offerShopName='" + offerShopName + '\'' +
                 '}';
     }

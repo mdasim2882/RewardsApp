@@ -60,7 +60,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
 
-                    android:id="@+id/ll_fullname"
+                    android:id="@+id/ll_pfullname"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
 
-                    android:id="@+id/ll_mobno"
+                    android:id="@+id/ll_pmobno"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
@@ -102,11 +102,10 @@
 
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/contactno"
+                        android:id="@+id/pcontactno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
+
                         android:fontFamily="@font/happy_monkey"
                         android:inputType="number"
                         android:textColor="@color/skyblue" />
@@ -116,7 +115,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
 
-                    android:id="@+id/ll_email_id"
+                    android:id="@+id/ll_pbillvalue"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
