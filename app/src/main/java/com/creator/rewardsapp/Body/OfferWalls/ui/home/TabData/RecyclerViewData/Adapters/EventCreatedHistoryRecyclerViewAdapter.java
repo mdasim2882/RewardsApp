@@ -90,7 +90,7 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
         String firstOffer = productList.get(position).getFirstOffer();
         String secondOffer = productList.get(position).getFirstOffer();
         String offerId = productList.get(position).getOfferId();
-        String totalParticipants = ""+(productList.get(position).getMaxParticipants());
+        String totalParticipants = "" + (productList.get(position).getMaxParticipants());
 
 
         holder.sDate.setText(startDate);
@@ -100,21 +100,23 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
         holder.shopName.setText(offerShopName);
         holder.totalParticipants.setText(totalParticipants);
 
-        holder.deleteBtn.setOnClickListener(v->{
+        holder.deleteBtn.setOnClickListener(v -> {
 
             deleteitemAt(position);
         });
-
+        boolean isTimeReached = true;
         holder.winnerListbtn.setOnClickListener(v -> {
+            if (isTimeReached) {
+                Intent i = new Intent(v.getContext(), WinnerListActivity.class);
+                i.putExtra(FixedVariable.SHOP_NAME, offerShopName);
+                context.startActivity(i);
+            } else
+                FixedVariable.showToaster(activity, "Winners not declared yet.");
 
-            Intent i = new Intent(v.getContext(), WinnerListActivity.class);
-            i.putExtra(FixedVariable.SHOP_NAME, offerShopName);
-            context.startActivity(i);
         });
 
 
-
-        Log.d(TAG, "onBindViewHolder: Change with product list size= "+productList.size());
+        Log.d(TAG, "onBindViewHolder: Change with product list size= " + productList.size());
 
     }
 

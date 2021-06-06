@@ -19,4 +19,6 @@
     <string name="win_details">If you won, you will get app notification on <b>10 pm</b> of offer end date.</string>
     <string name="hindi_content">से अधिक की खरीद पर, हर</string>
     <string name="no_data_available">No events added yet.</string>
+    <string name="msg_subscribed">MessageReceived</string>
+    <string name="msg_subscribe_failed">Failed to receive message</string>
 </resources>
