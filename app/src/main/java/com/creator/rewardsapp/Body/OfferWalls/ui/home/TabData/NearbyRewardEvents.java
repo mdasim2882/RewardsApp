@@ -29,7 +29,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
@@ -41,6 +45,7 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
     Menu fBtnSearch;
     FloatingActionButton floatingActionButton;
     FirebaseFirestore db;
+    private String expiryList;
 
     public NearbyRewardEvents() {
     }
@@ -63,10 +68,10 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
 
     private void loadAllEvents() {
         /*
-        * Load all the document of Offers collection one by one
-        * and update the UI
-        * Done
-        * */
+         * Load all the document of Offers collection one by one
+         * and update the UI
+         * Done
+         * */
         Log.e("checker", "loadTemplates: called");
         db.collection("Offers")
                 .get()
@@ -162,11 +167,66 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
         int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);
         recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
+        try {
+            checkExpiryAndDeclareWinners(templates);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkExpiryAndDeclareWinners(List<CreateOfferObject> templates) throws ParseException {
+        List<CreateOfferObject> expired = new ArrayList<>();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
+        for (CreateOfferObject c : templates) {
+            String valid_until = c.getStartDate();
+            Date strDate = sdf.parse(valid_until);
+
+            assert strDate != null;
+            if (System.currentTimeMillis() > strDate.getTime()) {
+                expired.add(c);
+            }
+        }
+        Log.d("c", "checkExpiryAndDeclareWinners: \n");
+        List<String> expireOffers = new ArrayList<>();
+        List<String> expiredShops = new ArrayList<>();
+        for (CreateOfferObject x : expired) {
+            expiryList = "expiryList";
+            Log.d(expiryList, "Dates " + x.getStartDate());
+            expireOffers.add(x.getOfferId());
+            expiredShops.add(x.getCreatorId());
+        }
+        if (expireOffers.isEmpty())
+            return;
+        db.collection("AllOffersCustomers")
+                .whereIn("currentOfferId", expireOffers)
+                .get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().getDocuments() != null) {
+                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                    String creatorId = documentSnapshot.get("currentOfferId").toString();
+                    List<String> l = (List<String>) documentSnapshot.get("customerId");
+
+                    Log.d(expiryList, "creator: " + creatorId + " => " + l);
+                    Collections.shuffle(l);
+                    // Find n winners
+//                                for(int  i=0;i<3; i++)
+//                                    Log.d(expiryList, "winner- "+(i+1)+" => "+l.get(i));
+//                              //  Setting winners
+//                                db.collection("AllCustomerOffers")
+//                                    .document(creatorId)
+//                                        .set(expiredShops);
+                }
+
+
+            }
+        });
+
+
     }
 
     @Override
     public void onNearbyLoadFailed(String message) {
         Log.e("checker", "onNearbyLoadFailed: " + message);
-        FixedVariable.showToaster(getActivity(),message);
+        FixedVariable.showToaster(getActivity(), message);
     }
 }

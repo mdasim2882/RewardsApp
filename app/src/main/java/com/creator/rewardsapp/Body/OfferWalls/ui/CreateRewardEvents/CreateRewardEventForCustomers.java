@@ -128,7 +128,7 @@ public class CreateRewardEventForCustomers extends Fragment {
         createOffer.setContactno(getContactno);
 
         createOffer.setOfferPrice(getOfferAmount);
-        createOffer.setMaxParticipants(Long.parseLong(getParticipantsCount));
+        createOffer.setMaxParticipants(Long.parseLong("0"));
         createOffer.setOfferProduct(getOfferProduct);
         createOffer.setFirstOffer(offer);
 
@@ -143,7 +143,9 @@ public class CreateRewardEventForCustomers extends Fragment {
                 .addOnCompleteListener(task -> Log.d(TAG, "Success"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
 
+
         Map<String, Object> userShops = new HashMap<>();
+        userShops.put("creatorId",mAuth.getCurrentUser().getUid());
         userShops.put("shopId", FieldValue.arrayUnion(shopId));
         db.collection("Shops")
                 .document(mAuth.getCurrentUser().getUid())

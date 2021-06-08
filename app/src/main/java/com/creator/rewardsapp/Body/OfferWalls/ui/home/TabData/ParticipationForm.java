@@ -257,11 +257,13 @@ public class ParticipationForm extends AppCompatActivity {
                 String creatorId = task.getResult().getString("creatorId");
                 if (creatorId != null) {
                     Map<String, Object> userShops = new HashMap<>();
+                    userShops.put("currentOfferId",shopId);
                     userShops.put("customerId", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
                     // Adding participants id of current offers's participants in each current Shop
-                    database.collection("Shops")
-                            .document(creatorId).collection(shopId)
-                            .document(shopId).set(userShops);
+                    database.collection("AllOffersCustomers")
+                            .document(shopId).set(userShops,SetOptions.merge());
+
+
                 }
             });
         }
@@ -270,6 +272,7 @@ public class ParticipationForm extends AppCompatActivity {
         //For Participants
         HashMap<String, Object> receiptData = new HashMap<>();
         receiptData.put("shops", FieldValue.arrayUnion(shopId));
+        receiptData.put("pUid", FieldValue.arrayUnion(shopId));
         if (receiptData.size() > 0) {
             ParticipateOfferObject p = new ParticipateOfferObject();
             p.setFullname(pFullName);

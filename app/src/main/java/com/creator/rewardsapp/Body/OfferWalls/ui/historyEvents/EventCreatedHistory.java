@@ -101,7 +101,24 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
             }
         });
 
+     /*   db.collection("Winners")
+                .document(mAuth.getCurrentUser().getUid())
+                .addSnapshotListener(getActivity(), (value, error) -> {
+                    if(error!=null)
+                    {
+                        Log.w(TAG, "Listen failed.", error);
+                        return;
+                    }
+                    if (value != null && value.exists()) {
+                        Log.d(TAG, "Current data: " + value.getData());
 
+
+
+
+                    } else {
+                        Log.d(TAG, "Current data: null");
+                    }
+                });*/
         return root;
     }
 
