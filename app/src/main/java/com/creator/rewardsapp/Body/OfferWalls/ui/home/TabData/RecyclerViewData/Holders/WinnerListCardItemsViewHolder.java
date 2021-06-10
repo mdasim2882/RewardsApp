@@ -2,7 +2,6 @@ package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,8 +12,8 @@ import com.creator.rewardsapp.R;
 
 public class WinnerListCardItemsViewHolder extends RecyclerView.ViewHolder{
     public CardView productCard;
-    public ImageView imgCard;
     public TextView winnerName;
+    public TextView winnerContactno;
     public Button donloadReciptbtn;
     public TextView winnerAmount;
 
@@ -24,8 +23,10 @@ public class WinnerListCardItemsViewHolder extends RecyclerView.ViewHolder{
         donloadReciptbtn = itemView.findViewById(R.id.dlReceiptBtn);
         productCard = itemView.findViewById(R.id.myShopWinnerListCards);
 
-
+        winnerContactno = itemView.findViewById(R.id.winnerContactno);
         winnerAmount = itemView.findViewById(R.id.winnerAmount);
+
+
         // TODO: Find and store views from itemView
     }
 }

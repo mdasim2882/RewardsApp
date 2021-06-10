@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.MyCollectionNames;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.ShopsOffersRecyclerViewAdapter;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
 import com.creator.rewardsapp.Common.CreateOfferObject;
@@ -26,15 +27,17 @@ import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
     static NearbyRewardEvents instance;
@@ -171,6 +174,7 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
             checkExpiryAndDeclareWinners(templates);
         } catch (ParseException e) {
             e.printStackTrace();
+            Log.d(expiryList, "Error in setting Offers: "+e.getMessage());
         }
     }
 
@@ -198,23 +202,47 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
         }
         if (expireOffers.isEmpty())
             return;
-        db.collection("AllOffersCustomers")
+        db.collection(MyCollectionNames.ALLCUSTOMERS)
                 .whereIn("currentOfferId", expireOffers)
                 .get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult().getDocuments() != null) {
                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                    String creatorId = documentSnapshot.get("currentOfferId").toString();
-                    List<String> l = (List<String>) documentSnapshot.get("customerId");
+                    String currentOfferId = documentSnapshot.get("currentOfferId").toString();
+                    List<String> totalCustomers = (List<String>) documentSnapshot.get("customerId");
 
-                    Log.d(expiryList, "creator: " + creatorId + " => " + l);
-                    Collections.shuffle(l);
+                    Log.d(expiryList, "creator: " + currentOfferId + " => " + totalCustomers);
+
+                    Map<String, Object> winners = new HashMap<>();
+
+                        winners.put("winnerList", totalCustomers);
+                    db.collection(MyCollectionNames.ALLCUSTOMERS)
+                            .document(currentOfferId)
+                            .set(winners, SetOptions.merge());
+
+                    if (totalCustomers!=null) {
+                        winners.put("winnerDeclared", true);
+                    }else
+                        winners.put("winnerDeclared", true);
+
+                    winners.put("query", false);
+                    db.collection("Offers")
+                            .document(currentOfferId)
+                            .set(winners,SetOptions.merge())
+                            .addOnSuccessListener(unused -> {
+                                Log.d(expiryList, "Winners in OfferList Set: SUCCESS ");
+                            }).addOnFailureListener(e -> {
+                        Log.d(expiryList, "Winners in OfferList Set: FAILED=> "+e.getMessage());
+                        FixedVariable.showToaster(getActivity(), "checkExpiryAndDeclareWinners: FAILED=> "+e.getMessage());
+                            })
+                        ;
+
                     // Find n winners
 //                                for(int  i=0;i<3; i++)
 //                                    Log.d(expiryList, "winner- "+(i+1)+" => "+l.get(i));
 //                              //  Setting winners
 //                                db.collection("AllCustomerOffers")
 //                                    .document(creatorId)
-//                                        .set(expiredShops);
+//                                    .set(expiredShops);
                 }
 
 

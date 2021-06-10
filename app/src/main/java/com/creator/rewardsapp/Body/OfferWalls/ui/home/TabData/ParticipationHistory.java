@@ -131,8 +131,10 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
                                     List<CreateOfferObject> products = new ArrayList<>();
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot bannerSnapshot : task1.getResult()) {
-                                            Log.e("checker", "loadHistoryCards:\n " + bannerSnapshot.getData());
+                                            Log.e("errorLoad", "loadHistoryCards:\n " + bannerSnapshot.getData());
                                             CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
+                                            Log.d("errorLoad", "card added :=> "+product.toString());
+
                                             products.add(product);
                                         }
                                         loadNearbyEvents.onNearbyLoadSuccess(products);

@@ -2,6 +2,7 @@ package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +80,8 @@ public class OffersHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Offer
 
     @Override
     public void onBindViewHolder(@NonNull OffersHistoryCardItemsViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder: DATA\n"+productList.get(position).toString());
+
         String offerShopName = productList.get(position).getShopname();
         holder.shopName.setText(offerShopName);
         String startDate = productList.get(position).getStartDate();
@@ -87,11 +90,24 @@ public class OffersHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Offer
         String secondOffer = productList.get(position).getFirstOffer();
         String offerId = productList.get(position).getOfferId();
 
+        boolean isWinnerDeclared = productList.get(position).isWinnerDeclared();
+        Log.d(TAG, "onBindViewHolder: isWinnerDeclared "+isWinnerDeclared);
 
+        boolean contains= false;
+        if (isWinnerDeclared) {
+            List<String> offerWinners=  (productList.get(position).getWinnerList());
+            Log.d(TAG, "WinnerList:  "+offerWinners);
+
+            contains = offerWinners.contains(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            if(contains)
+                holder.off_result.setText("Winner");
+            Log.d(TAG, "onBindViewHolder: contains me or not: "+contains);
+        }
         holder.off_startDate.setText(startDate);
         holder.off_endDate.setText(endDate);
         holder.off_sencondOffer.setText(firstOffer);
         holder.off_FirstOffer.setText(firstOffer);
+
     }
 
 

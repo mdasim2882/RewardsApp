@@ -134,8 +134,9 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
             List<CreateOfferObject> userEvent = new ArrayList<>();
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot bannerSnapshot : task.getResult()) {
-                    Log.e("checker", "loadTemplates: " + bannerSnapshot.getData());
+                    Log.d("checker", "loadHistoryCard: " + bannerSnapshot.getData());
                     CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
+                    Log.d(TAG, "card added :=> "+product.toString());
                     userEvent.add(product);
                 }
                 myEvents.onNearbyLoadSuccess(userEvent);

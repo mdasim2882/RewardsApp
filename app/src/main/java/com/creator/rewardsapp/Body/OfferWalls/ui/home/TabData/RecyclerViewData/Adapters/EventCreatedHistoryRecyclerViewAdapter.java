@@ -104,11 +104,12 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
 
             deleteitemAt(position);
         });
-        boolean isTimeReached = true;
+        boolean winnerDeclared = productList.get(position).isWinnerDeclared();
         holder.winnerListbtn.setOnClickListener(v -> {
-            if (isTimeReached) {
+            if (winnerDeclared) {
                 Intent i = new Intent(v.getContext(), WinnerListActivity.class);
                 i.putExtra(FixedVariable.SHOP_NAME, offerShopName);
+                i.putExtra(FixedVariable.CURRENT_OFFER_ID, offerId);
                 context.startActivity(i);
             } else
                 FixedVariable.showToaster(activity, "Winners not declared yet.");

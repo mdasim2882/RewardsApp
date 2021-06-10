@@ -2,7 +2,6 @@ package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,9 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersEntry;
-import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.ParticipationForm;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.WinnerListCardItemsViewHolder;
+import com.creator.rewardsapp.Common.ParticipateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -26,8 +25,8 @@ public class WinnnerListRecyclerViewAdapter extends RecyclerView.Adapter<WinnerL
 
     public final String TAG = getClass().getSimpleName();
     Context context;
-    private List<OffersEntry> productList;
-    private List<OffersEntry> productListall;
+    private List<ParticipateOfferObject> productList;
+    private List<ParticipateOfferObject> productListall;
     Activity activity;
     FirebaseAuth fAuth;
 
@@ -36,12 +35,12 @@ public class WinnnerListRecyclerViewAdapter extends RecyclerView.Adapter<WinnerL
         // Runs on background thread
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<OffersEntry> filteredList = new ArrayList<>();
+            List<ParticipateOfferObject> filteredList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filteredList.addAll(productListall);
             } else {
-                for (OffersEntry searchProduct : productListall) {
-                    String prod = searchProduct.getOfferShopName().toLowerCase();
+                for (ParticipateOfferObject searchProduct : productListall) {
+                    String prod = searchProduct.getFullname().toLowerCase();
                     if (prod.contains(constraint.toString().toLowerCase())) {
                         filteredList.add(searchProduct);
                     }
@@ -56,18 +55,19 @@ public class WinnnerListRecyclerViewAdapter extends RecyclerView.Adapter<WinnerL
         @Override
         protected void publishResults(CharSequence constraint, FilterResults filterResults) {
             productList.clear();
-            productList.addAll((Collection<? extends OffersEntry>) filterResults.values);
+            productList.addAll((Collection<? extends ParticipateOfferObject>) filterResults.values);
             notifyDataSetChanged();
         }
     };
 
 
-    public WinnnerListRecyclerViewAdapter(Context context, List<OffersEntry> actualCards) {
+    public WinnnerListRecyclerViewAdapter(Context context, List<ParticipateOfferObject> actualCards) {
         this.productList = actualCards;
         this.productListall = new ArrayList<>(actualCards);
         this.context = context;
         activity = (Activity) context;
         fAuth = FirebaseAuth.getInstance();
+//        activity.recreate();
     }
 
 
@@ -81,13 +81,19 @@ public class WinnnerListRecyclerViewAdapter extends RecyclerView.Adapter<WinnerL
 
     @Override
     public void onBindViewHolder(@NonNull WinnerListCardItemsViewHolder holder, int position) {
-        String offerShopName = productList.get(position).getOfferShopName();
-        holder.winnerName.setText(offerShopName);
+        String winnerName = productList.get(position).getFullname();
+        String winnerContactno = productList.get(position).getContactno();
+        String winnerAmount = productList.get(position).getBillvalue();
+        String winnerBillreceipt = productList.get(position).getReceiptUrl();
+
+        holder.winnerName.setText(winnerName);
+        holder.winnerAmount.setText(winnerAmount);
+        holder.winnerContactno.setText(winnerContactno);
+
+
         holder.donloadReciptbtn.setOnClickListener(v -> {
 
-            Intent i = new Intent(v.getContext(), ParticipationForm.class);
-            i.putExtra("ShopName", offerShopName);
-            context.startActivity(i);
+            FixedVariable.showToaster(activity,winnerBillreceipt);
         });
     }
 

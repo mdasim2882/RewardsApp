@@ -272,7 +272,7 @@ public class ParticipationForm extends AppCompatActivity {
         //For Participants
         HashMap<String, Object> receiptData = new HashMap<>();
         receiptData.put("shops", FieldValue.arrayUnion(shopId));
-        receiptData.put("pUid", FieldValue.arrayUnion(shopId));
+        receiptData.put("pUid", mAuth.getCurrentUser().getUid());
         if (receiptData.size() > 0) {
             ParticipateOfferObject p = new ParticipateOfferObject();
             p.setFullname(pFullName);

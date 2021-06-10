@@ -1,9 +1,9 @@
 package com.creator.rewardsapp.Common;
 
-public class CreateOfferObject {
-    private String offerId;
-    private String creatorId;
+import java.util.List;
 
+public class CreateOfferObject {
+    private boolean winnerDeclared;
     private String startDate;
     private String endDate;
     private String shopname;
@@ -11,15 +11,17 @@ public class CreateOfferObject {
     private Long maxParticipants;
     private String offerPrice;
     private String offerProduct;
-    private  String firstOffer;
-    private  String secondOffer;
+    private String firstOffer;
+    private String secondOffer;
+    private List<String> winnerList;
+    private String offerId;
+    private String creatorId;
 
     public CreateOfferObject() {
     }
 
-    public CreateOfferObject(String offerId, String creatorId, String startDate, String endDate, String shopname, String contactno, Long maxParticipants, String offerPrice, String offerProduct, String firstOffer, String secondOffer) {
-        this.offerId = offerId;
-        this.creatorId = creatorId;
+    public CreateOfferObject(boolean winnerDeclared, String startDate, String endDate, String shopname, String contactno, Long maxParticipants, String offerPrice, String offerProduct, String firstOffer, String secondOffer, List<String> winnerList, String offerId, String creatorId) {
+        this.winnerDeclared = winnerDeclared;
         this.startDate = startDate;
         this.endDate = endDate;
         this.shopname = shopname;
@@ -29,22 +31,17 @@ public class CreateOfferObject {
         this.offerProduct = offerProduct;
         this.firstOffer = firstOffer;
         this.secondOffer = secondOffer;
-    }
-
-    public String getOfferId() {
-        return offerId;
-    }
-
-    public void setOfferId(String offerId) {
+        this.winnerList = winnerList;
         this.offerId = offerId;
-    }
-
-    public String getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(String creatorId) {
         this.creatorId = creatorId;
+    }
+
+    public boolean isWinnerDeclared() {
+        return winnerDeclared;
+    }
+
+    public void setWinnerDeclared(boolean winnerDeclared) {
+        this.winnerDeclared = winnerDeclared;
     }
 
     public String getStartDate() {
@@ -119,11 +116,34 @@ public class CreateOfferObject {
         this.secondOffer = secondOffer;
     }
 
+    public List<String> getWinnerList() {
+        return winnerList;
+    }
+
+    public void setWinnerList(List<String> winnerList) {
+        this.winnerList = winnerList;
+    }
+
+    public String getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
     @Override
     public String toString() {
         return "CreateOfferObject{" +
-                "offerId='" + offerId + '\'' +
-                ", creatorId='" + creatorId + '\'' +
+                "winnerDeclared=" + winnerDeclared +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", shopname='" + shopname + '\'' +
@@ -133,6 +153,9 @@ public class CreateOfferObject {
                 ", offerProduct='" + offerProduct + '\'' +
                 ", firstOffer='" + firstOffer + '\'' +
                 ", secondOffer='" + secondOffer + '\'' +
+                ", winnerList=" + winnerList +
+                ", offerId='" + offerId + '\'' +
+                ", creatorId='" + creatorId + '\'' +
                 '}';
     }
 }
