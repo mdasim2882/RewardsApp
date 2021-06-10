@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadMyCreatedEvents;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.OffersEntry;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.EventCreatedHistoryRecyclerViewAdapter;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
@@ -169,7 +170,7 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
 
     @Override
     public void onNearbyLoadFailed(String message) {
-
+        FixedVariable.showToaster(getActivity(),message);
     }
 
     @Override

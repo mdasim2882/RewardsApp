@@ -14,11 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.MyCollectionNames;
 import com.creator.rewardsapp.Body.OfferWalls.ui.historyEvents.WinnerListActivity;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.EventCreatedHistoryCardItemsViewHolder;
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +34,7 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
     private List<CreateOfferObject> productListall;
     Activity activity;
     FirebaseAuth fAuth;
+    private FirebaseFirestore db;
 
     // Add search filter here
     Filter filter = new Filter() {
@@ -70,6 +73,7 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
         this.context = context;
         activity = (Activity) context;
         fAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
     }
 
 
@@ -123,10 +127,23 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
 
     private void deleteitemAt(int position) {
         notifyItemRemoved(position);
+        removeAndUpdateDocumentFromFirestore(position);
         notifyItemRangeChanged(position, productList.size());
         productList.remove(position);
     }
 
+    private void removeAndUpdateDocumentFromFirestore(int position) {
+
+        /*  Update OFFERS collection with offersId field
+         *   winnersDeclared to false
+         *
+         *   */
+        db.collection(MyCollectionNames.OFFERS)
+                .document(productList.get(position).getOfferId())
+                .delete();
+
+
+    }
 
     @Override
     public int getItemCount() {
