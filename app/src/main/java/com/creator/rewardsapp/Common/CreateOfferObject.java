@@ -17,10 +17,13 @@ public class CreateOfferObject {
     private String offerId;
     private String creatorId;
 
+    private String outOfTotal;
+
+
     public CreateOfferObject() {
     }
 
-    public CreateOfferObject(boolean winnerDeclared, String startDate, String endDate, String shopname, String contactno, Long maxParticipants, String offerPrice, String offerProduct, String firstOffer, String secondOffer, List<String> winnerList, String offerId, String creatorId) {
+    public CreateOfferObject(boolean winnerDeclared, String startDate, String endDate, String shopname, String contactno, Long maxParticipants, String offerPrice, String offerProduct, String firstOffer, String secondOffer, List<String> winnerList, String offerId, String creatorId, String outOfTotal) {
         this.winnerDeclared = winnerDeclared;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -34,6 +37,7 @@ public class CreateOfferObject {
         this.winnerList = winnerList;
         this.offerId = offerId;
         this.creatorId = creatorId;
+        this.outOfTotal = outOfTotal;
     }
 
     public boolean isWinnerDeclared() {
@@ -140,6 +144,14 @@ public class CreateOfferObject {
         this.creatorId = creatorId;
     }
 
+    public String getOutOfTotal() {
+        return outOfTotal;
+    }
+
+    public void setOutOfTotal(String outOfTotal) {
+        this.outOfTotal = outOfTotal;
+    }
+
     @Override
     public String toString() {
         return "CreateOfferObject{" +
@@ -156,6 +168,7 @@ public class CreateOfferObject {
                 ", winnerList=" + winnerList +
                 ", offerId='" + offerId + '\'' +
                 ", creatorId='" + creatorId + '\'' +
+                ", outOfTotal='" + outOfTotal + '\'' +
                 '}';
     }
 }

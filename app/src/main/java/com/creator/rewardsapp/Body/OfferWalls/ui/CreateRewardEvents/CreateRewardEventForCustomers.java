@@ -177,6 +177,7 @@ public class CreateRewardEventForCustomers extends Fragment {
         createOffer.setMaxParticipants(Long.parseLong("0"));
         createOffer.setOfferProduct(getOfferProduct);
         createOffer.setFirstOffer(offer);
+        createOffer.setOutOfTotal(getParticipantsCount);
 
         if (isAdded) {
             String getSecondOfferAmount = moneySecondOffer.getText().toString();
