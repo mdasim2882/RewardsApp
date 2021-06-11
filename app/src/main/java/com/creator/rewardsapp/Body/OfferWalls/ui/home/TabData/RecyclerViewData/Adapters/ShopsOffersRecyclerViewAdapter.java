@@ -87,13 +87,15 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         String startDate = productList.get(position).getStartDate();
         String endDate = productList.get(position).getEndDate();
         String firstOffer = productList.get(position).getFirstOffer();
-        String secondOffer = productList.get(position).getFirstOffer();
+        String secondOffer = productList.get(position).getSecondOffer();
         String offerId = productList.get(position).getOfferId();
 
-
+        if (secondOffer == null || secondOffer.isEmpty() || secondOffer.trim().isEmpty())
+            holder.secondOffer.setText(firstOffer);
+        else
+            holder.secondOffer.setText(secondOffer);
         holder.sDate.setText(startDate);
         holder.eDate.setText(endDate);
-        holder.secondOffer.setText(firstOffer);
         holder.firstOffer.setText(firstOffer);
         holder.participateButton.setOnClickListener(v -> {
 

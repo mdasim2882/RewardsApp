@@ -125,6 +125,7 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
                                 List<String> shops = (List<String>) task.getResult().get("shops");
 
                                 // Loading only participated offers id as per @shops returned
+                                //TODO: WhereInParticipation History
                                 db.collection("Offers")
                                         .whereIn("offerId", shops)
                                         .get().addOnCompleteListener(task1 -> {

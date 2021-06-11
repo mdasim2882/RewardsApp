@@ -2,6 +2,7 @@ package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
+import com.creator.rewardsapp.Body.OfferWalls.ui.PictureReceiptActivity;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Holders.WinnerListCardItemsViewHolder;
 import com.creator.rewardsapp.Common.ParticipateOfferObject;
 import com.creator.rewardsapp.R;
@@ -27,6 +29,7 @@ public class WinnnerListRecyclerViewAdapter extends RecyclerView.Adapter<WinnerL
     Context context;
     private List<ParticipateOfferObject> productList;
     private List<ParticipateOfferObject> productListall;
+    private  String viewingShopName;
     Activity activity;
     FirebaseAuth fAuth;
 
@@ -61,12 +64,13 @@ public class WinnnerListRecyclerViewAdapter extends RecyclerView.Adapter<WinnerL
     };
 
 
-    public WinnnerListRecyclerViewAdapter(Context context, List<ParticipateOfferObject> actualCards) {
+    public WinnnerListRecyclerViewAdapter(Context context, List<ParticipateOfferObject> actualCards,String viewingShopName) {
         this.productList = actualCards;
         this.productListall = new ArrayList<>(actualCards);
         this.context = context;
         activity = (Activity) context;
         fAuth = FirebaseAuth.getInstance();
+        this.viewingShopName=viewingShopName;
 //        activity.recreate();
     }
 
@@ -93,7 +97,10 @@ public class WinnnerListRecyclerViewAdapter extends RecyclerView.Adapter<WinnerL
 
         holder.donloadReciptbtn.setOnClickListener(v -> {
 
-            FixedVariable.showToaster(activity,winnerBillreceipt);
+            Intent i=new Intent(activity, PictureReceiptActivity.class);
+            i.putExtra(FixedVariable.getShopname,viewingShopName);
+            i.putExtra(FixedVariable.getReceiptUrl,winnerBillreceipt);
+            v.getContext().startActivity(i);
         });
     }
 

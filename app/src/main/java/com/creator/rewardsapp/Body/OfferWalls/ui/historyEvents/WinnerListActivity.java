@@ -34,13 +34,14 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
     FirebaseAuth mAuth;
     private String currentOffer;
     private String winnersData;
+    private String shopName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winner_list);
         Intent i = getIntent();
-        String shopName = i.getStringExtra("ShopName");
+        shopName = i.getStringExtra("ShopName");
         currentOffer = i.getStringExtra(FixedVariable.CURRENT_OFFER_ID);
         TextView myShop = findViewById(R.id.winnerShoppername);
         myShop.setText(shopName);
@@ -64,6 +65,8 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
          * */
         winnersData = "winnersData";
         Log.d(winnersData, "loadAllWinners: called with current Offer= "+currentOffer);
+
+        //TODO: Where EQUAL to -> WinnerListActivity
         db.collection(MyCollectionNames.ALLCUSTOMERS)
                 .whereEqualTo("currentOfferId", currentOffer)
                 .get()
@@ -139,7 +142,7 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
 
     @Override
     public void onLoadWinnersSuccess(List<ParticipateOfferObject> templates) {
-        adapter = new WinnnerListRecyclerViewAdapter(this, templates);
+        adapter = new WinnnerListRecyclerViewAdapter(this, templates,shopName);
         recyclerView.setAdapter(adapter);
         int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);

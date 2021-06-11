@@ -9,14 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,12 +47,16 @@ public class CreateRewardEventForCustomers extends Fragment {
     private TextInputLayout cLLStartDate, cLLEndDate;
     private TextInputLayout cLLContactno, cLLShopName;
     private TextInputLayout cLLOfferAmount, cLLProduct, cLLParticipants;
-    private Button createOfferbtn;
+    private Button createOfferbtn, addMoreOfferButton;
+    private LinearLayout formSecondOffer;
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
     TextView t1, t2, t3, t4, t5;
+    TextView s1, s2, s3, s4, s5;
+    private boolean isAdded;
+    private EditText moneySecondOffer, participantSecondOffer, productSecondOffer;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -75,6 +83,7 @@ public class CreateRewardEventForCustomers extends Fragment {
             floatingActionButton.hide();
 
         createOfferbtn = root.findViewById(R.id.createOfferBtn);
+        addMoreOfferButton = root.findViewById(R.id.addMoreofferbtn);
         cStartDate = root.findViewById(R.id.cStartDate);
         cEndDate = root.findViewById(R.id.cEndDate);
         cContactno = root.findViewById(R.id.create_offer_edt_txt_contact_no);
@@ -89,7 +98,7 @@ public class CreateRewardEventForCustomers extends Fragment {
         cLLEndDate = root.findViewById(R.id.ll_end_date);
         cLLContactno = root.findViewById(R.id.ll_shopContactno);
         cLLShopName = root.findViewById(R.id.ll_shopname);
-
+        formSecondOffer = root.findViewById(R.id.formSecondOffer);
 
         t1 = root.findViewById(R.id.t1);
         t2 = root.findViewById(R.id.t2);
@@ -97,13 +106,43 @@ public class CreateRewardEventForCustomers extends Fragment {
         t4 = root.findViewById(R.id.t4);
         t5 = root.findViewById(R.id.t5);
 
+        s1 = root.findViewById(R.id.s1);
+        s2 = root.findViewById(R.id.s2);
+        s3 = root.findViewById(R.id.s3);
+        s4 = root.findViewById(R.id.s4);
+        s5 = root.findViewById(R.id.s5);
 
+        // Creating Offer
         createOfferbtn.setOnClickListener(v -> {
             showToaster("Creating Offer...");
             if (isStartDateValid() && isEndDateValid() && isShopNameValid() && isContactnoValid()) {
                 extractInputs();
+
+
             }
         });
+        moneySecondOffer = (EditText) root.findViewById(R.id.screate_offer_amount);
+        participantSecondOffer = (EditText) root.findViewById(R.id.screate_offer_peoples_limit);
+        productSecondOffer = (EditText) root.findViewById(R.id.screate_offer_product);
+        // Adding more offer iff user wants
+        isAdded = false;
+        addMoreOfferButton.setOnClickListener(v -> {
+            if (!isAdded) {
+                formSecondOffer.setVisibility(View.VISIBLE);
+                productSecondOffer.requestFocus();
+//                InputMethodManager systemService = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                systemService.showSoftInput(productSecondOffer, InputMethodManager.SHOW_IMPLICIT);
+                isAdded = true;
+            } else {
+                formSecondOffer.setVisibility(View.GONE);
+
+                isAdded = false;
+            }
+
+
+        });
+
+
     }
 
 
@@ -121,6 +160,12 @@ public class CreateRewardEventForCustomers extends Fragment {
                 " " + getParticipantsCount + " " + t3.getText().toString() +
                 " " + t4.getText().toString() + " " + getOfferProduct + " " + t5.getText().toString();
 
+        if (!isValidOfferDetails(getOfferAmount) || !isValidOfferDetails(getParticipantsCount) || !isValidOfferDetails(getOfferProduct)) {
+            FixedVariable.showToaster(getActivity(), "Please, fill offer details to continue");
+            return;
+        }
+
+
         CreateOfferObject createOffer = new CreateOfferObject();
         createOffer.setStartDate(getStartDate);
         createOffer.setEndDate(getEndDate);
@@ -132,11 +177,28 @@ public class CreateRewardEventForCustomers extends Fragment {
         createOffer.setOfferProduct(getOfferProduct);
         createOffer.setFirstOffer(offer);
 
-        String shopId= db.collection("Offers").document().getId().trim();
+        if (isAdded) {
+            String getSecondOfferAmount = moneySecondOffer.getText().toString();
+            String getSecondParticipantsCount = participantSecondOffer.getText().toString();
+            String getSecondOfferProduct = productSecondOffer.getText().toString();
+            String secondOffer = t1.getText().toString() + " " + getSecondOfferAmount + " " + t2.getText().toString() +
+                    " " + getSecondParticipantsCount + " " + t3.getText().toString() +
+                    " " + t4.getText().toString() + " " + getSecondOfferProduct + " " + t5.getText().toString();
+
+            if (!isValidOfferDetails(getSecondOfferAmount) || !isValidOfferDetails(getSecondParticipantsCount) || !isValidOfferDetails(getSecondOfferProduct)) {
+                FixedVariable.showToaster(getActivity(), "Please, fill offer details to continue");
+                return;
+            }
+            createOffer.setSecondOffer(secondOffer);
+
+        }
+
+
+        String shopId = db.collection("Offers").document().getId().trim();
         createOffer.setOfferId(shopId);
         createOffer.setCreatorId(mAuth.getCurrentUser().getUid());
 
-
+        Log.d(TAG, "extractInputs: isAdded: " + isAdded + " \nCreateOffersObject=>\n" + createOffer.toString());
         db.collection("Offers")
                 .document(shopId)
                 .set(createOffer)
@@ -145,12 +207,29 @@ public class CreateRewardEventForCustomers extends Fragment {
 
 
         Map<String, Object> userShops = new HashMap<>();
-        userShops.put("creatorId",mAuth.getCurrentUser().getUid());
+        userShops.put("creatorId", mAuth.getCurrentUser().getUid());
         userShops.put("shopId", FieldValue.arrayUnion(shopId));
         db.collection("Shops")
                 .document(mAuth.getCurrentUser().getUid())
-                .set(userShops, SetOptions.merge());
+                .set(userShops, SetOptions.merge())
+                .addOnCompleteListener(task -> {
+                    FixedVariable.showToaster(getActivity(), "Offer created successfully");
+                    // Add NavController here
+                    FloatingActionButton floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
+                    boolean isShown = floatingActionButton.isShown();
+                    if (!isShown)
+                        floatingActionButton.show();
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_home);
+                    navController.popBackStack();
+                });
 
+    }
+
+    private boolean isValidOfferDetails(String string) {
+        if (string == null || string.isEmpty() || string.trim().isEmpty())
+            return false;
+
+        return true;
     }
 
 
@@ -243,7 +322,7 @@ public class CreateRewardEventForCustomers extends Fragment {
 
 
         DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
-            // TODO Auto-generated method stub
+            // ODO Auto-generated method stub
             startDateCalendar.set(Calendar.YEAR, year);
             startDateCalendar.set(Calendar.MONTH, monthOfYear);
             startDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -284,5 +363,14 @@ public class CreateRewardEventForCustomers extends Fragment {
 
     private void showToaster(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FloatingActionButton floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
+        boolean isShown = floatingActionButton.isShown();
+        if (isShown)
+            floatingActionButton.hide();
     }
 }

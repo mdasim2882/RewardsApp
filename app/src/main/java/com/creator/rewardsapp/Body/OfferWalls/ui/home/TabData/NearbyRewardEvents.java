@@ -174,7 +174,7 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
             checkExpiryAndDeclareWinners(templates);
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.d(expiryList, "Error in setting Offers: "+e.getMessage());
+            Log.d(expiryList, "Error in setting Offers: " + e.getMessage());
         }
     }
 
@@ -214,27 +214,26 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
 
                     Map<String, Object> winners = new HashMap<>();
 
-                        winners.put("winnerList", totalCustomers);
+                    winners.put("winnerList", totalCustomers);
                     db.collection(MyCollectionNames.ALLCUSTOMERS)
                             .document(currentOfferId)
                             .set(winners, SetOptions.merge());
 
-                    if (totalCustomers!=null) {
+                    if (totalCustomers != null)
                         winners.put("winnerDeclared", true);
-                    }else
-                        winners.put("winnerDeclared", true);
+
 
                     winners.put("query", false);
                     db.collection("Offers")
                             .document(currentOfferId)
-                            .set(winners,SetOptions.merge())
+                            .set(winners, SetOptions.merge())
                             .addOnSuccessListener(unused -> {
                                 Log.d(expiryList, "Winners in OfferList Set: SUCCESS ");
                             }).addOnFailureListener(e -> {
-                        Log.d(expiryList, "Winners in OfferList Set: FAILED=> "+e.getMessage());
-                        FixedVariable.showToaster(getActivity(), "checkExpiryAndDeclareWinners: FAILED=> "+e.getMessage());
-                            })
-                        ;
+                        Log.d(expiryList, "Winners in OfferList Set: FAILED=> " + e.getMessage());
+                        FixedVariable.showToaster(getActivity(), "checkExpiryAndDeclareWinners: FAILED=> " + e.getMessage());
+                    })
+                    ;
 
                     // Find n winners
 //                                for(int  i=0;i<3; i++)

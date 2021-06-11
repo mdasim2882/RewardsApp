@@ -18,171 +18,179 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/pFormShopname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="50dp"
+            android:layout_above="@id/llayout"
 
-            <TextView
-                android:id="@+id/pFormShopname"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_above="@id/llayout"
-                android:layout_marginBottom="10dp"
-                android:background="@color/brown_700"
-                android:fontFamily="@font/happy_monkey"
-                android:gravity="center"
-                android:text="Offer Details"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+            android:background="@color/brown_700"
+            android:fontFamily="@font/happy_monkey"
+            android:gravity="center"
+            android:text="Offer Details"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ScrollView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="35dp"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="320dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:weightSum="2">
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2">
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:id="@+id/ll_start_date"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:hint="Start Date"
+                            app:boxStrokeColor="@color/dark_skyblue"
+                            app:endIconMode="clear_text"
+                            app:hintTextColor="@color/dark_skyblue">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/cStartDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+
+                                android:focusable="false"
+                                android:fontFamily="@font/happy_monkey"
+                                android:inputType="none"
+                                android:textColor="@color/skyblue"
+                                android:textSize="13sp" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:id="@+id/ll_end_date"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_weight="1"
+                            android:hint="End Date"
+                            app:boxStrokeColor="@color/dark_skyblue"
+                            app:endIconMode="clear_text"
+                            app:hintTextColor="@color/dark_skyblue">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/cEndDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:focusable="false"
+                                android:fontFamily="@font/happy_monkey"
+                                android:inputType="none"
+                                android:textColor="@color/skyblue"
+                                android:textSize="13sp" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
 
-                        android:id="@+id/ll_start_date"
+                        android:id="@+id/ll_shopname"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
+                        android:layout_width="320dp"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:hint="Start Date"
+                        android:layout_marginTop="5dp"
+                        android:hint="Shop Name"
                         app:boxStrokeColor="@color/dark_skyblue"
                         app:endIconMode="clear_text"
-                        app:hintTextColor="@color/dark_skyblue">
+                        app:hintTextColor="@color/dark_skyblue"
+                        app:prefixTextColor="@color/black"
+                        app:startIconDrawable="@drawable/ic_round_add_business_24">
+
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/cStartDate"
+                            android:id="@+id/create_offer_edt_txt_shop_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
-
-                            android:focusable="false"
                             android:fontFamily="@font/happy_monkey"
-                            android:inputType="none"
-                            android:textColor="@color/skyblue"
-                            android:textSize="13sp" />
+                            android:inputType="textPersonName"
+                            android:textColor="@color/skyblue" />
 
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
 
-                        android:id="@+id/ll_end_date"
+                        android:id="@+id/ll_shopContactno"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
+                        android:layout_width="320dp"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:layout_weight="1"
-                        android:hint="End Date"
+                        android:layout_marginTop="5dp"
+                        android:hint="Contact no."
                         app:boxStrokeColor="@color/dark_skyblue"
                         app:endIconMode="clear_text"
-                        app:hintTextColor="@color/dark_skyblue">
+                        app:hintTextColor="@color/dark_skyblue"
+                        app:prefixText="+91"
+                        app:startIconDrawable="@drawable/ic_round_phone_24">
+
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/cEndDate"
+                            android:id="@+id/create_offer_edt_txt_contact_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:focusable="false"
+
                             android:fontFamily="@font/happy_monkey"
-                            android:inputType="none"
-                            android:textColor="@color/skyblue"
-                            android:textSize="13sp" />
-
-
+                            android:inputType="number"
+                            android:textColor="@color/skyblue" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/offer_validity"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="50dp"-->
+                    <!--                        android:maxLines="2"-->
+                    <!--                        android:text="@string/bill_date_must_belong_from_19_may_21_to_4_aug_2021"-->
+                    <!--                        android:textColor="@color/dark_skyblue"-->
+                    <!--                        android:textSize="12sp" />-->
+
+
                 </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-
-                    android:id="@+id/ll_shopname"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="320dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="5dp"
-                    android:hint="Shop Name"
-                    app:boxStrokeColor="@color/dark_skyblue"
-                    app:endIconMode="clear_text"
-                    app:hintTextColor="@color/dark_skyblue"
-                    app:prefixTextColor="@color/black"
-                    app:startIconDrawable="@drawable/ic_round_add_business_24">
-
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/create_offer_edt_txt_shop_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/happy_monkey"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/skyblue" />
-
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-
-                    android:id="@+id/ll_shopContactno"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="320dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="5dp"
-                    android:hint="Contact no."
-                    app:boxStrokeColor="@color/dark_skyblue"
-                    app:endIconMode="clear_text"
-                    app:hintTextColor="@color/dark_skyblue"
-                    app:prefixText="+91"
-                    app:startIconDrawable="@drawable/ic_round_phone_24">
-
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/create_offer_edt_txt_contact_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:fontFamily="@font/happy_monkey"
-                        android:inputType="number"
-                        android:textColor="@color/skyblue" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!--                    <TextView-->
-                <!--                        android:id="@+id/offer_validity"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="50dp"-->
-                <!--                        android:maxLines="2"-->
-                <!--                        android:text="@string/bill_date_must_belong_from_19_may_21_to_4_aug_2021"-->
-                <!--                        android:textColor="@color/dark_skyblue"-->
-                <!--                        android:textSize="12sp" />-->
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="match_parent">
-
-                <HorizontalScrollView
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fillViewport="true"
-                    android:scrollbarSize="0dp"
-                    android:scrollbars="horizontal">
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:elevation="2dp"
+                    android:textStyle="bold"
+                    android:background="@color/white"
+                    android:text="OFFERS"
+                    android:textAlignment="center"
+                    android:padding="5dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent">
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"
@@ -191,169 +199,370 @@
                         android:scrollbarSize="0dp"
                         android:scrollbars="horizontal">
 
-                        <LinearLayout
+                        <HorizontalScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="15dp"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:scrollbarSize="0dp"
+                            android:scrollbars="horizontal">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="horizontal"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp">
+                                android:layout_gravity="center"
+                                android:layout_marginTop="15dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp">
 
 
-                                <TextView
-                                    android:id="@+id/t1"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="10dp"
-                                    android:text="₹"
-                                    android:textColor="@color/dark_skyblue"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold" />
-
-                                <com.google.android.material.textfield.TextInputLayout
-
-                                    android:id="@+id/ll_ruppees"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    app:boxStrokeColor="@color/dark_skyblue"
-                                    app:endIconMode="clear_text"
-
-                                    app:hintTextColor="@color/dark_skyblue">
-
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/create_offer_amount"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="50dp"
-                                        android:fontFamily="@font/happy_monkey"
-                                        android:inputType="number"
-                                        android:text="5000"
-                                        android:maxLength="10"
-                                        android:textColor="@color/black"
-                                        android:textSize="14sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
-
-                                <TextView
-                                    android:id="@+id/t2"
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="10dp"
-                                    android:text="@string/hindi_content"
-                                    android:textColor="@color/dark_skyblue"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
-
-                                <com.google.android.material.textfield.TextInputLayout
-
-                                    android:id="@+id/ll_participants"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:endIconMode="clear_text"
-                                    app:counterMaxLength="4"
-                                    android:layout_centerInParent="true"
-                                    app:boxStrokeColor="@color/dark_skyblue"
-                                    app:hintTextColor="@color/dark_skyblue">
-
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/create_offer_peoples_limit"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="50dp"
-                                        android:fontFamily="@font/happy_monkey"
-                                        android:inputType="number"
-                                        android:maxLength="4"
-
-                                        android:text="100"
-                                        android:textColor="@color/black"
-                                        android:textSize="14sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
-
-                                <TextView
-                                    android:id="@+id/t3"
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="10dp"
-                                    android:text="में से,"
-                                    android:textColor="@color/dark_skyblue"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginBottom="10dp"
-                                android:orientation="horizontal"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp">
-
-
-                                <TextView
-                                    android:id="@+id/t4"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="5dp"
-                                    android:text="3 लकी विजेता को"
-                                    android:textColor="@color/dark_skyblue"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
-
-                                <com.google.android.material.textfield.TextInputLayout
-
-                                    android:id="@+id/ll_product_offer"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    app:boxStrokeColor="@color/dark_skyblue"
-                                    app:endIconMode="clear_text"
-                                    app:hintTextColor="@color/dark_skyblue">
-
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/create_offer_product"
+                                    <TextView
+                                        android:id="@+id/t1"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:fontFamily="@font/happy_monkey"
-                                        android:inputType="text"
-                                        android:text="Water Bottle Set"
-                                        android:textColor="@color/black"
-                                        android:textSize="14sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
+                                        android:padding="10dp"
+                                        android:text="₹"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/t5"
+                                    <com.google.android.material.textfield.TextInputLayout
 
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="10dp"
-                                    android:text="का उपहार |"
-                                    android:textColor="@color/dark_skyblue"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
+                                        android:id="@+id/ll_ruppees"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        app:boxStrokeColor="@color/dark_skyblue"
+                                        app:endIconMode="clear_text"
 
+                                        app:hintTextColor="@color/dark_skyblue">
+
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/create_offer_amount"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="50dp"
+                                            android:fontFamily="@font/happy_monkey"
+                                            android:inputType="number"
+                                            android:text="5000"
+                                            android:maxLength="10"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <TextView
+                                        android:id="@+id/t2"
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="10dp"
+                                        android:text="@string/hindi_content"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+
+                                        android:id="@+id/ll_participants"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:endIconMode="clear_text"
+                                        app:counterMaxLength="4"
+                                        android:layout_centerInParent="true"
+                                        app:boxStrokeColor="@color/dark_skyblue"
+                                        app:hintTextColor="@color/dark_skyblue">
+
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/create_offer_peoples_limit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="50dp"
+                                            android:fontFamily="@font/happy_monkey"
+                                            android:inputType="number"
+                                            android:maxLength="4"
+
+                                            android:text="100"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <TextView
+                                        android:id="@+id/t3"
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="10dp"
+                                        android:text="में से,"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginBottom="10dp"
+                                    android:orientation="horizontal"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp">
+
+
+                                    <TextView
+                                        android:id="@+id/t4"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5dp"
+                                        android:text="3 लकी विजेता को"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+
+                                        android:id="@+id/ll_product_offer"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        app:boxStrokeColor="@color/dark_skyblue"
+                                        app:endIconMode="clear_text"
+                                        app:hintTextColor="@color/dark_skyblue">
+
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/create_offer_product"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/happy_monkey"
+                                            android:inputType="text"
+                                            android:text="Water Bottle Set"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <TextView
+                                        android:id="@+id/t5"
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="10dp"
+                                        android:text="का उपहार |"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
                             </LinearLayout>
-                        </LinearLayout>
+                        </HorizontalScrollView>
                     </HorizontalScrollView>
-                </HorizontalScrollView>
+                </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addMoreofferbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="end"
+                    android:textColor="#423737"
+                    android:background="@android:color/transparent"
+                    android:text="Add more offer"
+
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:iconTint="@color/brown_1200"
+                    app:rippleColor="@color/red"
+                    app:icon="@drawable/ic_round_add_circle_24"
+                    app:iconSize="20dp"
+                    android:layout_marginRight="28dp"
+                    />
+                <LinearLayout
+                    android:id="@+id/formSecondOffer"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fillViewport="true"
+                        android:scrollbarSize="0dp"
+                        android:scrollbars="horizontal">
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:scrollbarSize="0dp"
+                            android:scrollbars="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp">
+
+
+                                    <TextView
+                                        android:id="@+id/s1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="10dp"
+                                        android:text="₹"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+
+                                        android:id="@+id/sll_ruppees"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        app:boxStrokeColor="@color/dark_skyblue"
+                                        app:endIconMode="clear_text"
+
+                                        app:hintTextColor="@color/dark_skyblue">
+
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/screate_offer_amount"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="50dp"
+                                            android:fontFamily="@font/happy_monkey"
+                                            android:inputType="number"
+                                            android:text="5000"
+                                            android:maxLength="10"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <TextView
+                                        android:id="@+id/s2"
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="10dp"
+                                        android:text="@string/hindi_content"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+
+                                        android:id="@+id/sll_participants"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:endIconMode="clear_text"
+                                        app:counterMaxLength="4"
+                                        android:layout_centerInParent="true"
+                                        app:boxStrokeColor="@color/dark_skyblue"
+                                        app:hintTextColor="@color/dark_skyblue">
+
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/screate_offer_peoples_limit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="50dp"
+                                            android:fontFamily="@font/happy_monkey"
+                                            android:inputType="number"
+                                            android:maxLength="4"
+
+                                            android:text="100"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <TextView
+                                        android:id="@+id/s3"
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="10dp"
+                                        android:text="में से,"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginBottom="10dp"
+                                    android:orientation="horizontal"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp">
+
+
+                                    <TextView
+                                        android:id="@+id/s4"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5dp"
+                                        android:text="3 लकी विजेता को"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+
+                                        android:id="@+id/sll_product_offer"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        app:boxStrokeColor="@color/dark_skyblue"
+                                        app:endIconMode="clear_text"
+                                        app:hintTextColor="@color/dark_skyblue">
+
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/screate_offer_product"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/happy_monkey"
+                                            android:inputType="text"
+                                            android:text="Water Bottle Set"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <TextView
+                                        android:id="@+id/s5"
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="10dp"
+                                        android:text="का उपहार |"
+                                        android:textColor="@color/dark_skyblue"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                    </HorizontalScrollView>
+                </LinearLayout>
+
             </LinearLayout>
-
-
-        </LinearLayout>
-
+        </ScrollView>
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -363,7 +572,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="@color/orange"
         android:fontFamily="@font/happy_monkey"
         android:text="Create Offer"

@@ -20,11 +20,14 @@ import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.H
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter<EventCreatedHistoryCardItemsViewHolder> implements Filterable {
 
@@ -138,11 +141,17 @@ public class EventCreatedHistoryRecyclerViewAdapter extends RecyclerView.Adapter
          *   winnersDeclared to false
          *
          *   */
+        String myOfferId = productList.get(position).getOfferId();
         db.collection(MyCollectionNames.OFFERS)
-                .document(productList.get(position).getOfferId())
+                .document(myOfferId)
                 .delete();
+        //Map to remove user from array
+        final Map<String, Object> removeUserFromArrayMap = new HashMap<>();
+        removeUserFromArrayMap.put("shopId", FieldValue.arrayRemove(myOfferId));
 
-
+        //use either maps to add or remove user
+        db.collection(MyCollectionNames.SHOPS).document(productList.get(position).getCreatorId())
+                .update(removeUserFromArrayMap);
     }
 
     @Override
