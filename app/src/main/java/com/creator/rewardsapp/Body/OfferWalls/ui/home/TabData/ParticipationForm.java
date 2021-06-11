@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.MyCollectionNames;
 import com.creator.rewardsapp.Common.ParticipateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -29,7 +30,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.creator.rewardsapp.Body.Authentication.SignUpActivity.MANDATORY;
@@ -53,6 +56,7 @@ public class ParticipationForm extends AppCompatActivity {
     private String pbillValue;
     private String pContactNo;
     private String pFullName;
+    private List<String> shopsId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,26 +289,43 @@ public class ParticipationForm extends AppCompatActivity {
             database.collection("Participants")
                     .document(mAuth.getCurrentUser().getUid())
                     .collection(shopId)
-                    .document().set(p);
+                    .document(shopId).set(p);
 
-            // If not exists then create collection And then merge that data
-            // Here, add the shops as list  for individual user participation
-            database.collection("Participants")
-                    .document(mAuth.getCurrentUser().getUid())
-                    .set(receiptData, SetOptions.merge())
-                    .addOnCompleteListener(task -> {
+            database.collection(MyCollectionNames.PARTICIPANTS)
+                    .document(mAuth.getCurrentUser().getUid()).get()
+                    .addOnCompleteListener(task ->{  shopsId =(List<String>)task.getResult().get("shops");
+                        Collections.sort(shopsId);
+                        Log.d(TAG, "updateToStorageDatabase:Participated shopsId[]= "+shopsId);
+                        // If not exists then create collection And then merge that data
+                        // Here, add the shops as list  for individual user participation
+                        setParticipantDetails(receiptData);
+                    });
+
+
+        }
+
+    }
+
+    private void setParticipantDetails(HashMap<String, Object> receiptData) {
+        database.collection("Participants")
+                .document(mAuth.getCurrentUser().getUid())
+                .set(receiptData, SetOptions.merge())
+                .addOnCompleteListener(task -> {
+
+                    int pos=Collections.binarySearch(shopsId,shopId);
+                    Log.d(TAG, "updateToStorageDatabase:Key Participated Shop: = "+shopId+" at pos "+pos);
+
+                    if (pos<0) {
                         Map<String, Object> m = new HashMap<>();
                         m.put("maxParticipants", FieldValue.increment(1));
                         // Here, update the total participants count by 1
                         database.collection("Offers")
                                 .document(shopId)
                                 .set(m, SetOptions.merge());
-                        finish();
-                        progressDialog.dismiss();
-                    });
-
-        }
-
+                    }
+                    finish();
+                    progressDialog.dismiss();
+                });
     }
 
 

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +47,7 @@ public class CreateRewardEventForCustomers extends Fragment {
     private TextInputLayout cLLStartDate, cLLEndDate;
     private TextInputLayout cLLContactno, cLLShopName;
     private TextInputLayout cLLOfferAmount, cLLProduct, cLLParticipants;
-    private Button createOfferbtn, addMoreOfferButton;
+    private MaterialButton createOfferbtn, addMoreOfferButton;
     private LinearLayout formSecondOffer;
 
     private FirebaseFirestore db;
@@ -114,11 +114,9 @@ public class CreateRewardEventForCustomers extends Fragment {
 
         // Creating Offer
         createOfferbtn.setOnClickListener(v -> {
-            showToaster("Creating Offer...");
+//            showToaster("Creating Offer...");
             if (isStartDateValid() && isEndDateValid() && isShopNameValid() && isContactnoValid()) {
                 extractInputs();
-
-
             }
         });
         moneySecondOffer = (EditText) root.findViewById(R.id.screate_offer_amount);
@@ -133,9 +131,12 @@ public class CreateRewardEventForCustomers extends Fragment {
 //                InputMethodManager systemService = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 //                systemService.showSoftInput(productSecondOffer, InputMethodManager.SHOW_IMPLICIT);
                 isAdded = true;
+                addMoreOfferButton.setIconResource(R.drawable.ic_round_remove_circle_24);
+                addMoreOfferButton.setText("Remove offer");
             } else {
                 formSecondOffer.setVisibility(View.GONE);
-
+                addMoreOfferButton.setIconResource(R.drawable.ic_round_add_circle_24);
+                addMoreOfferButton.setText("Add more offer");
                 isAdded = false;
             }
 

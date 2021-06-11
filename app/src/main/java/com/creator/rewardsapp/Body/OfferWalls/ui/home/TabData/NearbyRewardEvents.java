@@ -183,7 +183,7 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
         for (CreateOfferObject c : templates) {
-            String valid_until = c.getStartDate();
+            String valid_until = c.getEndDate();
             Date strDate = sdf.parse(valid_until);
 
             assert strDate != null;
@@ -196,7 +196,7 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
         List<String> expiredShops = new ArrayList<>();
         for (CreateOfferObject x : expired) {
             expiryList = "expiryList";
-            Log.d(expiryList, "Dates " + x.getStartDate());
+            Log.d(expiryList, "Dates " + x.getEndDate());
             expireOffers.add(x.getOfferId());
             expiredShops.add(x.getCreatorId());
         }

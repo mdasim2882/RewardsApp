@@ -23,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_above="@id/llayout"
-
-            android:background="@color/brown_700"
+            android:elevation="3dp"
+            android:background="@color/brown_1200"
             android:fontFamily="@font/happy_monkey"
             android:gravity="center"
             android:text="Offer Details"
@@ -182,8 +182,9 @@
                     android:layout_marginTop="10dp"
                     android:elevation="2dp"
                     android:textStyle="bold"
-                    android:background="@color/white"
+                    android:background="@color/brown_1200"
                     android:text="OFFERS"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:padding="5dp"
                     />
@@ -321,7 +322,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:padding="5dp"
-                                        android:text="3 लकी विजेता को"
+                                        android:text="1 लकी विजेता को"
                                         android:textColor="@color/dark_skyblue"
                                         android:textSize="13sp"
                                         android:textStyle="bold" />
@@ -380,7 +381,7 @@
                     app:rippleColor="@color/red"
                     app:icon="@drawable/ic_round_add_circle_24"
                     app:iconSize="20dp"
-                    android:layout_marginRight="28dp"
+                    android:layout_marginRight="24dp"
                     />
                 <LinearLayout
                     android:id="@+id/formSecondOffer"

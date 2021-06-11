@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -125,22 +126,26 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
 
     private void loadTemplates(List<String> shopsId) {
         Log.e(TAG, "loadTemplates Filter List: called with=" + shopsId);
-        if(shopsId==null)
+        if (shopsId == null)
             return;
-
-        //TODO: Where In EventCreatedHistory
+        Collections.sort(shopsId);
+        //TODO: Where In EventCreatedHistory DONE used binarySearch
         db.collection("Offers")
-                .whereIn("offerId", shopsId) //Shows only current user shops
                 .get().addOnCompleteListener(task -> {
             Log.e(TAG, "loadTemplates: shopsId[]= " + shopsId);
-            Log.e(TAG, "loadTemplates: QUERY " + task.getResult().getDocuments());
+
             List<CreateOfferObject> userEvent = new ArrayList<>();
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot bannerSnapshot : task.getResult()) {
-                    Log.d("checker", "loadHistoryCard: " + bannerSnapshot.getData());
-                    CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
-                    Log.d(TAG, "card added :=> "+product.toString());
-                    userEvent.add(product);
+                    int pos = Collections.binarySearch(shopsId, bannerSnapshot.getId());
+                    if (pos > -1) {
+                        Log.e(TAG, "loadTemplates: matched with= " + bannerSnapshot.getId() + " at pos" + pos);
+
+                        Log.d("checker", "loadHistoryCard: " + bannerSnapshot.getData());
+                        CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
+                        Log.d(TAG, "card added :=> " + product.toString());
+                        userEvent.add(product);
+                    }
                 }
                 myEvents.onNearbyLoadSuccess(userEvent);
             }
@@ -172,7 +177,7 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
 
     @Override
     public void onNearbyLoadFailed(String message) {
-        FixedVariable.showToaster(getActivity(),message);
+        FixedVariable.showToaster(getActivity(), message);
     }
 
     @Override

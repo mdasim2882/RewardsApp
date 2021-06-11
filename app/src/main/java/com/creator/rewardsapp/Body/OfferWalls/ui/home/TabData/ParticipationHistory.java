@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
@@ -108,35 +109,39 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
 
     private void getParticipationHistory() {
         /*
-        * Retrieve the current participant shop id in list=[]
-        * Base on that id's, access the Offers collection shops
-        * updateUi()
-        * Done
-        * */
+         * Retrieve the current participant shop id in list=[]
+         * Base on that id's, access the Offers collection shops
+         * updateUi()
+         * Done
+         * */
 
         Log.e("checker", "loadParticipationHistory: called");
         db.collection("Participants")
                 .document(mAuth.getCurrentUser().getUid())
                 .get()
                 .addOnCompleteListener(task -> {
-                            if (task.isSuccessful() && task.getResult().get("shops")!=null) {
+                            if (task.isSuccessful() && task.getResult().get("shops") != null) {
                                 Log.e("checker", "onComplete: called" + task.getResult().get("shops"));
 
                                 List<String> shops = (List<String>) task.getResult().get("shops");
-
+                                Collections.sort(shops);
                                 // Loading only participated offers id as per @shops returned
-                                //TODO: WhereInParticipation History
+                                //TODO: WhereIn -> Participation History
                                 db.collection("Offers")
-                                        .whereIn("offerId", shops)
                                         .get().addOnCompleteListener(task1 -> {
                                     List<CreateOfferObject> products = new ArrayList<>();
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot bannerSnapshot : task1.getResult()) {
-                                            Log.e("errorLoad", "loadHistoryCards:\n " + bannerSnapshot.getData());
-                                            CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
-                                            Log.d("errorLoad", "card added :=> "+product.toString());
+                                            int pos = Collections.binarySearch(shops, bannerSnapshot.getId());
 
-                                            products.add(product);
+                                            if (pos > -1) {
+
+                                                Log.e("errorLoad", "loadHistoryCards:\n " + bannerSnapshot.getData());
+                                                CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
+                                                Log.d("errorLoad", "card added :=> " + product.getOfferId() + " at pos: " + pos);
+
+                                                products.add(product);
+                                            }
                                         }
                                         loadNearbyEvents.onNearbyLoadSuccess(products);
                                     }
@@ -157,6 +162,6 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
 
     @Override
     public void onNearbyLoadFailed(String message) {
-        FixedVariable.showToaster(getActivity(),message);
+        FixedVariable.showToaster(getActivity(), message);
     }
 }
