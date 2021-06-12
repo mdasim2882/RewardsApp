@@ -1,7 +1,10 @@
 package com.creator.rewardsapp.Body.OfferWalls;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,12 +27,16 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.creator.rewardsapp.Body.Authentication.AuthTypeActivity;
 import com.creator.rewardsapp.R;
+import com.creator.rewardsapp.Service.NotificationJobService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-public class HomeActivity extends AppCompatActivity  {
+import java.util.Calendar;
+
+public class HomeActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth fAuth;
@@ -37,17 +44,32 @@ public class HomeActivity extends AppCompatActivity  {
     FloatingActionButton fabtn;
     private AlertDialog.Builder builder;
     private DialogInterface.OnClickListener dialogClickListener;
+    private String UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
+        fAuth = FirebaseAuth.getInstance();
+        if (fAuth.getCurrentUser() != null) {
+            UID = fAuth.getCurrentUser().getUid();
+            FirebaseMessaging.getInstance().subscribeToTopic(UID);
+            Intent serviceIntent = new Intent(this, NotificationJobService.class);
+
+            serviceIntent.putExtra("inputExtra", "Now , work on notification setup");
+
+//            NotificationJobService.enqueueWork(this, serviceIntent);
+
+            scheduleMyNotificationService(serviceIntent);
+
+
+        }
+
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         fabtn = findViewById(R.id.fab);
-        fAuth = FirebaseAuth.getInstance();
 
 
         fabtn.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action",
@@ -80,6 +102,21 @@ public class HomeActivity extends AppCompatActivity  {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
+
+    private void scheduleMyNotificationService(Intent serviceIntent) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 4);
+        calendar.set(Calendar.MINUTE, 16);
+        calendar.set(Calendar.SECOND, 0);
+
+        PendingIntent slPendingIntent = PendingIntent.getService(this, 1, serviceIntent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, slPendingIntent);
+    }
+
     public void watchYoutubeVideo(String id) {
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
         Intent webIntent = new Intent(Intent.ACTION_VIEW,
@@ -90,6 +127,7 @@ public class HomeActivity extends AppCompatActivity  {
             startActivity(webIntent);
         }
     }
+
     private void performSimpleMenuOperations(NavigationView navigationView) {
         navigationView.getMenu().findItem(R.id.nav_logoutbutton).setOnMenuItemClickListener(menuItem -> {
             fAuth.signOut();
@@ -106,13 +144,13 @@ public class HomeActivity extends AppCompatActivity  {
             watchYoutubeVideo("2KL3pVkLUXs");
             return true;
         });
-         navigationView.getMenu().findItem(R.id.nav_insta).setOnMenuItemClickListener(menuItem -> {
-             Toast.makeText(this, "Follow on instagram", Toast.LENGTH_SHORT).show();
-        return true;
+        navigationView.getMenu().findItem(R.id.nav_insta).setOnMenuItemClickListener(menuItem -> {
+            Toast.makeText(this, "Follow on instagram", Toast.LENGTH_SHORT).show();
+            return true;
         });
-         navigationView.getMenu().findItem(R.id.nav_gmail).setOnMenuItemClickListener(menuItem -> {
-             Toast.makeText(this, "Email us", Toast.LENGTH_SHORT).show();
-             return  true;
+        navigationView.getMenu().findItem(R.id.nav_gmail).setOnMenuItemClickListener(menuItem -> {
+            Toast.makeText(this, "Email us", Toast.LENGTH_SHORT).show();
+            return true;
         });
 
 
