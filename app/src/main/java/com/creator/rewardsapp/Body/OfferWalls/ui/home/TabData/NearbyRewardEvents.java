@@ -114,74 +114,6 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
          * */
     }
 
-    @Nullable
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.nearby_reward_events, container, false);
-        setRecyclerView(root);
-        floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
-
-        if (floatingActionButton != null) {
-            floatingActionButton.setOnClickListener(v -> {
-                //Manually set click on menu item
-                fBtnSearch.performIdentifierAction(R.id.action_search, 0);
-            });
-        }
-        loadAllEvents();
-        return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (floatingActionButton != null) {
-            floatingActionButton.show();
-        }
-    }
-
-    private void showSearchBarusingFloatingBtn(Menu fBtnSearch) {
-        MenuItem item = fBtnSearch.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint("Search Shop Name...");
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, menu);
-        fBtnSearch = menu;
-        showSearchBarusingFloatingBtn(menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onNearbyLoadSuccess(List<CreateOfferObject> templates) {
-        adapter = new ShopsOffersRecyclerViewAdapter(getActivity(), templates);
-        recyclerView.setAdapter(adapter);
-        int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
-        int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);
-        recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
-        try {
-            checkExpiryAndDeclareWinners(templates);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.d(expiryList, "Error in setting Offers: " + e.getMessage());
-        }
-    }
-
     private void checkExpiryAndDeclareWinners(List<CreateOfferObject> templates) throws ParseException {
         List<CreateOfferObject> expired = new ArrayList<>();
 
@@ -306,6 +238,76 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
                 .document(currentOfferId)
                 .set(winners, SetOptions.merge());
     }
+
+
+
+    @Nullable
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.nearby_reward_events, container, false);
+        setRecyclerView(root);
+        floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
+
+        if (floatingActionButton != null) {
+            floatingActionButton.setOnClickListener(v -> {
+                //Manually set click on menu item
+                fBtnSearch.performIdentifierAction(R.id.action_search, 0);
+            });
+        }
+        loadAllEvents();
+        return root;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (floatingActionButton != null) {
+            floatingActionButton.show();
+        }
+    }
+
+    private void showSearchBarusingFloatingBtn(Menu fBtnSearch) {
+        MenuItem item = fBtnSearch.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setQueryHint("Search Shop Name...");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+        fBtnSearch = menu;
+        showSearchBarusingFloatingBtn(menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onNearbyLoadSuccess(List<CreateOfferObject> templates) {
+        adapter = new ShopsOffersRecyclerViewAdapter(getActivity(), templates);
+        recyclerView.setAdapter(adapter);
+        int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
+        int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);
+        recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
+        try {
+            checkExpiryAndDeclareWinners(templates);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d(expiryList, "Error in setting Offers: " + e.getMessage());
+        }
+    }
+
 
     @Override
     public void onNearbyLoadFailed(String message) {

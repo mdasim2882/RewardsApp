@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -28,9 +27,9 @@ public class MyNotificationService extends FirebaseMessagingService {
         sharedPreferences = getSharedPreferences(SET_Settings, Context.MODE_PRIVATE);
 
         Map<String, String> data = remoteMessage.getData();
-        String questionTitle = data.get("startDeclaration").toString();
+//        String questionTitle = data.get("startDeclaration").toString();
 //        Toast.makeText(this,questionTitle,Toast.LENGTH_LONG);
-        Log.d("check", "onMessageReceived: "+questionTitle);
+//        Log.d("check", "onMessageReceived: "+questionTitle);
         showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
     }
 

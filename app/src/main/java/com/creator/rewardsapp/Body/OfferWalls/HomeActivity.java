@@ -3,10 +3,14 @@ package com.creator.rewardsapp.Body.OfferWalls;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +38,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
@@ -45,6 +52,13 @@ public class HomeActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private DialogInterface.OnClickListener dialogClickListener;
     private String UID;
+
+    // Shared Preferences
+    SharedPreferences settingsShrepref;
+    SharedPreferences.Editor editor;
+    private static final String PREF_NAME = "MyServicePref";
+
+    public static final String KEY_USED_DATE = "UsedDate";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +74,27 @@ public class HomeActivity extends AppCompatActivity {
             serviceIntent.putExtra("inputExtra", "Now , work on notification setup");
 
 //            NotificationJobService.enqueueWork(this, serviceIntent);
+            settingsShrepref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+            String prevDate = settingsShrepref.getString(KEY_USED_DATE, "");
+            editor = settingsShrepref.edit();
 
-            scheduleMyNotificationService(serviceIntent);
 
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy", Locale.US);
+            Date c = Calendar.getInstance().getTime();
+            String formattedDate = sdf.format(c);
+            Log.d(TAG + "Data", "scheduleMyNotificationService: Today's Date=>  " + formattedDate);
+            Log.d(TAG + "Data", "scheduleMyNotificationService: Previous Date=>  " + prevDate);
+            if (!prevDate.equals(formattedDate)) {
+
+                editor.putString(KEY_USED_DATE, formattedDate);
+                editor.commit();
+
+                scheduleMyNotificationService(serviceIntent);
+
+            }
+
+
+//                scheduleJob();
 
         }
 
@@ -103,18 +135,35 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    public void scheduleJob() {
+        ComponentName componentName = new ComponentName(this, NotificationJobService.class);
+        JobInfo info = new JobInfo.Builder(123, componentName)
+                .setPersisted(true)
+                .setPeriodic(4 * 60 * 1000)
+
+                .build();
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+            Log.d("scheduler", "Job scheduled");
+        } else {
+            Log.d("scheduler", "Job scheduling failed");
+        }
+    }
+
     private void scheduleMyNotificationService(Intent serviceIntent) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 4);
-        calendar.set(Calendar.MINUTE, 16);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-        PendingIntent slPendingIntent = PendingIntent.getService(this, 1, serviceIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        PendingIntent slPendingIntent = PendingIntent.getService(this, 1, serviceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, slPendingIntent);
+                24 * 60 * 60 * 1000, slPendingIntent);
     }
 
     public void watchYoutubeVideo(String id) {
