@@ -19,28 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.creator.rewardsapp.Body.OfferWalls.HomeActivity;
 import com.creator.rewardsapp.Body.OfferWalls.Interfaces.LoadNearbyEvents;
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
-import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.MyCollectionNames;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.Adapters.ShopsOffersRecyclerViewAdapter;
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
     static NearbyRewardEvents instance;
@@ -114,130 +104,8 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
          * */
     }
 
-    private void checkExpiryAndDeclareWinners(List<CreateOfferObject> templates) throws ParseException {
-        List<CreateOfferObject> expired = new ArrayList<>();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
-        for (CreateOfferObject c : templates) {
-            String valid_until = c.getEndDate();
-            Date strDate = sdf.parse(valid_until);
-
-            assert strDate != null;
-            if (System.currentTimeMillis() > strDate.getTime()) {
-                expired.add(c);
-            }
-        }
-        Log.d("c", "checkExpiryAndDeclareWinners: \n");
-        List<String> expireOffers = new ArrayList<>();
-        List<String> expiredShops = new ArrayList<>();
-        expiryList = "expiryList";
-        for (CreateOfferObject x : expired) {
-            Log.d(expiryList, "Dates " + x.getEndDate());
-            expireOffers.add(x.getOfferId());
-            expiredShops.add(x.getCreatorId());
-        }
-        if (expireOffers.isEmpty())
-            return;
-        Collections.sort(expireOffers);
-        db.collection(MyCollectionNames.ALLCUSTOMERS)
-                .get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult().getDocuments() != null) {
-
-                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                    int pos = Collections.binarySearch(expireOffers, documentSnapshot.getId());
-                    if (pos > -1) {
-                        String currentOfferId = documentSnapshot.get("currentOfferId").toString();
-
-                        db.collection(MyCollectionNames.OFFERS).document(currentOfferId)
-                                .get().addOnCompleteListener(tk -> {
-                            boolean isDeclared = tk.getResult().getBoolean("winnerDeclared");
-                            if (!isDeclared) {
-                                List<String> totalCustomers = (List<String>) documentSnapshot.get("customerId");
-                                Log.d(expiryList, "creator: " + currentOfferId + " => " + totalCustomers);
-
-                                // Declare winners and update isDeclared = true in Offers Collection
-                                // Get totalWinner
-                                assert totalCustomers != null;
-                                getTotalWinnerCount(currentOfferId, totalCustomers.size(), totalCustomers);
-                            }
-                        });
 
 
-                    }
-
-
-                }
-
-
-            }
-        });
-
-
-    }
-
-    private void updateWinnerStatusinOffers(String currentOfferId, Map<String, Object> winners) {
-        db.collection("Offers")
-                .document(currentOfferId)
-                .set(winners, SetOptions.merge())
-                .addOnSuccessListener(unused -> {
-                    Log.d(expiryList, "Winners in OfferList Set: SUCCESS ");
-                }).addOnFailureListener(e -> {
-            Log.d(expiryList, "Winners in OfferList Set: FAILED=> " + e.getMessage());
-            FixedVariable.showToaster(getActivity(), "checkExpiryAndDeclareWinners: FAILED=> "
-                    + e.getMessage());
-        });
-    }
-
-    private List<String> getWinnerList(int totalWinners, List<String> totalCustomers) {
-        // Find n winners
-        Collections.shuffle(totalCustomers);
-        List<String> winList = new LinkedList<>();
-        for (int i = 0; i < totalWinners; i++) {
-            String x = totalCustomers.get(i);
-            Log.d(expiryList, "winner- " + (i + 1) + " => " + x);
-            winList.add(x);
-        }
-
-        //  Setting winners
-//        db.collection("AllCustomerOffers")
-//                .document(creatorId)
-//                .set(expiredShops);
-        return winList;
-    }
-
-    private void getTotalWinnerCount(String currentOfferId, int size, List<String> totalCustomers) {
-        db.collection(MyCollectionNames.OFFERS).document(currentOfferId).get()
-                .addOnCompleteListener(task -> {
-                    String outOfTotalField = task.getResult().getString("outOfTotal").toString();
-                    Log.d("ratioCalc", "getTotalWinnerCount: outOfTotal: => " + outOfTotalField);
-                    this.totalWinners = Integer.parseInt(outOfTotalField);
-                    totalWinners = totalWinners == 0 ? (int) totalWinners :
-                            (int) Math.round(((double) 1 / (double) totalWinners) * size);
-
-                    Map<String, Object> winners = new HashMap<>();
-                    if (totalWinners > 0) {
-                        List<String> winnerList = getWinnerList(totalWinners, totalCustomers);
-                        winners.put("winnerList", winnerList);
-                    } else
-                        winners.put("winnerList", FieldValue.arrayUnion());
-
-
-                    setWinnersinOffers(currentOfferId, winners);
-
-                    if (totalCustomers != null)
-                        winners.put("winnerDeclared", true);
-
-                    //  Setting winners
-                    winners.put("query", false);
-                    updateWinnerStatusinOffers(currentOfferId, winners);
-                });
-    }
-
-    private void setWinnersinOffers(String currentOfferId, Map<String, Object> winners) {
-        db.collection(MyCollectionNames.ALLCUSTOMERS)
-                .document(currentOfferId)
-                .set(winners, SetOptions.merge());
-    }
 
 
 
@@ -300,12 +168,7 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
         int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);
         recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
-        try {
-            checkExpiryAndDeclareWinners(templates);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.d(expiryList, "Error in setting Offers: " + e.getMessage());
-        }
+
     }
 
 

@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
-import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.MyCollectionNames;
 import com.creator.rewardsapp.Common.ParticipateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,7 +29,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -243,14 +241,14 @@ public class ParticipationForm extends AppCompatActivity {
     }
 
     private void updateToStorageDatabase(String image) {
-            /*
-            *Upload works in this way:
-            * First participate in the offer by filling details
-            * Save receipt to Firebase Storage
-            * Update the shop details like @participantsCount, @participantId in corresponding shops
-            * Update the Participant details to retrieve participation history in future
-            * Done
-            * */
+        /*
+         *Upload works in this way:
+         * First participate in the offer by filling details
+         * Save receipt to Firebase Storage
+         * Update the shop details like @participantsCount, @participantId in corresponding shops
+         * Update the Participant details to retrieve participation history in future
+         * Done
+         * */
         //For Shop
         Log.d("maggi", "updateToStorageDatabase: shopId" + shopId);
         if (shopId != null) {
@@ -261,11 +259,11 @@ public class ParticipationForm extends AppCompatActivity {
                 String creatorId = task.getResult().getString("creatorId");
                 if (creatorId != null) {
                     Map<String, Object> userShops = new HashMap<>();
-                    userShops.put("currentOfferId",shopId);
+                    userShops.put("currentOfferId", shopId);
                     userShops.put("customerId", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
                     // Adding participants id of current offers's participants in each current Shop
                     database.collection("AllOffersCustomers")
-                            .document(shopId).set(userShops,SetOptions.merge());
+                            .document(shopId).set(userShops, SetOptions.merge());
 
 
                 }
@@ -291,15 +289,9 @@ public class ParticipationForm extends AppCompatActivity {
                     .collection(shopId)
                     .document(shopId).set(p);
 
-            database.collection(MyCollectionNames.PARTICIPANTS)
-                    .document(mAuth.getCurrentUser().getUid()).get()
-                    .addOnCompleteListener(task ->{  shopsId =(List<String>)task.getResult().get("shops");
-                        Collections.sort(shopsId);
-                        Log.d(TAG, "updateToStorageDatabase:Participated shopsId[]= "+shopsId);
-                        // If not exists then create collection And then merge that data
-                        // Here, add the shops as list  for individual user participation
-                        setParticipantDetails(receiptData);
-                    });
+            // If not exists then create collection And then merge that data
+            // Here, add the shops as list  for individual user participation
+            setParticipantDetails(receiptData);
 
 
         }
@@ -312,21 +304,19 @@ public class ParticipationForm extends AppCompatActivity {
                 .set(receiptData, SetOptions.merge())
                 .addOnCompleteListener(task -> {
 
-                    int pos=Collections.binarySearch(shopsId,shopId);
-                    Log.d(TAG, "updateToStorageDatabase:Key Participated Shop: = "+shopId+" at pos "+pos);
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("maxParticipants", FieldValue.increment(1));
+                    // Here, update the total participants count by 1
+                    database.collection("Offers")
+                            .document(shopId)
+                            .set(m, SetOptions.merge());
 
-                    if (pos<0) {
-                        Map<String, Object> m = new HashMap<>();
-                        m.put("maxParticipants", FieldValue.increment(1));
-                        // Here, update the total participants count by 1
-                        database.collection("Offers")
-                                .document(shopId)
-                                .set(m, SetOptions.merge());
-                    }
                     finish();
                     progressDialog.dismiss();
-                });
-    }
+
+
+    });
+}
 
 
 }

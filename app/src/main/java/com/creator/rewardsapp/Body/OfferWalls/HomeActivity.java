@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,12 +34,14 @@ import androidx.navigation.ui.NavigationUI;
 import com.creator.rewardsapp.Body.Authentication.AuthTypeActivity;
 import com.creator.rewardsapp.R;
 import com.creator.rewardsapp.Service.NotificationJobService;
+import com.creator.rewardsapp.Service.PushNotificationHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,6 +76,8 @@ public class HomeActivity extends AppCompatActivity {
             Intent serviceIntent = new Intent(this, NotificationJobService.class);
 
             serviceIntent.putExtra("inputExtra", "Now , work on notification setup");
+//            performThreadingonNetworkNotifications();
+
 
 //            NotificationJobService.enqueueWork(this, serviceIntent);
             settingsShrepref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -84,11 +90,11 @@ public class HomeActivity extends AppCompatActivity {
             String formattedDate = sdf.format(c);
             Log.d(TAG + "Data", "scheduleMyNotificationService: Today's Date=>  " + formattedDate);
             Log.d(TAG + "Data", "scheduleMyNotificationService: Previous Date=>  " + prevDate);
-            if (!prevDate.equals(formattedDate)) {
 
+            // Prevents service from running again and again
+            if (!prevDate.equals(formattedDate)) {
                 editor.putString(KEY_USED_DATE, formattedDate);
                 editor.commit();
-
                 scheduleMyNotificationService(serviceIntent);
 
             }
@@ -135,6 +141,54 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    private void performThreadingonNetworkNotifications() {
+
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 0) {
+                    Log.d(TAG, "handleMessage: Executed===> " + "SUCCCESSSSS");
+                } else {
+                    Log.d(TAG, "handleMessage: ERRRRRRROOOOOR");
+                }
+            }
+        };
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+
+                if (doSomeWork()) {
+                    //we can't update the UI from here so we'll signal our handler and it will do it for us.
+                    handler.sendEmptyMessage(0);
+                } else {
+                    handler.sendEmptyMessage(1);
+                }
+            }
+        };
+        thread.start();
+
+
+
+
+
+
+
+
+
+    }
+
+    private boolean doSomeWork() {
+
+        PushNotificationHelper p=new PushNotificationHelper();
+        try {
+            p.sendPushNotification("/topics/Sn8d4lzzFbamwpEg2i3vai5xVjR2");
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void scheduleJob() {
         ComponentName componentName = new ComponentName(this, NotificationJobService.class);
         JobInfo info = new JobInfo.Builder(123, componentName)
@@ -154,8 +208,8 @@ public class HomeActivity extends AppCompatActivity {
     private void scheduleMyNotificationService(Intent serviceIntent) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 38);
         calendar.set(Calendar.SECOND, 0);
 
 

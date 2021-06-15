@@ -80,9 +80,7 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
                             loadParticipants(winnerList);
                         }
                     }
-
-
-                })
+             })
                 .addOnFailureListener(e -> offerWinners.onLoadWinnersFailed(e.getMessage()));
     }
 

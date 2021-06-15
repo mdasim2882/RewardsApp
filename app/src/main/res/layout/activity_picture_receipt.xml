@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/side_nav_bar"
+    android:layout_height="match_parent"
+    tools:context=".Body.OfferWalls.ui.PictureReceiptActivity">
+    <LinearLayout
+        android:id="@+id/action_bar_receipt_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:background="@drawable/side_nav_bar"
+            android:fontFamily="@font/happy_monkey"
+            android:gravity="center"
+            android:text="RECEIPT"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/receiptshopname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@id/llayout"
+            android:background="@color/grey"
+            android:fontFamily="@font/happy_monkey"
+            android:gravity="center"
+            android:text="Baldeo Medical Store"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_below="@id/action_bar_receipt_data">
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
+
+            <ImageView
+                android:id="@+id/receiptPhoto"
+                android:layout_margin="5dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="Specs"
+                android:scrollbars="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+
+</RelativeLayout>
