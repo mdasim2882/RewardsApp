@@ -32,6 +32,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.creator.rewardsapp.Body.Authentication.AuthTypeActivity;
+import com.creator.rewardsapp.Body.OfferWalls.ui.HelperClasses.FixedVariable;
 import com.creator.rewardsapp.R;
 import com.creator.rewardsapp.Service.NotificationJobService;
 import com.creator.rewardsapp.Service.PushNotificationHelper;
@@ -96,7 +97,6 @@ public class HomeActivity extends AppCompatActivity {
                 editor.putString(KEY_USED_DATE, formattedDate);
                 editor.commit();
                 scheduleMyNotificationService(serviceIntent);
-
             }
 
 
@@ -110,9 +110,14 @@ public class HomeActivity extends AppCompatActivity {
         fabtn = findViewById(R.id.fab);
 
 
-        fabtn.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action",
-                Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        try {
+            fabtn.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action",
+                    Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show());
+        } catch (Exception e) {
+            FixedVariable.showToaster(this,"Please wait to load data...");
+            e.printStackTrace();
+        }
         setAlertDialog();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -208,8 +213,8 @@ public class HomeActivity extends AppCompatActivity {
     private void scheduleMyNotificationService(Intent serviceIntent) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 38);
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.MINUTE, 7);
         calendar.set(Calendar.SECOND, 0);
 
 
@@ -217,7 +222,7 @@ public class HomeActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                24 * 60 * 60 * 1000, slPendingIntent);
+                3 * 60 * 1000, slPendingIntent);
     }
 
     public void watchYoutubeVideo(String id) {

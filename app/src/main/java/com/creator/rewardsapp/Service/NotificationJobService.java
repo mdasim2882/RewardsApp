@@ -68,7 +68,7 @@ public class NotificationJobService extends JobIntentService implements LoadNear
     protected void onHandleWork(@NonNull Intent intent) {
         Log.d(TAG, "onHandleWork");
 //        String input = intent.getStringExtra("inputExtra");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             Log.d(TAG, "Execute step" + " - " + i);
             if (isStopped()) return;
             SystemClock.sleep(1000);
@@ -177,13 +177,15 @@ public class NotificationJobService extends JobIntentService implements LoadNear
 
 
     }
-
+        //To specify how many winners needs to be declared
     private void getTotalWinnerCount(String currentOfferId, int size, List<String> totalCustomers) {
         db.collection(MyCollectionNames.OFFERS).document(currentOfferId).get()
                 .addOnCompleteListener(task -> {
-                    String outOfTotalField = task.getResult().getString("outOfTotal").toString();
+                    String outOfTotalField = task.getResult().getString("outOfTotal");
                     Log.d(TAG, "Ratio Calculation =======> getTotalWinnerCount: outOfTotal: => " + outOfTotalField);
                     this.totalWinners = Integer.parseInt(outOfTotalField);
+
+                    // Winner Declaration criteria
                     totalWinners = totalWinners == 0 ? (int) totalWinners :
                             (int) Math.round(((double) 1 / (double) totalWinners) * size);
 
@@ -191,7 +193,7 @@ public class NotificationJobService extends JobIntentService implements LoadNear
                     if (totalWinners > 0) {
                         List<String> winnerList = getWinnerList(totalWinners, totalCustomers);
                         winners.put("winnerList", winnerList);
-                        performThreadingonNetworkNotifications(winnerList);
+                        performThreadingonNetworkNotifications(winnerList); // Notify each winner on background thread
                     } else
                         winners.put("winnerList", FieldValue.arrayUnion());
 
@@ -264,8 +266,7 @@ public class NotificationJobService extends JobIntentService implements LoadNear
                     Log.d(TAG, "Winners in OfferList Set: SUCCESS ");
                 }).addOnFailureListener(e -> {
             Log.d(TAG, "Winners in OfferList Set: FAILED=> " + e.getMessage());
-            Log.d(TAG, "updateWinnerStatusinOffers checkExpiryAndDeclareWinners: FAILED=> "
-                    + e.getMessage());
+            Log.d(TAG, "updateWinnerStatusinOffers => " + e.getMessage());
         });
     }
 
