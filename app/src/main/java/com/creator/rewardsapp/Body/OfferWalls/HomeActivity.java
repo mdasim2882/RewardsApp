@@ -2,6 +2,8 @@ package com.creator.rewardsapp.Body.OfferWalls;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -12,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -49,7 +52,9 @@ import java.util.Date;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
+    public static final long SPLASH_SCREEN_TIME_OUT = 2000;
     private final String TAG = getClass().getSimpleName();
+    public static final String CHANNEL_ID = "NotifyOreo";
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth fAuth;
 
@@ -72,8 +77,18 @@ public class HomeActivity extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         if (fAuth.getCurrentUser() != null) {
-            UID = fAuth.getCurrentUser().getUid();
-            FirebaseMessaging.getInstance().subscribeToTopic(UID);
+//            UID = fAuth.getCurrentUser().getUid();
+//            FirebaseMessaging.getInstance().subscribeToTopic(UID);
+
+            FirebaseMessaging.getInstance().subscribeToTopic(fAuth.getCurrentUser().getUid())
+                    .addOnCompleteListener(task -> {
+                        String msg = getString(R.string.msg_subscribed);
+                        if (!task.isSuccessful()) {
+                            msg = getString(R.string.msg_subscribe_failed);
+                        }
+                        Log.d(TAG, msg);
+                    });
+            createNotificationChannel();
             Intent serviceIntent = new Intent(this, NotificationJobService.class);
 
             serviceIntent.putExtra("inputExtra", "Now , work on notification setup");
@@ -115,7 +130,7 @@ public class HomeActivity extends AppCompatActivity {
                     Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show());
         } catch (Exception e) {
-            FixedVariable.showToaster(this,"Please wait to load data...");
+            FixedVariable.showToaster(this, "Please wait to load data...");
             e.printStackTrace();
         }
         setAlertDialog();
@@ -173,18 +188,11 @@ public class HomeActivity extends AppCompatActivity {
         thread.start();
 
 
-
-
-
-
-
-
-
     }
 
     private boolean doSomeWork() {
 
-        PushNotificationHelper p=new PushNotificationHelper();
+        PushNotificationHelper p = new PushNotificationHelper();
         try {
             p.sendPushNotification("/topics/Sn8d4lzzFbamwpEg2i3vai5xVjR2");
             return true;
@@ -213,8 +221,8 @@ public class HomeActivity extends AppCompatActivity {
     private void scheduleMyNotificationService(Intent serviceIntent) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 1);
-        calendar.set(Calendar.MINUTE, 7);
+        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
 
@@ -222,7 +230,7 @@ public class HomeActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                3 * 60 * 1000, slPendingIntent);
+                24 * 60 * 1000, slPendingIntent);
     }
 
     public void watchYoutubeVideo(String id) {
@@ -266,6 +274,22 @@ public class HomeActivity extends AppCompatActivity {
 
     public FloatingActionButton getFloatingActionButton() {
         return fabtn;
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            CharSequence name = "NotifyOreo";
+//            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance);
+//            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override

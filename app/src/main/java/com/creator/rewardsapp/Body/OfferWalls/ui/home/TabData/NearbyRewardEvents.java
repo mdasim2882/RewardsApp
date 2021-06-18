@@ -117,11 +117,21 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
         setRecyclerView(root);
         floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
 
-        if (floatingActionButton != null) {
-            floatingActionButton.setOnClickListener(v -> {
-                //Manually set click on menu item
-                fBtnSearch.performIdentifierAction(R.id.action_search, 0);
-            });
+        try {
+            if (floatingActionButton != null) {
+                floatingActionButton.setOnClickListener(v -> {
+                    try {
+                        //Manually set click on menu item
+                        fBtnSearch.performIdentifierAction(R.id.action_search, 0);
+                    } catch (Exception e) {
+                        FixedVariable.showToaster(getActivity(),"Please wait to load data");
+                        e.printStackTrace();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            FixedVariable.showToaster(getActivity(),"Please wait to load data");
+            e.printStackTrace();
         }
         loadAllEvents();
         return root;
