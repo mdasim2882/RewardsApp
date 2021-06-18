@@ -45,7 +45,7 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     OffersHistoryRecyclerViewAdapter historyAdapter;
-    private CircularProgressIndicator nearBYEventsLoader;
+    private CircularProgressIndicator participationEventsLoader;
     private LinearLayout noHistoryonFailure;
 
     public ParticipationHistory() {
@@ -77,7 +77,7 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.participation_history, container, false);
-        nearBYEventsLoader = root.findViewById(R.id.loader_pHistory_events);
+        participationEventsLoader = root.findViewById(R.id.loader_pHistory_events);
         noHistoryonFailure = root.findViewById(R.id.no_pHistory_found);
         setRecyclerView(root);
         getParticipationHistory();
@@ -121,7 +121,7 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
          * updateUi()
          * Done
          * */
-        nearBYEventsLoader.show();
+        participationEventsLoader.show();
         Log.e("checker", "loadParticipationHistory: called");
         db.collection("Participants")
                 .document(mAuth.getCurrentUser().getUid())
@@ -154,21 +154,21 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
                                         loadNearbyEvents.onNearbyLoadSuccess(products);
                                     }
 
-                                    nearBYEventsLoader.hide();
+                                    participationEventsLoader.hide();
                                     if (products.isEmpty())
                                         noHistoryonFailure.setVisibility(View.VISIBLE);
 
                                 });
                             } else {
                                 Log.d(TAG, "getParticipationHistory() and given queryCancelled");
-                                nearBYEventsLoader.hide();
+                                participationEventsLoader.hide();
 
                                 noHistoryonFailure.setVisibility(View.VISIBLE);
                             }
                         }
                 ).addOnFailureListener(e -> {
             loadNearbyEvents.onNearbyLoadFailed(e.getMessage());
-            nearBYEventsLoader.hide();
+            participationEventsLoader.hide();
         });
     }
 

@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +23,7 @@ import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.P
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,9 +37,10 @@ import java.util.List;
 public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, LoadMyCreatedEvents {
     RecyclerView recyclerView;
     EventCreatedHistoryRecyclerViewAdapter adapter;
-    TextView emptyText;
-    List<OffersEntry> shops;
 
+    List<OffersEntry> shops;
+    private CircularProgressIndicator nearBYEventsLoader;
+    private LinearLayout noHistoryonFailure;
     //Database
     FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -51,10 +53,6 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
 
     public RecyclerView getRecView() {
         return recyclerView;
-    }
-
-    public TextView getEmptyTextView() {
-        return emptyText;
     }
 
     @Override
@@ -83,44 +81,37 @@ public class EventCreatedHistory extends Fragment implements LoadNearbyEvents, L
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.event_created_history, container, false);
+
+        nearBYEventsLoader = root.findViewById(R.id.loader_createdHistory_events);
+        noHistoryonFailure = root.findViewById(R.id.no_createdhistory_found);
+
+
         setRecyclerView(root);
         FloatingActionButton floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
-        emptyText = root.findViewById(R.id.empty_view);
+
         if (floatingActionButton != null) {
             floatingActionButton.hide();
         }
 
         mAuth = FirebaseAuth.getInstance();
-
+        nearBYEventsLoader.show();
         db.collection("Shops")
                 .document(mAuth.getCurrentUser().getUid())
                 .get().addOnCompleteListener(task -> {
+            boolean isContains = true;
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 List<String> shopsId = (List<String>) document.get("shopId");
                 Log.e(TAG, "onCreateView: " + shopsId);
                 myCreatedEvents.onLoadMyCreatedEventsSuccess(shopsId);
+                if (shopsId==null || shopsId.isEmpty())
+                    isContains = false;
             }
+            nearBYEventsLoader.hide();
+            if (!isContains)
+                noHistoryonFailure.setVisibility(View.VISIBLE);
         });
 
-     /*   db.collection("Winners")
-                .document(mAuth.getCurrentUser().getUid())
-                .addSnapshotListener(getActivity(), (value, error) -> {
-                    if(error!=null)
-                    {
-                        Log.w(TAG, "Listen failed.", error);
-                        return;
-                    }
-                    if (value != null && value.exists()) {
-                        Log.d(TAG, "Current data: " + value.getData());
-
-
-
-
-                    } else {
-                        Log.d(TAG, "Current data: null");
-                    }
-                });*/
         return root;
     }
 
