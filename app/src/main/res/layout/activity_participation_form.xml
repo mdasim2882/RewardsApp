@@ -94,20 +94,20 @@
                     android:layout_marginTop="5dp"
                     android:hint="Contact no."
                     app:boxStrokeColor="@color/dark_skyblue"
-                    app:endIconMode="clear_text"
+
                     app:hintTextColor="@color/dark_skyblue"
                     app:prefixText="+91"
                     app:prefixTextColor="@color/black"
                     app:startIconDrawable="@drawable/ic_round_phone_24">
 
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/pcontactno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:fontFamily="@font/happy_monkey"
                         android:inputType="number"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:textColor="@color/skyblue" />
 
 

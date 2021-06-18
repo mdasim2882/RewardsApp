@@ -103,6 +103,9 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
             i.putExtra(FixedVariable.SHOP_NAME, offerShopName);
             i.putExtra(FixedVariable.SHOP_ID, offerId.trim());
 
+            i.putExtra(FixedVariable.START_DATE, startDate);
+            i.putExtra(FixedVariable.END_DATE, endDate);
+
             context.startActivity(i);
         });
     }

@@ -1,6 +1,7 @@
 package com.creator.rewardsapp.Body.Authentication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -177,6 +178,7 @@ public class SignUpActivity extends AppCompatActivity {
         Log.e(TAG, "updateUI: NAME TO BE SAVED: " + getfullname);
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(getfullname)
+                .setPhotoUri(Uri.parse(getPhone))
                 .build();
 
         user.updateProfile(profileUpdates)

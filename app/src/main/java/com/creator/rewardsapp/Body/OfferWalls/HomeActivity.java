@@ -52,9 +52,12 @@ import java.util.Date;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
-    public static final long SPLASH_SCREEN_TIME_OUT = 2000;
+
+    private static final String PREF_NAME = "MyServicePref";
+    public static final String KEY_USED_DATE = "UsedDate";
     private final String TAG = getClass().getSimpleName();
     public static final String CHANNEL_ID = "NotifyOreo";
+
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth fAuth;
 
@@ -66,9 +69,8 @@ public class HomeActivity extends AppCompatActivity {
     // Shared Preferences
     SharedPreferences settingsShrepref;
     SharedPreferences.Editor editor;
-    private static final String PREF_NAME = "MyServicePref";
 
-    public static final String KEY_USED_DATE = "UsedDate";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -268,7 +270,6 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(this, "Email us", Toast.LENGTH_SHORT).show();
             return true;
         });
-
 
     }
 

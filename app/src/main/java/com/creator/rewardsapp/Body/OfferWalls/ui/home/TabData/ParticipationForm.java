@@ -55,6 +55,9 @@ public class ParticipationForm extends AppCompatActivity {
     private String pContactNo;
     private String pFullName;
     private List<String> shopsId;
+    private String startDate;
+    private String endDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,11 @@ public class ParticipationForm extends AppCompatActivity {
     private void initializeViews(Intent passed) {
         shopname = passed.getStringExtra(FixedVariable.SHOP_NAME);
         shopId = passed.getStringExtra(FixedVariable.SHOP_ID);
+        startDate = passed.getStringExtra(FixedVariable.START_DATE);
+        endDate = passed.getStringExtra(FixedVariable.END_DATE);
+
+
+
         if (!shopname.isEmpty())
             pFormShopname.setText(shopname);
         progressDialog = new ProgressDialog(this);
@@ -88,6 +96,13 @@ public class ParticipationForm extends AppCompatActivity {
         llfullname = findViewById(R.id.ll_pfullname);
         llcontacno = findViewById(R.id.ll_pmobno);
 
+        String helperText = "Bill date must belong from " + startDate + " to " + endDate;
+        llbillValue.setHelperText(helperText);
+        String phoneNo = mAuth.getCurrentUser().getPhotoUrl().toString();
+        contacno.setText(phoneNo);
+        Log.d(TAG, "initializeViews: DisplayName no: => "+mAuth.getCurrentUser().getDisplayName());
+        Log.d(TAG, "initializeViews: Contact no: => "+phoneNo);
+        billValue.requestFocus();
     }
 
     private void setAlertDialog() {
@@ -315,8 +330,8 @@ public class ParticipationForm extends AppCompatActivity {
                     progressDialog.dismiss();
 
 
-    });
-}
+                });
+    }
 
 
 }

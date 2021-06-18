@@ -64,6 +64,10 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
     }
 
     private void loadAllEvents() {
+
+
+
+
         /*
          * Load all the document of Offers collection one by one
          * and update the UI
