@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.P
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -34,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
+    private final String TAG = getClass().getSimpleName();
     static ParticipationHistory instance;
     private RecyclerView historyRecyclerView;
     LoadNearbyEvents loadMyConcepts;
@@ -42,6 +45,8 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     OffersHistoryRecyclerViewAdapter historyAdapter;
+    private CircularProgressIndicator nearBYEventsLoader;
+    private LinearLayout noHistoryonFailure;
 
     public ParticipationHistory() {
     }
@@ -72,6 +77,8 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.participation_history, container, false);
+        nearBYEventsLoader = root.findViewById(R.id.loader_pHistory_events);
+        noHistoryonFailure = root.findViewById(R.id.no_pHistory_found);
         setRecyclerView(root);
         getParticipationHistory();
         return root;
@@ -114,7 +121,7 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
          * updateUi()
          * Done
          * */
-
+        nearBYEventsLoader.show();
         Log.e("checker", "loadParticipationHistory: called");
         db.collection("Participants")
                 .document(mAuth.getCurrentUser().getUid())
@@ -143,12 +150,26 @@ public class ParticipationHistory extends Fragment implements LoadNearbyEvents {
                                                 products.add(product);
                                             }
                                         }
+
                                         loadNearbyEvents.onNearbyLoadSuccess(products);
                                     }
+
+                                    nearBYEventsLoader.hide();
+                                    if (products.isEmpty())
+                                        noHistoryonFailure.setVisibility(View.VISIBLE);
+
                                 });
+                            } else {
+                                Log.d(TAG, "getParticipationHistory() and given queryCancelled");
+                                nearBYEventsLoader.hide();
+
+                                noHistoryonFailure.setVisibility(View.VISIBLE);
                             }
                         }
-                ).addOnFailureListener(e -> loadNearbyEvents.onNearbyLoadFailed(e.getMessage()));
+                ).addOnFailureListener(e -> {
+            loadNearbyEvents.onNearbyLoadFailed(e.getMessage());
+            nearBYEventsLoader.hide();
+        });
     }
 
     @Override

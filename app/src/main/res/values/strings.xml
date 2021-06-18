@@ -21,4 +21,14 @@
     <string name="no_data_available">No events added yet.</string>
     <string name="msg_subscribed">MessageReceived</string>
     <string name="msg_subscribe_failed">Failed to receive message</string>
+    <string name="no_history_txt">No History</string>
+
+
+    <integer-array name="progress_colors">
+        <item>@color/yellow_500</item>
+        <item>@color/blue_700</item>
+        <item>@color/red</item>
+    </integer-array>
+    <color name="yellow_500">#FFEA00</color>
+    <color name="blue_700">#3C36F4</color>
 </resources>

@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +26,7 @@ import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.P
 import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -43,7 +46,8 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
     FirebaseFirestore db;
     private String expiryList;
     private int totalWinners;
-
+    private CircularProgressIndicator nearBYEventsLoader;
+    private LinearLayout noHistoryonFailure;
     public NearbyRewardEvents() {
     }
 
@@ -65,9 +69,6 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
 
     private void loadAllEvents() {
 
-
-
-
         /*
          * Load all the document of Offers collection one by one
          * and update the UI
@@ -86,10 +87,22 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
                             CreateOfferObject product = bannerSnapshot.toObject(CreateOfferObject.class);
                             products.add(product);
                         }
+
                         loadNearbyEvents.onNearbyLoadSuccess(products);
                     }
+                    nearBYEventsLoader.hide();
+                    if(products.isEmpty()) {
+                        noHistoryonFailure.setVisibility(View.VISIBLE);
+                        TextView noHis=noHistoryonFailure.findViewById(R.id.no_history_found_txt);
+                        noHis.setText("No offers found!");
+                    }
+
                 })
-                .addOnFailureListener(e -> loadNearbyEvents.onNearbyLoadFailed(e.getMessage()));
+                .addOnFailureListener(e -> {
+                    loadNearbyEvents.onNearbyLoadFailed(e.getMessage());
+                    nearBYEventsLoader.hide();
+                    noHistoryonFailure.setVisibility(View.VISIBLE);
+                });
     }
 
     private void setRecyclerView(View view) {
@@ -120,7 +133,11 @@ public class NearbyRewardEvents extends Fragment implements LoadNearbyEvents {
         View root = inflater.inflate(R.layout.nearby_reward_events, container, false);
         setRecyclerView(root);
         floatingActionButton = ((HomeActivity) getActivity()).getFloatingActionButton();
+        nearBYEventsLoader=root.findViewById(R.id.loader_nearby_events);
+        noHistoryonFailure=root.findViewById(R.id.no_history_found);
 
+
+        nearBYEventsLoader.show();
         try {
             if (floatingActionButton != null) {
                 floatingActionButton.setOnClickListener(v -> {
