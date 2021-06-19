@@ -385,7 +385,7 @@
                     />
                 <LinearLayout
                     android:id="@+id/formSecondOffer"
-                    android:visibility="gone"
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -470,7 +470,7 @@
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        app:endIconMode="clear_text"
+
                                         app:counterMaxLength="4"
                                         android:layout_centerInParent="true"
                                         app:boxStrokeColor="@color/dark_skyblue"
@@ -481,6 +481,8 @@
                                             android:id="@+id/screate_offer_peoples_limit"
                                             android:layout_width="wrap_content"
                                             android:layout_height="50dp"
+                                            android:clickable="false"
+                                            android:focusable="false"
                                             android:fontFamily="@font/happy_monkey"
                                             android:inputType="number"
                                             android:maxLength="4"
@@ -517,7 +519,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:padding="5dp"
-                                        android:text="3 लकी विजेता को"
+                                        android:text="1 लकी विजेता को"
                                         android:textColor="@color/dark_skyblue"
                                         android:textSize="13sp"
                                         android:textStyle="bold" />

@@ -3,6 +3,7 @@ package com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,11 @@ import com.creator.rewardsapp.Common.CreateOfferObject;
 import com.creator.rewardsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCardItemsViewHolder> implements Filterable {
@@ -97,6 +101,21 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         holder.sDate.setText(startDate);
         holder.eDate.setText(endDate);
         holder.firstOffer.setText(firstOffer);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
+        Date cardDate = null;
+        try {
+            cardDate = sdf.parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (System.currentTimeMillis() > cardDate.getTime()) {
+            holder.participateButton.setEnabled(false);
+            holder.participateButton.setBackgroundColor(Color.parseColor("#DADADA"));
+            holder.participateButton.setTextColor(Color.WHITE);
+        }
+
         holder.participateButton.setOnClickListener(v -> {
 
             Intent i = new Intent(v.getContext(), ParticipationForm.class);

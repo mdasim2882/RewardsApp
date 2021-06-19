@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".Body.OfferWalls.ui.historyEvents.WinnerListActivity">
     <LinearLayout
@@ -37,9 +37,52 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/winner_card_recycler_view"
             android:layout_width="match_parent"
-            android:background="@drawable/side_nav_bar"
+            android:background="@color/white"
             android:padding="5dp"
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loader_winner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+
+        app:indeterminateAnimationType="contiguous"
+        app:indicatorColor="@array/progress_colors"
+        app:indicatorSize="35dp" />
+
+    <LinearLayout
+        android:id="@+id/no_winner_found"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_round_history_24"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/no_winnerHistory_found_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_history_txt"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+
+
+
 </RelativeLayout>

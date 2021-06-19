@@ -248,10 +248,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private void performSimpleMenuOperations(NavigationView navigationView) {
         navigationView.getMenu().findItem(R.id.nav_logoutbutton).setOnMenuItemClickListener(menuItem -> {
-            fAuth.signOut();
-            Intent intent = new Intent(this, AuthTypeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+//            fAuth.signOut();
+//            Intent intent = new Intent(this, AuthTypeActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
+            builder.show();
             return true;
         });
         navigationView.getMenu().findItem(R.id.nav_use_for_customer).setOnMenuItemClickListener(menuItem -> {
@@ -318,7 +319,7 @@ public class HomeActivity extends AppCompatActivity {
 
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm");
-        builder.setMessage("You won't be able to revert back, once receipt starts uploading.  Are you sure want to upload ?")
+        builder.setMessage("Do you really want to logout ?")
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener);
 
@@ -333,11 +334,11 @@ public class HomeActivity extends AppCompatActivity {
 //            editor.putBoolean(PrefVariables.ISLOGIN, false);
 //            editor.putBoolean(PrefVariables.IS_REGISTERED, false);
 //            editor.commit();
-
-            fAuth.signOut();
-            Intent intent = new Intent(this, AuthTypeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+                builder.show();
+//            fAuth.signOut();
+//            Intent intent = new Intent(this, AuthTypeActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

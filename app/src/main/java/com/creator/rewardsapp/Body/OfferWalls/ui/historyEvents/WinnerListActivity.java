@@ -3,6 +3,8 @@ package com.creator.rewardsapp.Body.OfferWalls.ui.historyEvents;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.A
 import com.creator.rewardsapp.Body.OfferWalls.ui.home.TabData.RecyclerViewData.ProductGridItemDecoration;
 import com.creator.rewardsapp.Common.ParticipateOfferObject;
 import com.creator.rewardsapp.R;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -27,14 +30,16 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
     private RecyclerView recyclerView;
     WinnnerListRecyclerViewAdapter adapter;
     List<ParticipateOfferObject> winnerHelperList;
-    private int winCount=0;
-    private int winCountLimit=0;
+    private int winCount = 0;
+    private int winCountLimit = 0;
     LoadWinners offerWinners;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     private String currentOffer;
     private String winnersData;
     private String shopName;
+    private CircularProgressIndicator winnerLoader;
+    private LinearLayout noWinnerHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,11 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
         shopName = i.getStringExtra("ShopName");
         currentOffer = i.getStringExtra(FixedVariable.CURRENT_OFFER_ID);
         TextView myShop = findViewById(R.id.winnerShoppername);
+        winnerLoader = findViewById(R.id.loader_winner);
+        noWinnerHistory = findViewById(R.id.no_winner_found);
+        winnerLoader.show();
+
+
         myShop.setText(shopName);
         winnerHelperList = new ArrayList<>();
         offerWinners = this;
@@ -58,47 +68,55 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
     }
 
     private void loadAllWinners() {
+
         /*
          * Load all the document of Offers collection one by one
          * and update the UI
          * Done
          * */
         winnersData = "winnersData";
-        Log.d(winnersData, "loadAllWinners: called with current Offer= "+currentOffer);
+        Log.d(winnersData, "loadAllWinners: called with current Offer= " + currentOffer);
 
         //TODO: Where EQUAL to -> WinnerListActivity
         db.collection(MyCollectionNames.ALLCUSTOMERS)
                 .whereEqualTo("currentOfferId", currentOffer)
                 .get()
                 .addOnCompleteListener(task -> {
-
+                    boolean isEmpty = false;
                     if (task.isSuccessful()) {
 
                         for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                            Log.d(winnersData, "onComplete: called with DOCUMENT: => "+documentSnapshot.getId());
+                            Log.d(winnersData, "onComplete: called with DOCUMENT: => " + documentSnapshot.getId());
                             List<String> winnerList = (List<String>) documentSnapshot.get("winnerList");
                             loadParticipants(winnerList);
+                            isEmpty = (winnerList == null || winnerList.isEmpty()) ? true : false;
                         }
                     }
-             })
+
+                    winnerLoader.hide();
+                    if (isEmpty)
+                        noWinnerHistory.setVisibility(View.VISIBLE);
+
+
+                })
                 .addOnFailureListener(e -> offerWinners.onLoadWinnersFailed(e.getMessage()));
     }
 
     private void loadParticipants(List<String> winnerList) {
-        if(winnerList==null)
+        if (winnerList == null)
             return;
-        Log.d(winnersData, "loadParticipants: Called with winners :\n"+winnerList);
-        winCountLimit=winnerList.size();
-        for (String pUid:winnerList){
+        Log.d(winnersData, "loadParticipants: Called with winners :\n" + winnerList);
+        winCountLimit = winnerList.size();
+        for (String pUid : winnerList) {
             db.collection(MyCollectionNames.PARTICIPANTS)
                     .document(pUid)
                     .collection(currentOffer)
                     .get()
                     .addOnCompleteListener(task -> {
-                        Log.d(winnersData, "Add on complete called to fetch Participants data for: =>"+pUid);
+                        Log.d(winnersData, "Add on complete called to fetch Participants data for: =>" + pUid);
 
                         if (task.isSuccessful()) {
-                            ParticipateOfferObject winner=new ParticipateOfferObject();
+                            ParticipateOfferObject winner = new ParticipateOfferObject();
                             for (QueryDocumentSnapshot bannerSnapshot : task.getResult()) {
                                 Log.d(winnersData, "DATA: \n" + bannerSnapshot.getData());
                                 winner = bannerSnapshot.toObject(ParticipateOfferObject.class);
@@ -117,8 +135,8 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
     private void fetchWinners(ParticipateOfferObject winner) {
         winnerHelperList.add(winner);
         winCount++;
-        Log.d(winnersData, "fetchWinners: with winCount: "+winCount+" wincountLimit: "+winCountLimit);
-        if(winCount==winCountLimit)
+        Log.d(winnersData, "fetchWinners: with winCount: " + winCount + " wincountLimit: " + winCountLimit);
+        if (winCount == winCountLimit)
             offerWinners.onLoadWinnersSuccess(winnerHelperList);
     }
 
@@ -140,7 +158,7 @@ public class WinnerListActivity extends AppCompatActivity implements LoadWinners
 
     @Override
     public void onLoadWinnersSuccess(List<ParticipateOfferObject> templates) {
-        adapter = new WinnnerListRecyclerViewAdapter(this, templates,shopName);
+        adapter = new WinnnerListRecyclerViewAdapter(this, templates, shopName);
         recyclerView.setAdapter(adapter);
         int largePadding = getResources().getDimensionPixelSize(R.dimen.updown_product_grid_spacing);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.side_product_grid_spacing_small);

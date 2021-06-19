@@ -131,6 +131,9 @@ public class CreateRewardEventForCustomers extends Fragment {
 //                InputMethodManager systemService = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 //                systemService.showSoftInput(productSecondOffer, InputMethodManager.SHOW_IMPLICIT);
                 isAdded = true;
+                // TODO: Participation count for second offer handled here
+                if (!cParticipants.getText().toString().isEmpty())
+                    participantSecondOffer.setText(cParticipants.getText().toString());
                 addMoreOfferButton.setIconResource(R.drawable.ic_round_remove_circle_24);
                 addMoreOfferButton.setText("Remove offer");
             } else {

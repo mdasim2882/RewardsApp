@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -51,12 +52,9 @@ public class ParticipationForm extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private String shopname, shopId;
     private String customerName, customerContacNo, customerBillValue;
-    private String pbillValue;
-    private String pContactNo;
-    private String pFullName;
+    private String pbillValue, pContactNo, pFullName;
     private List<String> shopsId;
-    private String startDate;
-    private String endDate;
+    private String startDate,endDate;
 
 
     @Override
@@ -65,6 +63,7 @@ public class ParticipationForm extends AppCompatActivity {
         setContentView(R.layout.activity_participation_form);
         pFormShopname = findViewById(R.id.pFormShopname);
         fullname = findViewById(R.id.pfullname);
+//        uploaderImage = findViewById(R.id.uploader_image_receipt);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -84,9 +83,10 @@ public class ParticipationForm extends AppCompatActivity {
         if (!shopname.isEmpty())
             pFormShopname.setText(shopname);
         progressDialog = new ProgressDialog(this);
+
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Uploading data...");
+        progressDialog.setMessage("Uploading receipt...");
         setAlertDialog();
 
         billValue = findViewById(R.id.p_bill_value);
@@ -98,7 +98,8 @@ public class ParticipationForm extends AppCompatActivity {
 
         String helperText = "Bill date must belong from " + startDate + " to " + endDate;
         llbillValue.setHelperText(helperText);
-        String phoneNo = mAuth.getCurrentUser().getPhotoUrl().toString();
+        Uri savedPhoneNo = mAuth.getCurrentUser().getPhotoUrl();
+        String phoneNo = (savedPhoneNo!=null)?savedPhoneNo.toString():"Number not found";
         contacno.setText(phoneNo);
         Log.d(TAG, "initializeViews: DisplayName no: => "+mAuth.getCurrentUser().getDisplayName());
         Log.d(TAG, "initializeViews: Contact no: => "+phoneNo);
@@ -109,9 +110,13 @@ public class ParticipationForm extends AppCompatActivity {
         dialogClickListener = (dialog, which) -> {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    Toast.makeText(this, "Upoading...", Toast.LENGTH_SHORT).show();
+
                     //TODO: Start Participation here
-                    CropImage.activity().setAspectRatio(1, 1).start(this);
+                    CropImage.activity()
+                            .setInitialCropWindowPaddingRatio(0)
+                            .setBorderLineColor(Color.GRAY)
+                            .setBorderCornerColor(Color.BLACK)
+                            .start(this);
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
                     dialog.dismiss();
@@ -146,11 +151,11 @@ public class ParticipationForm extends AppCompatActivity {
     }
 
     public void uploadReceiptbtn(View view) {
-        FixedVariable.showToaster(this, "Updating Info...");
         if (isUserNameValid() && isContactnoValid() && isBillValueValid()) {
             pFullName = fullname.getText().toString();
             pContactNo = llcontacno.getPrefixText().toString() + " " + contacno.getText().toString();
             pbillValue = billValue.getText().toString();
+
             builder.show();
         }
 
@@ -222,6 +227,7 @@ public class ParticipationForm extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && data != null) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
             if (resultCode == RESULT_OK) {
                 receiptImageUri = result.getUri();
                 //  profilePic.setImageURI(imageUri);
@@ -240,10 +246,11 @@ public class ParticipationForm extends AppCompatActivity {
     }
 
     private void updateUI() {
+        progressDialog.show();
         StorageReference spaceRef = storageReference.child("USERS/" + mAuth.getCurrentUser().getUid() +
                 "/" + shopId + "/shop-receipt.jpg");
         spaceRef.putFile(receiptImageUri).addOnSuccessListener(taskSnapshot -> {
-            FixedVariable.showToaster(this, "Image Uploaded");
+
             spaceRef.getDownloadUrl().addOnSuccessListener(uri -> {
 
                 Log.e(TAG, "updateUI: PHOTO URL TO BE SAVED: " + uri);
@@ -256,6 +263,7 @@ public class ParticipationForm extends AppCompatActivity {
     }
 
     private void updateToStorageDatabase(String image) {
+
         /*
          *Upload works in this way:
          * First participate in the offer by filling details
@@ -326,8 +334,10 @@ public class ParticipationForm extends AppCompatActivity {
                             .document(shopId)
                             .set(m, SetOptions.merge());
 
-                    finish();
+                    FixedVariable.showToaster(this, "Participation Done");
                     progressDialog.dismiss();
+                    finish();
+
 
 
                 });
