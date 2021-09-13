@@ -115,7 +115,7 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        // Comparing current date and offer end date
+        // Comparing today's date and offer end date
         if(cardDate.compareTo(td) < 0) {
             Log.d("buttonCheck", offerShopName+"\nonBindViewHolder: curTime: -> "+td +"and cardTime"+ cardDate);
 
