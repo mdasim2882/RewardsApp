@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,16 +104,27 @@ public class ShopsOffersRecyclerViewAdapter extends RecyclerView.Adapter<ShopsCa
         holder.firstOffer.setText(firstOffer);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
-        Date cardDate = null;
+        Date cardDate = null,td=null;
+        Date todaysDate = new Date();
+
+            sdf.format(todaysDate);
         try {
             cardDate = sdf.parse(endDate);
+            td=sdf.parse(sdf.format(todaysDate));
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        // Comparing current date and offer end date
+        if(cardDate.compareTo(td) < 0) {
+            Log.d("buttonCheck", offerShopName+"\nonBindViewHolder: curTime: -> "+td +"and cardTime"+ cardDate);
 
-        if (System.currentTimeMillis() > cardDate.getTime()) {
             holder.participateButton.setEnabled(false);
             holder.participateButton.setBackgroundColor(Color.parseColor("#DADADA"));
+            holder.participateButton.setTextColor(Color.WHITE);
+        }else{
+            holder.participateButton.setEnabled(true);
+            holder.participateButton.setBackgroundColor(Color.parseColor("#3C3232"));
             holder.participateButton.setTextColor(Color.WHITE);
         }
 
